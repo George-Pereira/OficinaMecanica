@@ -41,6 +41,10 @@ public class Boundary_Veiculo extends Application implements EventHandler<Action
 	private Button btnPesq = new Button("Pesquisar");
 	private Veiculo atual = new Veiculo();
 	private TableView table = new TableView();
+	
+	
+	
+	
 	@Override
 	public void start(Stage stage) throws Exception 
 	{
@@ -147,12 +151,11 @@ public class Boundary_Veiculo extends Application implements EventHandler<Action
 			Veiculo pesq = new Veiculo();
 			try 
 			{
-				clearCampos();
-				if(txtPlaca.getText().contains("")) 
+				if(txtPlaca.getText().equals("")) 
 				{
 					pesq = ctrVeiculo.pesquisaVeiculoAlt(txtChassis.getText());
 				}
-				else if(txtChassis.getText().contains(""))
+				else if(txtChassis.getText().equals(""))
 				{
 					pesq = ctrVeiculo.pesquisaVeiculo(txtPlaca.getText());
 				}

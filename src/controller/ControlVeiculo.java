@@ -36,11 +36,11 @@ public class ControlVeiculo
 	public void insereVeiculo(Veiculo v) 
 	{
 		Veiculo pesq = pesquisaVeiculo(v.getPlaca());
-		if(pesq.getPlaca() == null) 
+		if(pesq == null) 
 		{
 			pesq = pesquisaVeiculoAlt(v.getChassis());
 		}
-		if(pesq.getChassis() == null) 
+		if(pesq == null) 
 		{
 			listaVeiculo.add(v);
 		}
@@ -52,34 +52,31 @@ public class ControlVeiculo
 			if(vei.getPlaca().contains(v)) 
 			{
 				listaVeiculo.remove(vei);
+				break;
 			}
 		}
 	}
 	public Veiculo pesquisaVeiculo(String placa) 
 	{
-		Veiculo alvo = new Veiculo();
 		for(Veiculo vei : listaVeiculo) 
 		{
-			if(vei.getPlaca().contains(placa)) 
+			if(vei.getPlaca().equals(placa)) 
 			{
-				alvo = vei;
-				break;
+				return vei;
 			}
 		}
-		return alvo;
+		return null;
 	}
 	public Veiculo pesquisaVeiculoAlt(String chassis) 
 	{
-		Veiculo alvo = new Veiculo();
 		for(Veiculo vei : listaVeiculo) 
 		{
-			if(vei.getChassis().contains(chassis)) 
+			if(vei.getChassis().equals(chassis)) 
 			{
-				alvo = vei;
-				break;
+				return vei;
 			}
 		}
-		return alvo;
+		return null;
 	}
 	public ObservableList<Veiculo> getListaVeiculo() 
 	{
