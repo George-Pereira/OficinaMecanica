@@ -8,7 +8,6 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -21,9 +20,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class Boundary_Veiculo extends Application implements EventHandler<ActionEvent>
+public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Constructor
 {
 	private TextField txtAno = new TextField();
 	private TextField txtChassis = new TextField();
@@ -45,81 +45,6 @@ public class Boundary_Veiculo extends Application implements EventHandler<Action
 	
 	
 	
-	@Override
-	public void start(Stage stage) throws Exception 
-	{
-		comboMarca.getItems().addAll(EnumMarca.values());
-		comboModel.setEditable(true);
-		btnNvModel.addEventHandler(ActionEvent.ANY, this);
-		comboModel.getItems().addAll(ctrVeiculo.getModelos());
-		comboMotor.setEditable(true);
-		comboCor.getItems().addAll(EnumCor.values());
-		BorderPane lay = new BorderPane();
-		GridPane info = new GridPane();
-		ColumnConstraints col0 = new ColumnConstraints();
-		col0.setFillWidth(true);
-		col0.setPercentWidth(10);
-		ColumnConstraints col1 = new ColumnConstraints();
-		col1.setFillWidth(true);
-		col1.setPercentWidth(15);
-		ColumnConstraints col2 = new ColumnConstraints();
-		col2.setFillWidth(true);
-		col2.setPercentWidth(10);
-		ColumnConstraints col3 = new ColumnConstraints();
-		col3.setFillWidth(true);
-		col3.setPercentWidth(10);
-		ColumnConstraints col4 = new ColumnConstraints();
-		col4.setFillWidth(true);
-		col4.setPercentWidth(10);
-		ColumnConstraints col5 = new ColumnConstraints();
-		col5.setFillWidth(true);
-		col5.setPercentWidth(10);
-		ColumnConstraints col6 = new ColumnConstraints();
-		col6.setFillWidth(true);
-		col6.setPercentWidth(15);
-		info.getColumnConstraints().addAll(col0, col1, col2, col3, col4, col5, col6);
-		lay.setStyle("-fx-padding: 10px");
-		info.setHgap(10);
-		info.setVgap(20);
-		info.setStyle("-fx-padding: 10px");
-		info.add(new Label("Marca"), 0 , 0);
-		info.add(comboMarca, 1, 0);
-		info.add(new Label("Ano"), 3, 0);
-		info.add(txtAno, 4, 0);
-		info.add(new Label("Placa"), 5, 0);
-		info.add(txtPlaca, 6, 0);
-		info.add(new Label("Modelo"), 0, 1);
-		info.add(comboModel, 1, 1);
-		info.add(btnNvModel, 2, 1);
-		info.add(new Label("Chassis"), 3, 1);
-		info.add(txtChassis, 4, 1);
-		info.add(new Label("Cor"), 5, 1);
-		info.add(comboCor, 6, 1);
-		info.add(new Label("Motor"), 0, 2);
-		info.add(comboMotor, 1, 2);
-		lay.setTop(info);
-		BorderPane central = new BorderPane();
-		txtDesc.setMaxHeight(400);
-		txtDesc.setMaxWidth(Double.MAX_VALUE);
-		central.setTop(txtDesc);
-		constructTable();
-		central.setCenter(table);
-		lay.setCenter(central);
-		FlowPane flw = new FlowPane();
-		flw.setAlignment(Pos.CENTER);;
-		flw.setHgap(100);
-		flw.setVgap(10);
-		flw.getChildren().addAll(btnAdd, btnPesq, btnEdit, btnDesat);
-		btnAdd.addEventHandler(ActionEvent.ANY, this);
-		btnDesat.addEventHandler(ActionEvent.ANY, this);
-		btnPesq.addEventHandler(ActionEvent.ANY, this);
-		btnEdit.addEventHandler(ActionEvent.ANY, this);
-		lay.setBottom(flw);
-		Scene scn = new Scene(lay, 800, 600);
-		stage.setScene(scn);
-		stage.setTitle("Manter Veiculo");
-		stage.show();
-	}
 	public static void main(String[] args) 
 	{
 		Application.launch(args);
@@ -236,5 +161,77 @@ public class Boundary_Veiculo extends Application implements EventHandler<Action
 		columnModel.setCellValueFactory(new PropertyValueFactory<Veiculo, String>("Model"));
 		table.getColumns().addAll(columnPlaca, columnMarca, columnModel, columnChassis, columnMotor, columnAno, columnCor);
 		table.setItems(ctrVeiculo.getListaVeiculo());
+	}
+	@Override
+	public Pane constructBoundary() 
+	{
+		comboMarca.getItems().addAll(EnumMarca.values());
+		comboModel.setEditable(true);
+		btnNvModel.addEventHandler(ActionEvent.ANY, this);
+		comboModel.getItems().addAll(ctrVeiculo.getModelos());
+		comboMotor.setEditable(true);
+		comboCor.getItems().addAll(EnumCor.values());
+		BorderPane lay = new BorderPane();
+		GridPane info = new GridPane();
+		ColumnConstraints col0 = new ColumnConstraints();
+		col0.setFillWidth(true);
+		col0.setPercentWidth(10);
+		ColumnConstraints col1 = new ColumnConstraints();
+		col1.setFillWidth(true);
+		col1.setPercentWidth(15);
+		ColumnConstraints col2 = new ColumnConstraints();
+		col2.setFillWidth(true);
+		col2.setPercentWidth(10);
+		ColumnConstraints col3 = new ColumnConstraints();
+		col3.setFillWidth(true);
+		col3.setPercentWidth(10);
+		ColumnConstraints col4 = new ColumnConstraints();
+		col4.setFillWidth(true);
+		col4.setPercentWidth(10);
+		ColumnConstraints col5 = new ColumnConstraints();
+		col5.setFillWidth(true);
+		col5.setPercentWidth(10);
+		ColumnConstraints col6 = new ColumnConstraints();
+		col6.setFillWidth(true);
+		col6.setPercentWidth(15);
+		info.getColumnConstraints().addAll(col0, col1, col2, col3, col4, col5, col6);
+		lay.setStyle("-fx-padding: 10px");
+		info.setHgap(10);
+		info.setVgap(20);
+		info.setStyle("-fx-padding: 10px");
+		info.add(new Label("Marca"), 0 , 0);
+		info.add(comboMarca, 1, 0);
+		info.add(new Label("Ano"), 3, 0);
+		info.add(txtAno, 4, 0);
+		info.add(new Label("Placa"), 5, 0);
+		info.add(txtPlaca, 6, 0);
+		info.add(new Label("Modelo"), 0, 1);
+		info.add(comboModel, 1, 1);
+		info.add(btnNvModel, 2, 1);
+		info.add(new Label("Chassis"), 3, 1);
+		info.add(txtChassis, 4, 1);
+		info.add(new Label("Cor"), 5, 1);
+		info.add(comboCor, 6, 1);
+		info.add(new Label("Motor"), 0, 2);
+		info.add(comboMotor, 1, 2);
+		lay.setTop(info);
+		BorderPane central = new BorderPane();
+		txtDesc.setMaxHeight(400);
+		txtDesc.setMaxWidth(Double.MAX_VALUE);
+		central.setTop(txtDesc);
+		constructTable();
+		central.setCenter(table);
+		lay.setCenter(central);
+		FlowPane flw = new FlowPane();
+		flw.setAlignment(Pos.CENTER);;
+		flw.setHgap(100);
+		flw.setVgap(10);
+		flw.getChildren().addAll(btnAdd, btnPesq, btnEdit, btnDesat);
+		btnAdd.addEventHandler(ActionEvent.ANY, this);
+		btnDesat.addEventHandler(ActionEvent.ANY, this);
+		btnPesq.addEventHandler(ActionEvent.ANY, this);
+		btnEdit.addEventHandler(ActionEvent.ANY, this);
+		lay.setBottom(flw);
+		return lay;
 	}
 }
