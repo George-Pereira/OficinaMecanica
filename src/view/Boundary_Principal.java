@@ -19,13 +19,15 @@ public class Boundary_Principal extends Application implements EventHandler<Acti
 	private MenuBar menuprinc = new MenuBar();
 	private Menu itens = new Menu("Cadastros/Pesquisas");
 	private MenuItem mniMantVeiculos = new MenuItem("Manter Veiculos");
+	private MenuItem mniMantServicos = new MenuItem("Manter Serviços");
 	private Map<MenuItem, Boundary_Constructor> interfaces = new HashMap<>();
 	private BorderPane princ = new BorderPane();
 	public MenuBar menuConstruction() 
 	{
 		menuprinc.getMenus().add(itens);
-		itens.getItems().add(mniMantVeiculos);
+		itens.getItems().addAll(mniMantVeiculos, mniMantServicos);
 		interfaces.put(mniMantVeiculos, new Boundary_Veiculo());
+		interfaces.put(mniMantServicos, new Boundary_Servico());
 		Set<MenuItem> opcoes = interfaces.keySet();
 		for(MenuItem mn : opcoes) 
 		{

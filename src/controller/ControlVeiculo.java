@@ -94,8 +94,7 @@ public class ControlVeiculo
 			if(edit.getPlaca().equals(null)) 
 			{
 				edit = pesquisaVeiculoAlt(v.getChassis());
-			}
-			
+			}	
 		}
 		catch(Exception e) 
 		{

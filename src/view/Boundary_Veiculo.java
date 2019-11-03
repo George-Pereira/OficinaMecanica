@@ -95,15 +95,7 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		}
 		else if(evento.getTarget() == btnEdit) 
 		{
-			atual.setCor(comboCor.getValue());
-			atual.setPlaca(txtPlaca.getText());
-			atual.setChassis(txtChassis.getText());
-			atual.setAnoFabrica(Integer.parseInt(txtAno.getText()));
-			atual.setMotor(Double.parseDouble(comboMotor.getValue()));
-			atual.setDesc(txtDesc.getText());
-			atual.setModel((comboModel.getValue()));
-			atual.setMarca(comboMarca.getValue());
-			atual.setMotor(Double.parseDouble(comboMotor.getValue()));
+			
 			clearCampos();
 		}
 	}
@@ -161,6 +153,7 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		columnModel.setCellValueFactory(new PropertyValueFactory<Veiculo, String>("Model"));
 		table.getColumns().addAll(columnPlaca, columnMarca, columnModel, columnChassis, columnMotor, columnAno, columnCor);
 		table.setItems(ctrVeiculo.getListaVeiculo());
+		
 	}
 	@Override
 	public Pane constructBoundary() 
