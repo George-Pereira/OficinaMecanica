@@ -65,7 +65,7 @@ public class Boundary_Servico implements Boundary_Constructor, EventHandler<Acti
 		clnNomeServ.setCellValueFactory(new PropertyValueFactory<Servico, String>("nomeServ"));
 		clnNomeServ.setMinWidth(266);
 		TableColumn<Servico, String> clnDescServ = new TableColumn<Servico, String>("Descricao");
-		clnDescServ.setCellValueFactory(new PropertyValueFactory<Servico, String>("servDesc"));
+		clnDescServ.setCellValueFactory(new PropertyValueFactory<Servico, String>("descServ"));
 		clnDescServ.setMinWidth(266);
 		TableColumn<Servico, boolean[]> clnDispServ = new TableColumn<Servico, boolean[]>("Status");
 		clnDispServ.setCellValueFactory(new PropertyValueFactory<Servico, boolean []>("servDisp"));
@@ -79,7 +79,7 @@ public class Boundary_Servico implements Boundary_Constructor, EventHandler<Acti
 	{
 		if(event.getTarget() == btnSalvar) 
 		{
-			Servico novo = new Servico(txtNservico.getText(), txtDescricao.getText(), chServativo.isArmed());
+			Servico novo = new Servico(txtNservico.getText(), txtDescricao.getText(), chServativo.isSelected());
 			ctrServ.insertServico(novo);
 		}
 		else if(event.getTarget() == btnPesquisa) 
@@ -103,7 +103,7 @@ public class Boundary_Servico implements Boundary_Constructor, EventHandler<Acti
 		{
 			Servico atual = ctrServ.pesquisaServ(txtNservico.getText());
 			atual.setDescServ(txtDescricao.getText());
-			atual.setServDisp(chServativo.isArmed());
+			atual.setServDisp(chServativo.isSelected());
 		}
 	}
 
