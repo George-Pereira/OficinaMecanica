@@ -31,7 +31,7 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 	private TextArea txtDesc = new TextArea();
 	private ComboBox <EnumMarca> comboMarca = new ComboBox<EnumMarca>();
 	private ComboBox <String> comboModel = new ComboBox<String>();
-	private ComboBox <String> comboMotor = new ComboBox<String>();
+	private TextField txtMotor = new TextField();
 	private ComboBox <EnumCor>comboCor = new ComboBox<EnumCor>();
 	private ControlVeiculo ctrVeiculo = new ControlVeiculo();
 	private Button btnNvModel = new Button("Novo");
@@ -99,11 +99,10 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 			atual.setPlaca(txtPlaca.getText());
 			atual.setChassis(txtChassis.getText());
 			atual.setAnoFabrica(Integer.parseInt(txtAno.getText()));
-			atual.setMotor(Double.parseDouble(comboMotor.getValue()));
+			atual.setMotor(Double.parseDouble(txtMotor.getText()));
 			atual.setDesc(txtDesc.getText());
 			atual.setModel((comboModel.getValue()));
 			atual.setMarca(comboMarca.getValue());
-			atual.setMotor(Double.parseDouble(comboMotor.getValue()));
 			clearCampos();
 		}
 	}
@@ -114,11 +113,10 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		novo.setPlaca(txtPlaca.getText());
 		novo.setChassis(txtChassis.getText());
 		novo.setAnoFabrica(Integer.parseInt(txtAno.getText()));
-		novo.setMotor(Double.parseDouble(comboMotor.getValue()));
+		novo.setMotor(Double.parseDouble(txtMotor.getText()));
 		novo.setDesc(txtDesc.getText());
 		novo.setModel(comboModel.getValue());
 		novo.setMarca(comboMarca.getValue());
-		novo.setMotor(Double.parseDouble(comboMotor.getValue()));
 		ctrVeiculo.insereVeiculo(novo);
 	}
 	public void carregarDados(Veiculo v) 
@@ -129,7 +127,7 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		txtPlaca.setText(v.getPlaca());
 		comboMarca.getSelectionModel().select(v.getMarcaEnum());
 		comboModel.getSelectionModel().select((v.getModel()));
-		comboMotor.setValue(String.valueOf(v.getMotor()));
+		txtMotor.setText(String.valueOf(v.getMotor()));
 		txtDesc.setText(v.getDesc());
 	}
 	public void clearCampos() 
@@ -141,7 +139,7 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		comboModel.getSelectionModel().selectFirst();
 		comboCor.getSelectionModel().selectFirst();
 		txtDesc.setText("");
-		comboMotor.setValue("");
+		txtMotor.setText("");
 	}
 	private void constructTable() 
 	{
@@ -170,7 +168,6 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		comboModel.setEditable(true);
 		btnNvModel.addEventHandler(ActionEvent.ANY, this);
 		comboModel.getItems().addAll(ctrVeiculo.getModelos());
-		comboMotor.setEditable(true);
 		comboCor.getItems().addAll(EnumCor.values());
 		BorderPane lay = new BorderPane();
 		GridPane info = new GridPane();
@@ -214,7 +211,7 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		info.add(new Label("Cor"), 5, 1);
 		info.add(comboCor, 6, 1);
 		info.add(new Label("Motor"), 0, 2);
-		info.add(comboMotor, 1, 2);
+		info.add(txtMotor, 1, 2);
 		lay.setTop(info);
 		BorderPane central = new BorderPane();
 		txtDesc.setMaxHeight(400);

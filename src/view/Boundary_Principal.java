@@ -29,9 +29,9 @@ public class Boundary_Principal extends Application implements EventHandler<Acti
 		interfaces.put(mniMantVeiculos, new Boundary_Veiculo());
 		interfaces.put(mniMantServicos, new Boundary_Servico());
 		Set<MenuItem> opcoes = interfaces.keySet();
-		for(MenuItem mn : opcoes) 
+		for(MenuItem mnI : opcoes) 
 		{
-			mn.addEventHandler(ActionEvent.ANY, this);
+			mnI.addEventHandler(ActionEvent.ANY, this);
 		}
 		return menuprinc;
 	}
@@ -57,7 +57,7 @@ public class Boundary_Principal extends Application implements EventHandler<Acti
 	}
 	public static void main(String[] args) 
 	{
-		launch(args);
+		launch(Boundary_Principal.class);
 	}
 	
 }
