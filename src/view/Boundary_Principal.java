@@ -17,17 +17,23 @@ import javafx.stage.Stage;
 public class Boundary_Principal extends Application implements EventHandler<ActionEvent>
 {
 	private MenuBar menuprinc = new MenuBar();
-	private Menu itens = new Menu("Cadastros/Pesquisas");
+	private Menu itensCad = new Menu("Cadastros/Pesquisas");
+	private Menu itensGerenc = new Menu("Relatórios Gerenciais");
+	private MenuItem mniVisualBalanco = new MenuItem("Visualizar Balanços");
 	private MenuItem mniMantVeiculos = new MenuItem("Manter Veiculos");
 	private MenuItem mniMantServicos = new MenuItem("Manter Serviços");
+	private MenuItem mniMantFuncionario = new MenuItem("Manter Funcionários");
 	private Map<MenuItem, Boundary_Constructor> interfaces = new HashMap<>();
 	private BorderPane princ = new BorderPane();
 	public MenuBar menuConstruction() 
 	{
-		menuprinc.getMenus().add(itens);
-		itens.getItems().addAll(mniMantVeiculos, mniMantServicos);
+		menuprinc.getMenus().addAll(itensCad, itensGerenc);
+		itensGerenc.getItems().add(mniVisualBalanco);
+		itensCad.getItems().addAll(mniMantVeiculos, mniMantServicos, mniMantFuncionario);
 		interfaces.put(mniMantVeiculos, new Boundary_Veiculo());
 		interfaces.put(mniMantServicos, new Boundary_Servico());
+		interfaces.put(mniMantFuncionario, new Boundary_Funcionario());
+		interfaces.put(mniVisualBalanco, new Boundary_Balancos());
 		Set<MenuItem> opcoes = interfaces.keySet();
 		for(MenuItem mnI : opcoes) 
 		{
