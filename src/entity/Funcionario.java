@@ -9,18 +9,21 @@ public class Funcionario
 	private String cartTrab;
 	private String cpf;
 	private String telefone;
+	private boolean atividade;
+	private double salario;
 	private ObservableList<Servico> habilidades = FXCollections.observableArrayList();
 	
 	public Funcionario() 
 	{
 		
 	}
-	public Funcionario(String nomeFunc, String cartTrab, String cpf, String telefone) 
+	public Funcionario(String nomeFunc, String cartTrab, String cpf, String telefone, double salario) 
 	{
 		this.nomeFunc = nomeFunc;
 		this.cartTrab = cartTrab;
 		this.cpf = cpf;
 		this.telefone = telefone;
+		this.salario = salario;
 	}
 	public ObservableList<Servico> getHabilidades() {
 		return habilidades;
@@ -50,7 +53,19 @@ public class Funcionario
 		return telefone;
 	}
 	public void setTelefone(String telefone) {
-		telefone = telefone;
+		this.telefone = telefone;
+	}
+	public boolean getAtividade() {
+		return atividade;
+	}
+	public void setAtividade(boolean atividade) {
+		this.atividade = atividade;
+	}
+	public double getSalario() {
+		return salario;
+	}
+	public void setSalario(double salario) {
+		this.salario = salario;
 	}
 	
 }

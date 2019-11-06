@@ -6,7 +6,7 @@ import javafx.collections.ObservableList;
 
 public class ControlServico 
 {
-	private ObservableList<Servico> listaServ = FXCollections.observableArrayList();
+	private static ObservableList<Servico> listaServ = FXCollections.observableArrayList();
 
 	public boolean existenciaServico(Servico servico) 
 	{
@@ -44,7 +44,7 @@ public class ControlServico
 
 	public void setListaServ(ObservableList<Servico> listaServ) 
 	{
-		this.listaServ = listaServ;
+		ControlServico.listaServ = listaServ;
 	}
 	public Servico pesquisaServ(String nome) 
 	{

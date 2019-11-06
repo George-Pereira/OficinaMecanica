@@ -1,12 +1,23 @@
 package view;
 
+import controller.ControlFuncionario;
+import controller.ControlServico;
+import entity.Funcionario;
+import entity.Servico;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
@@ -19,9 +30,20 @@ public class Boundary_Funcionario implements Boundary_Constructor, EventHandler<
 	private TextField txtSalario = new TextField();
 	private Button btnPesqfunc = new Button("Pesquisa");
 	private BorderPane brdp = new BorderPane();
+	private TableView tableServicos = new TableView();
+	private TableView tableHabilidades = new TableView();
+	private ControlServico ctrServ = new ControlServico();
+	private Button btnAdd = new Button("Adicionar");
+	private CheckBox chFunc = new CheckBox("Funcionario Ativo");
+	private Button btnAddserv = new Button("Adicionar Habilidade");
+	private ControlFuncionario ctrFunc = new ControlFuncionario();
+	private Funcionario atual = new Funcionario();
+	TableColumn<Servico, String> clnServico = new TableColumn<Servico, String>("Serviços");
 	@Override
 	public Pane constructBoundary() 
 	{
+		btnAdd.addEventHandler(ActionEvent.ANY, this);
+		btnAddserv.addEventHandler(ActionEvent.ANY, this);
 		GridPane grd = new GridPane();
 		grd.setHgap(10);
 		grd.setVgap(10);
@@ -51,16 +73,55 @@ public class Boundary_Funcionario implements Boundary_Constructor, EventHandler<
 		grd.add(txtTel, 1, 2);
 		grd.add(new Label("Salário"), 2, 2);
 		grd.add(txtSalario, 3, 2);
+		grd.add(chFunc, 0, 3);
+		constructTables();
+		FlowPane flwBotoes = new FlowPane();
+		flwBotoes.getChildren().add(btnAdd);
 		return brdp;
 	}
 	public void constructTables() 
 	{
-		
+		GridPane grd = new GridPane();
+		clnServico.setCellValueFactory(new PropertyValueFactory<Servico, String>("nomeServ"));
+		tableServicos.getColumns().add(clnServico);
+		TableColumn<Funcionario, Servico> clnHabserv = new TableColumn<Funcionario, Servico>("Habilidades");
+		tableHabilidades.getColumns().add(clnHabserv);
+		tableServicos.setItems(ctrServ.getListaServ());
+		clnServico.addEventHandler(ActionEvent.ANY, this);
+		tableHabilidades.setItems(atual.getHabilidades());
+		grd.add(tableHabilidades, 1, 0);
+		grd.add(tableServicos, 2, 0);
+		grd.add(btnAddserv, 0, 0);
+		grd.setHgap(10);
+		brdp.setCenter(grd);
+	}
+	public void carregaDados(Funcionario func) 
+	{
+		txtNome.setText(func.getNomeFunc());
+		txtCartrab.setText(func.getCartTrab());
+		txtCpf.setText(func.getCpf());
+		txtTel.setText(func.getTelefone());
+		txtSalario.setText(String.valueOf(func.getSalario()));
 	}
 	@Override
-	public void handle(ActionEvent arg0) 
+	public void handle(ActionEvent event) 
 	{
-		
+		if(event.getTarget() == btnAdd) 
+		{			
+			atual = new Funcionario(txtNome.getText(), txtCartrab.getText(), txtCpf.getText(), txtTel.getText(), Double.parseDouble(txtSalario.getText()));
+			ctrFunc.insertFuncionario(atual);
+		}
+		else if (event.getTarget() == btnPesqfunc) 
+		{
+			atual = (ctrFunc.pesqFuncionario(txtNome.getText()));
+			carregaDados(atual);
+		}
+		else if(event.getTarget() == clnServico) 
+		{
+			Servico serv = (Servico) tableServicos.getSelectionModel().getSelectedItem();
+			System.out.println(serv.getNomeServ());
+			ctrFunc.insereHabilidade(atual, (Servico) tableServicos.getSelectionModel().getSelectedItem());
+			tableHabilidades.setUserData(tableServicos.getSelectionModel().getSelectedItem());
+		}
 	}
-
 }
