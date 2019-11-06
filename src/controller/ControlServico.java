@@ -8,7 +8,7 @@ public class ControlServico
 {
 	private static ObservableList<Servico> listaServ = FXCollections.observableArrayList();
 
-	public static boolean existenciaServico(Servico servico) 
+	public boolean existenciaServico(Servico servico) 
 	{
 		for(Servico serv: listaServ) 
 		{
@@ -19,14 +19,14 @@ public class ControlServico
 		}
 		return false;
 	}
-	public static void insertServico(Servico serv) 
+	public void insertServico(Servico serv) 
 	{
 		if(!existenciaServico(serv)) 
 		{
 			listaServ.add(serv);
 		}
 	}
-	public static void desatServ(Servico serv) 
+	public void desatServ(Servico serv) 
 	{
 		for(Servico ser : listaServ) 
 		{
@@ -46,7 +46,7 @@ public class ControlServico
 	{
 		ControlServico.listaServ = listaServ;
 	}
-	public static Servico pesquisaServ(String nome) 
+	public Servico pesquisaServ(String nome) 
 	{
 		for(Servico serv: listaServ) 
 		{

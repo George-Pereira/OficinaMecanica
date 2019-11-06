@@ -83,6 +83,8 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 				clearCampos();
 			    carregarDados(pesq);
 			    atual = pesq;
+			    table.getColumns().removeAll();
+			    constructTable();
 			} 
 			catch (Exception e) 
 			{
@@ -154,7 +156,7 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		TableColumn<Veiculo, String> columnModel = new TableColumn<Veiculo, String>("Modelo");
 		columnModel.setCellValueFactory(new PropertyValueFactory<Veiculo, String>("Model"));
 		table.getColumns().addAll(columnPlaca, columnMarca, columnModel, columnChassis, columnMotor, columnAno, columnCor);
-		table.setItems(context.getPosses());
+		table.setItems(comboCliente.getValue().getPosses());
 	}
 	public Pane constructBoundary() 
 	{
@@ -162,7 +164,12 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		comboModel.setEditable(true);
 		btnNvModel.addEventHandler(ActionEvent.ANY, this);
 		comboModel.getItems().addAll(ControlVeiculo.getModelos());
-		comboCliente.getItems().addAll(ControlCliente.getLista());
+		if(!ControlCliente.getLista().isEmpty()) 
+		{
+			comboCliente.getItems().addAll(ControlCliente.getLista());
+			comboCliente.getSelectionModel().selectFirst();
+			constructTable();
+		}
 		comboCor.getItems().addAll(EnumCor.values());
 		BorderPane lay = new BorderPane();
 		GridPane info = new GridPane();
@@ -218,7 +225,6 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		flow.getChildren().addAll(new Label("Cliente"),comboCliente);
 		comboCliente.setMinWidth(300);
 		flow.setAlignment(Pos.CENTER);
-		constructTable();
 		central.setCenter(table);
 		lay.setCenter(central);
 		FlowPane flw = new FlowPane();

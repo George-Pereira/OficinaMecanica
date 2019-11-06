@@ -6,12 +6,12 @@ public enum EnumMarca
 	{
 		switch(this) 
 		{
-			case HONDA: return "HONDA";
-			case FORD: return "FORD";
 			case CHEVROLET: return "CHEVROLET";
 			case FIAT: return "FIAT";
-			case VW: return "VW";
+			case FORD: return "FORD";
+			case HONDA: return "HONDA";
 			case HYUNDAI: return "HYUNDAI";
+			case VW: return "VW";
 			default: return"";
 		}
 	}

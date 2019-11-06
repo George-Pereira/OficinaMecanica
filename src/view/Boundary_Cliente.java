@@ -37,7 +37,8 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 	private Button btnPesq = new Button("Pesquisar");
 	private TableView<Veiculo> table = new TableView<Veiculo>();
 	
-	private void addTableColumns() {
+	private void addTableColumns() 
+	{
 		TableColumn<Veiculo, String> columnPlaca = new TableColumn<Veiculo, String>("Placa");
 		columnPlaca.setCellValueFactory(new PropertyValueFactory<Veiculo, String>("Placa"));
 		TableColumn<Veiculo, EnumMarca> columnMarca = new TableColumn<Veiculo, EnumMarca>("Marca");
