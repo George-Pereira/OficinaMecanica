@@ -1,8 +1,5 @@
 package controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import entity.Cliente;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

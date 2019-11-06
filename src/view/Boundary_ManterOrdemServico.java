@@ -78,11 +78,13 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 			{
 				c = ControlCliente.pesquisarPorCNH(CNH);
 			}
+			combo.getItems().addAll(c.getPosses());
 			entidadeParaBoundary(c);
 		}
 		else if(event.getTarget() == btnCli) 
 		{
-			
+			Boundary_Cliente bc = new Boundary_Cliente();
+			bc.getClass();
 		}
 		else if(event.getTarget() == btnVeic) 
 		{
@@ -130,9 +132,9 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 		txt.add(combo, 1, 1, 3, 1);
 		painelCampos.add(new Label("   "), 0, 0, 1, 2);
 		painelCampos.add(new Label("   "), 0, 8);
-		painelCampos.add(tab, 5, 9, 2, 1);
+		painelCampos.add(tab, 1, 9, 2, 1);
 		painelCampos.add(txt, 0, 4, 5, 3);
-		painelCampos.add(btnAdicionar, 1, 9);
+		painelCampos.add(btnAdicionar, 0, 9);
 		painelBotoes.getChildren().addAll(btnConfirmar);
 		adicionarTableColumns();
 		buttom.setHgap(10);

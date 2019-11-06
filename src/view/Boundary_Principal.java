@@ -67,7 +67,7 @@ public class Boundary_Principal extends Application implements EventHandler<Acti
 	}
 	public static void main(String[] args) 
 	{
-		launch(Boundary_Principal.class);
+		Application.launch(args);
 	}
 	
 }

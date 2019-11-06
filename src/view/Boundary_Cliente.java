@@ -1,8 +1,5 @@
 package view;
 
-
-import java.io.IOException;
-
 import controller.ControlCliente;
 import entity.Cliente;
 import entity.EnumCor;
