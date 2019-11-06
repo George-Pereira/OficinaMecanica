@@ -1,6 +1,8 @@
 package view;
 
+import controller.ControlCliente;
 import controller.ControlVeiculo;
+import entity.Cliente;
 import entity.EnumCor;
 import entity.EnumMarca;
 import entity.Veiculo;
@@ -41,14 +43,8 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 	private Button btnPesq = new Button("Pesquisar");
 	private Veiculo atual = new Veiculo();
 	private TableView table = new TableView();
-	
-	
-	
-	
-	public static void main(String[] args) 
-	{
-		Application.launch(args);
-	}
+	private Cliente context = new Cliente();
+	private ComboBox<Cliente> comboCliente = new ComboBox<Cliente>();
 
 
 	@Override
@@ -57,7 +53,7 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		if(evento.getTarget() == btnNvModel) 
 		{
 			ctrVeiculo.insereModelo((comboModel.getValue()));
-			comboModel.getItems().addAll(ctrVeiculo.getModelos());
+			comboModel.getItems().addAll(ControlVeiculo.getModelos());
 		}
 		if(evento.getTarget() == btnAdd) 
 		{
@@ -68,7 +64,7 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		{
 			if(txtPlaca.getText() != null) 
 			{
-				ctrVeiculo.desativarVeiculo(txtPlaca.getText());
+				ctrVeiculo.desativarVeiculo(txtPlaca.getText(), context);
 			}
 		}
 		else if(evento.getTarget() == btnPesq) 
@@ -117,7 +113,7 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		novo.setDesc(txtDesc.getText());
 		novo.setModel(comboModel.getValue());
 		novo.setMarca(comboMarca.getValue());
-		ctrVeiculo.insereVeiculo(novo);
+		ctrVeiculo.insereVeiculo(novo, comboCliente.getValue());
 	}
 	public void carregarDados(Veiculo v) 
 	{
@@ -153,21 +149,20 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		columnMotor.setCellValueFactory(new PropertyValueFactory<Veiculo, double[]>("Motor"));
 		TableColumn<Veiculo, EnumCor> columnCor = new TableColumn<Veiculo, EnumCor>("Cor");
 		columnCor.setCellValueFactory(new PropertyValueFactory<Veiculo, EnumCor>("Cor"));
-		TableColumn<Veiculo, int[]> columnAno = new TableColumn<Veiculo, int[]>("Ano Fabrica");
+		TableColumn<Veiculo, int[]> columnAno = new TableColumn<Veiculo, int[]>("Ano");
 		columnAno.setCellValueFactory(new PropertyValueFactory<Veiculo, int[]>("AnoFabrica"));
 		TableColumn<Veiculo, String> columnModel = new TableColumn<Veiculo, String>("Modelo");
 		columnModel.setCellValueFactory(new PropertyValueFactory<Veiculo, String>("Model"));
 		table.getColumns().addAll(columnPlaca, columnMarca, columnModel, columnChassis, columnMotor, columnAno, columnCor);
-		table.setItems(ctrVeiculo.getListaVeiculo());
-		
+		table.setItems(context.getPosses());
 	}
-	@Override
 	public Pane constructBoundary() 
 	{
 		comboMarca.getItems().addAll(EnumMarca.values());
 		comboModel.setEditable(true);
 		btnNvModel.addEventHandler(ActionEvent.ANY, this);
-		comboModel.getItems().addAll(ctrVeiculo.getModelos());
+		comboModel.getItems().addAll(ControlVeiculo.getModelos());
+		comboCliente.getItems().addAll(ControlCliente.getLista());
 		comboCor.getItems().addAll(EnumCor.values());
 		BorderPane lay = new BorderPane();
 		GridPane info = new GridPane();
@@ -217,6 +212,12 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		txtDesc.setMaxHeight(400);
 		txtDesc.setMaxWidth(Double.MAX_VALUE);
 		central.setTop(txtDesc);
+		FlowPane flow = new FlowPane();
+		central.setBottom(flow);
+		flow.setHgap(10);
+		flow.getChildren().addAll(new Label("Cliente"),comboCliente);
+		comboCliente.setMinWidth(300);
+		flow.setAlignment(Pos.CENTER);
 		constructTable();
 		central.setCenter(table);
 		lay.setCenter(central);

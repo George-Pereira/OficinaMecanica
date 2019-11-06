@@ -23,17 +23,21 @@ public class Boundary_Principal extends Application implements EventHandler<Acti
 	private MenuItem mniMantVeiculos = new MenuItem("Manter Veiculos");
 	private MenuItem mniMantServicos = new MenuItem("Manter Serviços");
 	private MenuItem mniMantFuncionario = new MenuItem("Manter Funcionários");
+	private MenuItem mniMantOS = new MenuItem("Manter OS");
+	private MenuItem mniMantClient = new MenuItem("Manter Cliente");
 	private Map<MenuItem, Boundary_Constructor> interfaces = new HashMap<>();
 	private BorderPane princ = new BorderPane();
 	public MenuBar menuConstruction() 
 	{
 		menuprinc.getMenus().addAll(itensCad, itensGerenc);
 		itensGerenc.getItems().add(mniVisualBalanco);
-		itensCad.getItems().addAll(mniMantVeiculos, mniMantServicos, mniMantFuncionario);
+		itensCad.getItems().addAll(mniMantVeiculos, mniMantServicos, mniMantFuncionario, mniMantOS, mniMantClient);
 		interfaces.put(mniMantVeiculos, new Boundary_Veiculo());
 		interfaces.put(mniMantServicos, new Boundary_Servico());
 		interfaces.put(mniMantFuncionario, new Boundary_Funcionario());
 		interfaces.put(mniVisualBalanco, new Boundary_Balancos());
+		interfaces.put(mniMantOS, new Boundary_ManterOrdemServico());
+		interfaces.put(mniMantClient, new Boundary_Cliente());
 		Set<MenuItem> opcoes = interfaces.keySet();
 		for(MenuItem mnI : opcoes) 
 		{

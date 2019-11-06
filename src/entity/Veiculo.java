@@ -1,5 +1,7 @@
 package entity;
 
+import javafx.collections.ObservableList;
+
 public class Veiculo 
 {
 	private int anoFabrica;
@@ -10,6 +12,7 @@ public class Veiculo
 	private String model;
 	private EnumMarca marca;
 	private String desc;
+	private Historico histVeiculo;
 	public Veiculo(int anoFabrica, String chassis, double motor, EnumCor cor, String placa, String model, EnumMarca marca, String desc) 
 	{
 		this.anoFabrica = anoFabrica;
@@ -80,5 +83,11 @@ public class Veiculo
 	}
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+	public Historico getHistVeiculo() {
+		return histVeiculo;
+	}
+	public void setHistVeiculo(Historico histVeiculo) {
+		this.histVeiculo = histVeiculo;
 	}
 }

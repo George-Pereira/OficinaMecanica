@@ -14,7 +14,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.FlowPane;
@@ -32,13 +31,11 @@ public class Boundary_Funcionario implements Boundary_Constructor, EventHandler<
 	private BorderPane brdp = new BorderPane();
 	private TableView tableServicos = new TableView();
 	private TableView tableHabilidades = new TableView();
-	private ControlServico ctrServ = new ControlServico();
 	private Button btnAdd = new Button("Adicionar");
 	private CheckBox chFunc = new CheckBox("Funcionario Ativo");
 	private Button btnAddserv = new Button("Adicionar Habilidade");
 	private ControlFuncionario ctrFunc = new ControlFuncionario();
 	private Funcionario atual = new Funcionario();
-	TableColumn<Servico, String> clnServico = new TableColumn<Servico, String>("Serviços");
 	@Override
 	public Pane constructBoundary() 
 	{
@@ -49,7 +46,7 @@ public class Boundary_Funcionario implements Boundary_Constructor, EventHandler<
 		grd.setVgap(10);
 		ColumnConstraints col = new ColumnConstraints();
 		col.setFillWidth(true);
-		col.setPercentWidth(15);
+		col.setPercentWidth(20);
 		ColumnConstraints col1 = new ColumnConstraints();
 		col1.setFillWidth(true);
 		col1.setPercentWidth(25);
@@ -77,21 +74,34 @@ public class Boundary_Funcionario implements Boundary_Constructor, EventHandler<
 		constructTables();
 		FlowPane flwBotoes = new FlowPane();
 		flwBotoes.getChildren().add(btnAdd);
+		flwBotoes.setVgap(10);
 		return brdp;
 	}
 	public void constructTables() 
 	{
 		GridPane grd = new GridPane();
+		ColumnConstraints col = new ColumnConstraints();
+		col.setFillWidth(true);
+		col.setPercentWidth(40);
+		ColumnConstraints col1 = new ColumnConstraints();
+		col1.setPercentWidth(20);
+		ColumnConstraints col2 = new ColumnConstraints();
+		col2.setFillWidth(true);
+		col2.setPercentWidth(40);
+		grd.getColumnConstraints().addAll(col, col1, col2);
+		TableColumn<Servico, String> clnServico = new TableColumn<Servico, String>("Serviços");
 		clnServico.setCellValueFactory(new PropertyValueFactory<Servico, String>("nomeServ"));
+		clnServico.setMinWidth(305);
 		tableServicos.getColumns().add(clnServico);
 		TableColumn<Funcionario, Servico> clnHabserv = new TableColumn<Funcionario, Servico>("Habilidades");
 		tableHabilidades.getColumns().add(clnHabserv);
-		tableServicos.setItems(ctrServ.getListaServ());
-		clnServico.addEventHandler(ActionEvent.ANY, this);
+		tableServicos.setItems(ControlServico.getListaServ());
+		clnHabserv.setMinWidth(305);
+		tableServicos.addEventHandler(ActionEvent.ANY, this);
 		tableHabilidades.setItems(atual.getHabilidades());
-		grd.add(tableHabilidades, 1, 0);
-		grd.add(tableServicos, 2, 0);
-		grd.add(btnAddserv, 0, 0);
+		grd.add(tableHabilidades, 2, 0);
+		grd.add(tableServicos, 0, 0);
+		grd.add(btnAddserv, 1, 0);
 		grd.setHgap(10);
 		brdp.setCenter(grd);
 	}
@@ -116,7 +126,7 @@ public class Boundary_Funcionario implements Boundary_Constructor, EventHandler<
 			atual = (ctrFunc.pesqFuncionario(txtNome.getText()));
 			carregaDados(atual);
 		}
-		else if(event.getTarget() == clnServico) 
+		else if(event.getTarget() == tableServicos) 
 		{
 			Servico serv = (Servico) tableServicos.getSelectionModel().getSelectedItem();
 			System.out.println(serv.getNomeServ());

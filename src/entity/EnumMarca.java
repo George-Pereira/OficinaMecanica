@@ -1,7 +1,7 @@
 package entity;
 
 public enum EnumMarca 
-{ HONDA, FORD, CHEVROLET, FIAT, VW, HYUNDAI;
+{ CHEVROLET, FIAT, FORD, HONDA, HYUNDAI, VW;
 	public String getMarca() 
 	{
 		switch(this) 

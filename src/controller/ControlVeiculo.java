@@ -1,12 +1,13 @@
 package controller;
+import entity.Cliente;
 import entity.Veiculo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class ControlVeiculo 
 {
-	private ObservableList<String> modelos = FXCollections.observableArrayList();
-	private ObservableList<Veiculo> listaVeiculo = FXCollections.observableArrayList();
+	private static ObservableList<String> modelos = FXCollections.observableArrayList();
+	private static ObservableList<Veiculo> listaVeiculo = FXCollections.observableArrayList();
 	public boolean consultaExistencia(String m) 
 	{
 		for(String md : modelos)
@@ -20,20 +21,20 @@ public class ControlVeiculo
 	}
 	public void insereModelo(String model) 
 	{
-		if(consultaExistencia(model) == false)
+		if(!consultaExistencia(model))
 		{
 			modelos.add(model);
 		}
 	}
-	public ObservableList<String> getModelos()
+	public static ObservableList<String> getModelos()
 	{
-		return this.modelos;
+		return modelos;
 	}
 	public void setModelos(ObservableList<String> modelos)
 	{
 		this.modelos = modelos;
 	}
-	public void insereVeiculo(Veiculo v) 
+	public void insereVeiculo(Veiculo v, Cliente cli) 
 	{
 		Veiculo pesq = pesquisaVeiculo(v.getPlaca());
 		if(pesq == null) 
@@ -43,15 +44,16 @@ public class ControlVeiculo
 		if(pesq == null) 
 		{
 			listaVeiculo.add(v);
+			cli.getPosses().add(v);
 		}
 	}
-	public void desativarVeiculo(String v) 
+	public void desativarVeiculo(String v, Cliente cli) 
 	{
 		for(Veiculo vei: listaVeiculo) 
 		{
 			if(vei.getPlaca().contains(v)) 
 			{
-				listaVeiculo.remove(vei);
+				cli.getPosses().remove(vei);
 				break;
 			}
 		}
@@ -78,27 +80,12 @@ public class ControlVeiculo
 		}
 		return null;
 	}
-	public ObservableList<Veiculo> getListaVeiculo() 
+	public static ObservableList<Veiculo> getListaVeiculo() 
 	{
 		return listaVeiculo;
 	}
-	public void setListaVeiculo(ObservableList<Veiculo> listaVeiculo) 
+	public static void setListaVeiculo(ObservableList<Veiculo> listaVeiculo) 
 	{
-		this.listaVeiculo = listaVeiculo;
-	}
-	public void editarVeiculo(Veiculo v) 
-	{
-		try 
-		{
-			Veiculo edit = pesquisaVeiculo(v.getPlaca());
-			if(edit.getPlaca().equals(null)) 
-			{
-				edit = pesquisaVeiculoAlt(v.getChassis());
-			}	
-		}
-		catch(Exception e) 
-		{
-			System.out.println("Veiculo não existente");
-		}
+		ControlVeiculo.listaVeiculo = listaVeiculo;
 	}
 }
