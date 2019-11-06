@@ -10,10 +10,24 @@ public class Ordem_Servico
 	private Date dtEntrada;
 	private Date dtSaida;
 	private ObservableList<Servico> os = FXCollections.observableArrayList();
-	public ObservableList<Servico> getOs() {
+	public ObservableList<Servico> getOs() 
+	{
 		return os;
 	}
-	public void setOs(ObservableList<Servico> os) {
+	public void setOs(ObservableList<Servico> os) 
+	{
 		this.os = os;
+	}
+	public Date getDtSaida() {
+		return dtSaida;
+	}
+	public void setDtSaida(Date dtSaida) {
+		this.dtSaida = dtSaida;
+	}
+	public Date getDtEntrada() {
+		return dtEntrada;
+	}
+	public void setDtEntrada(Date dtEntrada) {
+		this.dtEntrada = dtEntrada;
 	}
 }
