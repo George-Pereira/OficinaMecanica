@@ -2,6 +2,7 @@ package view;
 
 import controller.ControlCliente;
 import entity.Cliente;
+import entity.Endereco;
 import entity.EnumCor;
 import entity.EnumMarca;
 import entity.Veiculo;
@@ -59,8 +60,7 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 			cli.setNome(txtNome.getText());
 			cli.setCNH(txtCNH.getText());
 			cli.setTelefone(txtTelefone.getText());
-			cli.setLogradouro(txtLogradouro.getText());
-			cli.setBairro(txtBairro.getText());
+			cli.getEnderecos().add(new Endereco(txtLogradouro.getText(), Integer.parseInt(txtNumero.getText()),txtBairro.getText()));
 		return cli;
 	}
 	
@@ -72,9 +72,9 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 			txtCNH.setText(cli.getCNH());
 			txtCPF.setText(cli.getCPF());
 			txtTelefone.setText(cli.getTelefone());
-			txtLogradouro.setText(cli.getLogradouro());
-			txtNumero.setText(String.valueOf(cli.getNumero()));
-			txtBairro.setText(cli .getBairro());
+			txtLogradouro.setText(cli.getEnderecos().get(0).getLogradouro());
+			txtNumero.setText(String.valueOf(cli.getEnderecos().get(0).getNumero()));
+			txtBairro.setText(cli .getEnderecos().get(0).getBairro());
 			table.setItems(cli.getPosses());
 		}
 	}

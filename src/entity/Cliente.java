@@ -8,16 +8,8 @@ public class Cliente {
 	private String CNH;
 	private String Telefone ;
 	private String CPF ;
-	private String Logradouro ;
-	private long Numero;
-	private String Bairro;
+	private ObservableList<Endereco> enderecos = FXCollections.observableArrayList();
 	private ObservableList<Veiculo> posses = FXCollections.observableArrayList();
-	public long getNumero() {
-		return Numero;
-	}
-	public void setNumero(long numero) {
-		this.Numero = numero;
-	}
 
 	public String getNome() {
 		return Nome;
@@ -43,18 +35,6 @@ public class Cliente {
 	public void setCPF(String cPF) {
 		this.CPF = cPF;
 	}
-	public String getLogradouro() {
-		return Logradouro;
-	}
-	public void setLogradouro(String logradouro) {
-		this.Logradouro = logradouro;
-	}
-	public String getBairro() {
-		return Bairro;
-	}
-	public void setBairro(String bairro) {
-		this.Bairro = bairro;
-	}
 	public ObservableList<Veiculo> getPosses() {
 		return posses;
 	}
@@ -65,5 +45,13 @@ public class Cliente {
 	public String toString() 
 	{
 		return this.Nome;
+	}
+	public ObservableList<Endereco> getEnderecos() 
+	{
+		return enderecos;
+	}
+	public void setEnderecos(ObservableList<Endereco> enderecos) 
+	{
+		this.enderecos = enderecos;
 	}
 }
