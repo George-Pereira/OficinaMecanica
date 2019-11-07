@@ -3,6 +3,7 @@ package view;
 import controller.ControlCliente;
 import controller.ControlServico;
 import entity.Cliente;
+import entity.Ordem_Servico;
 import entity.Servico;
 import entity.Veiculo;
 import javafx.event.ActionEvent;
@@ -56,9 +57,7 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 	
 	public void entidadeParaBoundary(Cliente c) { 
 		if (c != null) {
-			txtProcurar.setText(c.getCPF());
 			txtProcurar.setText(c.getNome());
-			txtProcurar.setText(c.getCNH());
 		}
 	}
 
@@ -66,22 +65,21 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 	public void handle(ActionEvent event) {
 		if (event.getTarget() == btnProcurar) 
 		{
-			String nome = txtProcurar.getText();
-			String CNH = txtProcurar.getText();
-			Cliente c = ControlCliente.pesquisarPorNome(nome);
-
-			if(c.getNome().equals("")) 
-			{
-				c = ControlCliente.pesquisarPorCNH(CNH);
+			try {
+				Cliente c = new Cliente();
+					c = ControlCliente.pesquisarPorNome(txtProcurar.getText());
+				combo.getItems().addAll(c.getPosses());
 				entidadeParaBoundary(c);
+				
+			}catch(Exception e) 
+			{
+				System.out.println("Não há parametros para pesquisa");
 			}
-			
-			combo.getItems().addAll(c.getPosses());
-			entidadeParaBoundary(c);
+
 		}
 		else if(event.getTarget() == btnCli) 
 		{
-			
+
 		}
 		else if(event.getTarget() == btnVeic) 
 		{
@@ -93,6 +91,9 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 		}
 		else if(event.getTarget() == btnConfirmar) 
 		{
+			
+		}
+		else if(event.getTarget() == btnAdicionar) {
 			
 		}
 	}
@@ -138,6 +139,11 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 		txt.setVgap(10);
 		txt.setHgap(10);
 		btnProcurar.addEventHandler(ActionEvent.ANY, this);
+		btnAdicionar.addEventHandler(ActionEvent.ANY, this);
+		btnConfirmar.addEventHandler(ActionEvent.ANY, this);
+		btnServ.addEventHandler(ActionEvent.ANY, this);
+		btnVeic.addEventHandler(ActionEvent.ANY, this);
+		btnCli.addEventHandler(ActionEvent.ANY, this);
 		painelBotoes.setVgap(10);
 		painelBotoes.setHgap(200);
 		painelBotoes.setAlignment(Pos.CENTER);
