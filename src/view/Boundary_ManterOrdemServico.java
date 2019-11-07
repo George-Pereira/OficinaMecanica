@@ -66,25 +66,22 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 	public void handle(ActionEvent event) {
 		if (event.getTarget() == btnProcurar) 
 		{
-			String CPF = txtProcurar.getText();
 			String nome = txtProcurar.getText();
 			String CNH = txtProcurar.getText();
-			Cliente c = ControlCliente.pesquisarPorCPF(CPF);
-			if(c == null) 
-			{
-				c = ControlCliente.pesquisarPorNome(nome);
-			}
-			if(c == null) 
+			Cliente c = ControlCliente.pesquisarPorNome(nome);
+
+			if(c.getNome().equals("")) 
 			{
 				c = ControlCliente.pesquisarPorCNH(CNH);
+				entidadeParaBoundary(c);
 			}
+			
 			combo.getItems().addAll(c.getPosses());
 			entidadeParaBoundary(c);
 		}
 		else if(event.getTarget() == btnCli) 
 		{
-			Boundary_Cliente bc = new Boundary_Cliente();
-			bc.getClass();
+			
 		}
 		else if(event.getTarget() == btnVeic) 
 		{
@@ -140,6 +137,7 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 		buttom.setHgap(10);
 		txt.setVgap(10);
 		txt.setHgap(10);
+		btnProcurar.addEventHandler(ActionEvent.ANY, this);
 		painelBotoes.setVgap(10);
 		painelBotoes.setHgap(200);
 		painelBotoes.setAlignment(Pos.CENTER);

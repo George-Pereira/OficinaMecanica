@@ -12,6 +12,11 @@ public class Veiculo
 	private String model;
 	private EnumMarca marca;
 	private String desc;
+	@Override
+	public String toString() {
+		return model;
+	}
+	
 	public Veiculo(int anoFabrica, String chassis, double motor, EnumCor cor, String placa, String model, EnumMarca marca, String desc) 
 	{
 		this.anoFabrica = anoFabrica;
