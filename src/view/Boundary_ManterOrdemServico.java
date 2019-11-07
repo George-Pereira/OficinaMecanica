@@ -6,6 +6,8 @@ import entity.Cliente;
 import entity.Ordem_Servico;
 import entity.Servico;
 import entity.Veiculo;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -26,7 +28,6 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 {
 	
 	private TextField txtProcurar = new TextField();
-	private Button btnAdicionar = new Button("Adicionar");
 	private Button btnConfirmar = new Button("Confirmar Ordem de Serviço");
 	private Button btnProcurar = new Button("Buscar");
 	private Button btnCli = new Button("Novo Cliente");
@@ -38,15 +39,15 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 
 	public void adicionarTableColumns() {
 	    TableColumn<Servico, String> serv = new TableColumn<Servico, String>("Serviços");
-	    serv.setCellValueFactory(new PropertyValueFactory<Servico, String>("Sericos"));
+	    serv.setCellValueFactory(new PropertyValueFactory<Servico, String>("nomeServ"));
 	    serv.setMinWidth(250);
 	    
 		TableColumn<Servico, String> dataCol = new TableColumn<Servico, String>("Fim Previsto");
-		dataCol.setCellValueFactory(new PropertyValueFactory<Servico, String>("Serviços Contratados"));
+		/*dataCol.setCellValueFactory(new PropertyValueFactory<Servico, String>("dataServ"));*/
 		dataCol.setMinWidth(100);
 		
 		TableColumn<Servico, String> serviceCol = new TableColumn<Servico, String>("Serviços Contratados");
-	    serviceCol.setCellValueFactory(new PropertyValueFactory<Servico, String>("Fim Previsto"));
+	    serviceCol.setCellValueFactory(new PropertyValueFactory<Servico, String>("nomeServ"));
 	    serviceCol.setMinWidth(150);
 	    
 		table.getColumns().add(serviceCol);
@@ -93,9 +94,6 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 		{
 			
 		}
-		else if(event.getTarget() == btnAdicionar) {
-			
-		}
 	}
 
 	@Override
@@ -108,6 +106,14 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 		GridPane buttom = new GridPane();
 		GridPane tab = new GridPane();
 		GridPane txt = new GridPane();
+		table1.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Servico>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Servico> lista, Servico antigo, Servico novo) 
+			{
+				table.getItems().add(novo);
+			}}
+		);
 		ColumnConstraints col0 = new ColumnConstraints();
 		col0.setPercentWidth(20);
 		ColumnConstraints col1 = new ColumnConstraints();
@@ -132,14 +138,12 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 		painelCampos.add(new Label("   "), 0, 8);
 		painelCampos.add(tab, 1, 9, 2, 1);
 		painelCampos.add(txt, 0, 4, 5, 3);
-		painelCampos.add(btnAdicionar, 0, 9);
 		painelBotoes.getChildren().addAll(btnConfirmar);
 		adicionarTableColumns();
 		buttom.setHgap(10);
 		txt.setVgap(10);
 		txt.setHgap(10);
 		btnProcurar.addEventHandler(ActionEvent.ANY, this);
-		btnAdicionar.addEventHandler(ActionEvent.ANY, this);
 		btnConfirmar.addEventHandler(ActionEvent.ANY, this);
 		btnServ.addEventHandler(ActionEvent.ANY, this);
 		btnVeic.addEventHandler(ActionEvent.ANY, this);

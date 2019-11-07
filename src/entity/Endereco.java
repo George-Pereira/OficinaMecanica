@@ -10,10 +10,9 @@ public class Endereco
 	{
 		
 	}
-	public Endereco(String logradouro, int numero, String bairro) 
+	public Endereco(String logradouro, String bairro) 
 	{
 		Logradouro = logradouro;
-		Numero = numero;
 		Bairro = bairro;
 	}
 	public String getLogradouro() {

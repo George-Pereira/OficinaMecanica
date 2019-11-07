@@ -4,6 +4,8 @@ import controller.ControlFuncionario;
 import controller.ControlServico;
 import entity.Funcionario;
 import entity.Servico;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -93,8 +95,17 @@ public class Boundary_Funcionario implements Boundary_Constructor, EventHandler<
 		clnServico.setCellValueFactory(new PropertyValueFactory<Servico, String>("nomeServ"));
 		clnServico.setMinWidth(305);
 		tableServicos.getColumns().add(clnServico);
-		TableColumn<Funcionario, Servico> clnHabserv = new TableColumn<Funcionario, Servico>("Habilidades");
+		TableColumn<Servico, String> clnHabserv = new TableColumn<Servico, String>("Habilidades");
+		clnHabserv.setCellValueFactory(new PropertyValueFactory<Servico, String>("nomeServ"));
 		tableHabilidades.getColumns().add(clnHabserv);
+		tableServicos.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Servico>()
+		{
+
+			@Override
+			public void changed(ObservableValue<? extends Servico> observable, Servico antigo, Servico novo) {
+				tableHabilidades.getItems().add(novo);
+			}
+		});
 		tableServicos.setItems(ControlServico.getListaServ());
 		clnHabserv.setMinWidth(305);
 		tableServicos.addEventHandler(ActionEvent.ANY, this);
