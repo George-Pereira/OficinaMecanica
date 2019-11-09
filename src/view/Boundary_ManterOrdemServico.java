@@ -36,70 +36,10 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 	private TableView<Servico> table = new TableView<Servico>();
 	private TableView<Servico> table1 = new TableView<Servico>();
 	private ComboBox<Veiculo> combo = new ComboBox<Veiculo>();
+	private BorderPane painelPrincipal = new BorderPane();
 
-	public void adicionarTableColumns() {
-	    TableColumn<Servico, String> serv = new TableColumn<Servico, String>("Serviços");
-	    serv.setCellValueFactory(new PropertyValueFactory<Servico, String>("nomeServ"));
-	    serv.setMinWidth(250);
-	    
-		TableColumn<Servico, String> dataCol = new TableColumn<Servico, String>("Fim Previsto");
-		/*dataCol.setCellValueFactory(new PropertyValueFactory<Servico, String>("dataServ"));*/
-		dataCol.setMinWidth(100);
-		
-		TableColumn<Servico, String> serviceCol = new TableColumn<Servico, String>("Serviços Contratados");
-	    serviceCol.setCellValueFactory(new PropertyValueFactory<Servico, String>("nomeServ"));
-	    serviceCol.setMinWidth(150);
-	    
-		table.getColumns().add(serviceCol);
-		table.getColumns().add(dataCol);
-		table1.getColumns().add(serv);
-		table1.setItems(ControlServico.getListaServ());
-	}
-	
-	public void entidadeParaBoundary(Cliente c) { 
-		if (c != null) {
-			txtProcurar.setText(c.getNome());
-		}
-	}
-
-	@Override
-	public void handle(ActionEvent event) {
-		if (event.getTarget() == btnProcurar) 
-		{
-			try {
-				Cliente c = new Cliente();
-					c = ControlCliente.pesquisarPorNome(txtProcurar.getText());
-				combo.getItems().addAll(c.getPosses());
-				entidadeParaBoundary(c);
-				
-			}catch(Exception e) 
-			{
-				System.out.println("Não há parametros para pesquisa");
-			}
-
-		}
-		else if(event.getTarget() == btnCli) 
-		{
-
-		}
-		else if(event.getTarget() == btnVeic) 
-		{
-			
-		}
-		else if(event.getTarget() == btnServ) 
-		{
-			
-		}
-		else if(event.getTarget() == btnConfirmar) 
-		{
-			
-		}
-	}
-
-	@Override
-	public Pane constructBoundary() 
+	public Boundary_ManterOrdemServico() 
 	{
-		BorderPane painelPrincipal = new BorderPane();
 		painelPrincipal.setStyle("-fx-padding: 10px");
 		FlowPane painelBotoes = new FlowPane();
 		GridPane painelCampos = new GridPane();
@@ -151,6 +91,71 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 		painelBotoes.setVgap(10);
 		painelBotoes.setHgap(200);
 		painelBotoes.setAlignment(Pos.CENTER);
+	}
+	
+	public void adicionarTableColumns() {
+	    TableColumn<Servico, String> serv = new TableColumn<Servico, String>("Serviços");
+	    serv.setCellValueFactory(new PropertyValueFactory<Servico, String>("nomeServ"));
+	    serv.setMinWidth(250);
+	    
+		TableColumn<Servico, String> dataCol = new TableColumn<Servico, String>("Fim Previsto");
+		/*dataCol.setCellValueFactory(new PropertyValueFactory<Servico, String>("dataServ"));*/
+		dataCol.setMinWidth(100);
+		
+		TableColumn<Servico, String> serviceCol = new TableColumn<Servico, String>("Serviços Contratados");
+	    serviceCol.setCellValueFactory(new PropertyValueFactory<Servico, String>("nomeServ"));
+	    serviceCol.setMinWidth(150);
+	    
+		table.getColumns().add(serviceCol);
+		table.getColumns().add(dataCol);
+		table1.getColumns().add(serv);
+		table1.setItems(ControlServico.getListaServ());
+	}
+	
+	public void entidadeParaBoundary(Cliente c) { 
+		if (c != null) {
+			txtProcurar.setText(c.getNome());
+		}
+	}
+
+	@Override
+	public void handle(ActionEvent event) {
+		if (event.getTarget() == btnProcurar) 
+		{
+			try {
+				combo.getItems().clear();
+				Cliente c = new Cliente();
+					c = ControlCliente.pesquisarPorNome(txtProcurar.getText());
+				combo.getItems().addAll(c.getPosses());
+				entidadeParaBoundary(c);
+			}catch(Exception e) 
+			{
+				System.out.println("Não há parametros para pesquisa");
+			}
+
+		}
+		else if(event.getTarget() == btnCli) 
+		{
+
+		}
+		else if(event.getTarget() == btnVeic) 
+		{
+			
+		}
+		else if(event.getTarget() == btnServ) 
+		{
+			
+		}
+		else if(event.getTarget() == btnConfirmar) 
+		{
+			
+		}
+	}
+
+	@Override
+	public Pane constructBoundary() 
+	{
+		combo.getItems().clear();
 		return painelPrincipal;
 	}
 }

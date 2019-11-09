@@ -6,7 +6,6 @@ import entity.Cliente;
 import entity.EnumCor;
 import entity.EnumMarca;
 import entity.Veiculo;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -23,7 +22,6 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Constructor
 {
@@ -42,128 +40,16 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 	private Button btnEdit = new Button("Editar");
 	private Button btnPesq = new Button("Pesquisar");
 	private Veiculo atual = new Veiculo();
-	private TableView table = new TableView();
+	private TableView<Veiculo> table = new TableView<Veiculo>();
 	private Cliente context = new Cliente();
 	private ComboBox<Cliente> comboCliente = new ComboBox<Cliente>();
+	private BorderPane lay = new BorderPane();
 
-
-	@Override
-	public void handle(ActionEvent evento) 
-	{
-		if(evento.getTarget() == btnNvModel) 
-		{
-			ctrVeiculo.insereModelo((comboModel.getValue()));
-			comboModel.getItems().addAll(ControlVeiculo.getModelos());
-		}
-		if(evento.getTarget() == btnAdd) 
-		{
-			enviarDados();
-			clearCampos();
-		}
-		else if(evento.getTarget() == btnDesat) 
-		{
-			if(txtPlaca.getText() != null) 
-			{
-				ctrVeiculo.desativarVeiculo(txtPlaca.getText(), context);
-			}
-		}
-		else if(evento.getTarget() == btnPesq) 
-		{
-			Veiculo pesq = new Veiculo();
-			try 
-			{
-				if(txtPlaca.getText().equals("")) 
-				{
-					pesq = ctrVeiculo.pesquisaVeiculoAlt(txtChassis.getText());
-				}
-				else if(txtChassis.getText().equals(""))
-				{
-					pesq = ctrVeiculo.pesquisaVeiculo(txtPlaca.getText());
-				}
-				clearCampos();
-			    carregarDados(pesq);
-			    atual = pesq;
-			    table.getColumns().removeAll();
-			    constructTable();
-			} 
-			catch (Exception e) 
-			{
-				System.out.println("Não há parametros para pesquisa");
-			}
-		}
-		else if(evento.getTarget() == btnEdit) 
-		{
-			atual.setCor(comboCor.getValue());
-			atual.setPlaca(txtPlaca.getText());
-			atual.setChassis(txtChassis.getText());
-			atual.setAnoFabrica(Integer.parseInt(txtAno.getText()));
-			atual.setMotor(Double.parseDouble(txtMotor.getText()));
-			atual.setDesc(txtDesc.getText());
-			atual.setModel((comboModel.getValue()));
-			atual.setMarca(comboMarca.getValue());
-			clearCampos();
-		}
-	}
-	public void enviarDados()
-	{
-		Veiculo novo = new Veiculo();
-		novo.setCor(comboCor.getValue());
-		novo.setPlaca(txtPlaca.getText());
-		novo.setChassis(txtChassis.getText());
-		novo.setAnoFabrica(Integer.parseInt(txtAno.getText()));
-		novo.setMotor(Double.parseDouble(txtMotor.getText()));
-		novo.setDesc(txtDesc.getText());
-		novo.setModel(comboModel.getValue());
-		novo.setMarca(comboMarca.getValue());
-		ctrVeiculo.insereVeiculo(novo, comboCliente.getValue());
-	}
-	public void carregarDados(Veiculo v) 
-	{
-		comboCor.setValue(v.getCorEnum());
-		txtChassis.setText(v.getChassis());
-		txtAno.setText(String.valueOf((v.getAnoFabrica())));
-		txtPlaca.setText(v.getPlaca());
-		comboMarca.getSelectionModel().select(v.getMarcaEnum());
-		comboModel.getSelectionModel().select((v.getModel()));
-		txtMotor.setText(String.valueOf(v.getMotor()));
-		txtDesc.setText(v.getDesc());
-	}
-	public void clearCampos() 
-	{
-		txtPlaca.setText("");
-		txtChassis.setText("");
-		txtAno.setText("");
-		comboMarca.getSelectionModel().selectFirst();
-		comboModel.getSelectionModel().selectFirst();
-		comboCor.getSelectionModel().selectFirst();
-		txtDesc.setText("");
-		txtMotor.setText("");
-	}
-	private void constructTable() 
-	{
-		TableColumn<Veiculo, String> columnPlaca = new TableColumn<Veiculo, String>("Placa");
-		columnPlaca.setCellValueFactory(new PropertyValueFactory<Veiculo, String>("Placa"));
-		TableColumn<Veiculo, EnumMarca> columnMarca = new TableColumn<Veiculo, EnumMarca>("Marca");
-		columnMarca.setCellValueFactory(new PropertyValueFactory<Veiculo, EnumMarca>("Marca"));
-		TableColumn<Veiculo, String> columnChassis = new TableColumn<Veiculo, String>("Chassis");
-		columnChassis.setCellValueFactory(new PropertyValueFactory<Veiculo, String>("Chassis"));
-		TableColumn<Veiculo, double[]> columnMotor = new TableColumn<Veiculo, double[]>("Motor");
-		columnMotor.setCellValueFactory(new PropertyValueFactory<Veiculo, double[]>("Motor"));
-		TableColumn<Veiculo, EnumCor> columnCor = new TableColumn<Veiculo, EnumCor>("Cor");
-		columnCor.setCellValueFactory(new PropertyValueFactory<Veiculo, EnumCor>("Cor"));
-		TableColumn<Veiculo, int[]> columnAno = new TableColumn<Veiculo, int[]>("Ano");
-		columnAno.setCellValueFactory(new PropertyValueFactory<Veiculo, int[]>("AnoFabrica"));
-		TableColumn<Veiculo, String> columnModel = new TableColumn<Veiculo, String>("Modelo");
-		columnModel.setCellValueFactory(new PropertyValueFactory<Veiculo, String>("Model"));
-		table.getColumns().addAll(columnPlaca, columnMarca, columnModel, columnChassis, columnMotor, columnAno, columnCor);
-		table.setItems(comboCliente.getValue().getPosses());
-	}
-	public Pane constructBoundary() 
+	public Boundary_Veiculo() 
 	{
 		comboMarca.getItems().addAll(EnumMarca.values());
 		comboModel.setEditable(true);
 		btnNvModel.addEventHandler(ActionEvent.ANY, this);
-		comboModel.getItems().addAll(ControlVeiculo.getModelos());
 		if(!ControlCliente.getLista().isEmpty()) 
 		{
 			comboCliente.getItems().addAll(ControlCliente.getLista());
@@ -171,7 +57,6 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 			constructTable();
 		}
 		comboCor.getItems().addAll(EnumCor.values());
-		BorderPane lay = new BorderPane();
 		GridPane info = new GridPane();
 		ColumnConstraints col0 = new ColumnConstraints();
 		col0.setFillWidth(true);
@@ -237,6 +122,133 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		btnPesq.addEventHandler(ActionEvent.ANY, this);
 		btnEdit.addEventHandler(ActionEvent.ANY, this);
 		lay.setBottom(flw);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public void handle(ActionEvent evento) 
+	{
+		if(evento.getTarget() == btnNvModel) 
+		{
+			ctrVeiculo.insereModelo((comboModel.getValue()));
+		}
+		if(evento.getTarget() == btnAdd) 
+		{
+			enviarDados();
+			constructTable();
+			clearCampos();
+		}
+		else if(evento.getTarget() == btnDesat) 
+		{
+			if(txtPlaca.getText() != null) 
+			{
+				ctrVeiculo.desativarVeiculo(txtPlaca.getText(), context);
+			}
+		}
+		else if(evento.getTarget() == btnPesq) 
+		{
+			Veiculo pesq = new Veiculo();
+			try 
+			{
+				if(txtPlaca.getText().equals("")) 
+				{
+					pesq = ctrVeiculo.pesquisaVeiculoAlt(txtChassis.getText());
+				}
+				else if(txtChassis.getText().equals(""))
+				{
+					pesq = ctrVeiculo.pesquisaVeiculo(txtPlaca.getText());
+				}
+				clearCampos();
+			    carregarDados(pesq);
+			    atual = pesq;
+			    table.getColumns().removeAll();
+			    table.getColumns().clear();
+			    constructTable();
+			} 
+			catch (Exception e) 
+			{
+				System.out.println("Não há parametros para pesquisa");
+			}
+		}
+		else if(evento.getTarget() == btnEdit) 
+		{
+			atual.setCor(comboCor.getValue());
+			atual.setPlaca(txtPlaca.getText());
+			atual.setChassis(txtChassis.getText());
+			atual.setAnoFabrica(Integer.parseInt(txtAno.getText()));
+			atual.setMotor(Double.parseDouble(txtMotor.getText()));
+			atual.setDesc(txtDesc.getText());
+			atual.setModel((comboModel.getValue()));
+			atual.setMarca(comboMarca.getValue());
+			clearCampos();
+		}
+	}
+	public void enviarDados()
+	{
+		Veiculo novo = new Veiculo();
+		novo.setCor(comboCor.getValue());
+		novo.setPlaca(txtPlaca.getText());
+		novo.setChassis(txtChassis.getText());
+		novo.setAnoFabrica(Integer.parseInt(txtAno.getText()));
+		novo.setMotor(Double.parseDouble(txtMotor.getText()));
+		novo.setDesc(txtDesc.getText());
+		novo.setModel(comboModel.getValue());
+		novo.setMarca(comboMarca.getValue());
+		ctrVeiculo.insereVeiculo(novo, comboCliente.getValue());
+	}
+	public void carregarDados(Veiculo v) 
+	{
+		comboCor.setValue(v.getCorEnum());
+		txtChassis.setText(v.getChassis());
+		txtAno.setText(String.valueOf((v.getAnoFabrica())));
+		txtPlaca.setText(v.getPlaca());
+		comboMarca.getSelectionModel().select(v.getMarcaEnum());
+		comboModel.getSelectionModel().select((v.getModel()));
+		txtMotor.setText(String.valueOf(v.getMotor()));
+		txtDesc.setText(v.getDesc());
+	}
+	public void clearCampos() 
+	{
+		txtPlaca.setText("");
+		txtChassis.setText("");
+		txtAno.setText("");
+		comboMarca.getSelectionModel().selectFirst();
+		comboModel.getSelectionModel().selectFirst();
+		comboCor.getSelectionModel().selectFirst();
+		txtDesc.setText("");
+		txtMotor.setText("");
+	}
+	@SuppressWarnings("unchecked")
+	private void constructTable() 
+	{
+		table.getColumns().removeAll();
+		table.getItems().clear();
+		TableColumn<Veiculo, String> columnPlaca = new TableColumn<Veiculo, String>("Placa");
+		columnPlaca.setCellValueFactory(new PropertyValueFactory<Veiculo, String>("Placa"));
+		TableColumn<Veiculo, EnumMarca> columnMarca = new TableColumn<Veiculo, EnumMarca>("Marca");
+		columnMarca.setCellValueFactory(new PropertyValueFactory<Veiculo, EnumMarca>("Marca"));
+		TableColumn<Veiculo, String> columnChassis = new TableColumn<Veiculo, String>("Chassis");
+		columnChassis.setCellValueFactory(new PropertyValueFactory<Veiculo, String>("Chassis"));
+		TableColumn<Veiculo, double[]> columnMotor = new TableColumn<Veiculo, double[]>("Motor");
+		columnMotor.setCellValueFactory(new PropertyValueFactory<Veiculo, double[]>("Motor"));
+		TableColumn<Veiculo, EnumCor> columnCor = new TableColumn<Veiculo, EnumCor>("Cor");
+		columnCor.setCellValueFactory(new PropertyValueFactory<Veiculo, EnumCor>("Cor"));
+		TableColumn<Veiculo, int[]> columnAno = new TableColumn<Veiculo, int[]>("Ano");
+		columnAno.setCellValueFactory(new PropertyValueFactory<Veiculo, int[]>("AnoFabrica"));
+		TableColumn<Veiculo, String> columnModel = new TableColumn<Veiculo, String>("Modelo");
+		columnModel.setCellValueFactory(new PropertyValueFactory<Veiculo, String>("Model"));
+		table.getColumns().addAll(columnPlaca, columnMarca, columnModel, columnChassis, columnMotor, columnAno, columnCor);
+		table.setItems(comboCliente.getValue().getPosses());
+	}
+	@SuppressWarnings("unchecked")
+	public Pane constructBoundary() 
+	{
+		comboCliente.getItems().clear();
+		comboCliente.getItems().addAll(ControlCliente.getLista());
+		comboModel.getItems().clear();
+		comboModel.getItems().addAll(ControlVeiculo.getModelos());
+		table.getColumns().removeAll();
+		table.getItems().clear();
 		return lay;
 	}
 }

@@ -30,8 +30,8 @@ public class Boundary_Servico implements Boundary_Constructor, EventHandler<Acti
 	BorderPane fundo = new BorderPane();
 	ControlServico ctrServ = new ControlServico();
 	Button btnPesquisa = new Button("Pesquisar");
-	@Override
-	public Pane constructBoundary() 
+	
+	public Boundary_Servico() 
 	{
 		fundo.setStyle("-fx-padding: 10px");
 		FlowPane flow = new FlowPane();
@@ -57,6 +57,11 @@ public class Boundary_Servico implements Boundary_Constructor, EventHandler<Acti
 		btnPesquisa.addEventHandler(ActionEvent.ANY, this);
 		botoes.setHgap(100);
 		fundo.setBottom(botoes);
+	}
+	
+	@Override
+	public Pane constructBoundary() 
+	{
 		return fundo;
 	}
 	private void constructTable(GridPane painel) 

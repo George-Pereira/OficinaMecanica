@@ -34,6 +34,48 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 	private Button btnAdicionar = new Button("Adicionar Cliente");
 	private Button btnPesq = new Button("Pesquisar");
 	private TableView<Veiculo> table = new TableView<Veiculo>();
+	private BorderPane painelPrincipal = new BorderPane();
+	
+	
+	public Boundary_Cliente()
+	{
+		ColumnConstraints col0 = new ColumnConstraints();
+		col0.setFillWidth(true);
+		col0.setPercentWidth(10);
+		ColumnConstraints col1 = new ColumnConstraints();
+		col1.setFillWidth(true);
+		col1.setPercentWidth(15);
+		ColumnConstraints col2 = new ColumnConstraints();
+		col2.setFillWidth(true);
+		col2.setPercentWidth(10);
+		painelPrincipal.setStyle("-fx-padding: 10px");
+		FlowPane painelBotoes = new FlowPane();
+		GridPane painelCampos = new GridPane();
+		painelCampos.setHgap(10);
+		painelCampos.setVgap(10);
+		painelCampos.getColumnConstraints().addAll(col0, col1, col2);
+		painelPrincipal.setTop(painelCampos);
+		painelPrincipal.setCenter(table);
+		painelPrincipal.setBottom(painelBotoes);
+		painelCampos.add(new Label("Nome"), 0, 0);
+		painelCampos.add(txtNome, 1, 0);
+		painelCampos.add(new Label("CNH"), 2, 0);
+		painelCampos.add(txtCNH, 3, 0);
+		painelCampos.add(new Label("CPF"), 0, 1);
+		painelCampos.add(txtCPF, 1, 1);
+		painelCampos.add(new Label("Telefone"), 2, 1);
+		painelCampos.add(txtTelefone, 3, 1);
+		painelCampos.add(new Label("Logradouro"), 0, 2);
+		painelCampos.add(txtLogradouro, 1, 2);
+		painelCampos.add(new Label("Bairro"), 2, 2);
+		painelCampos.add(txtBairro, 3, 2);
+		painelBotoes.getChildren().addAll(btnAdicionar, btnPesq);
+		addTableColumns();
+		btnAdicionar.addEventHandler(ActionEvent.ANY, this);
+		painelBotoes.setAlignment(Pos.CENTER);
+		btnPesq.addEventHandler(ActionEvent.ANY, this);
+		painelBotoes.setHgap(100);
+	}
 	
 	private void addTableColumns() 
 	{
@@ -109,43 +151,6 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 	@Override
 	public Pane constructBoundary() 
 	{
-		ColumnConstraints col0 = new ColumnConstraints();
-		col0.setFillWidth(true);
-		col0.setPercentWidth(10);
-		ColumnConstraints col1 = new ColumnConstraints();
-		col1.setFillWidth(true);
-		col1.setPercentWidth(15);
-		ColumnConstraints col2 = new ColumnConstraints();
-		col2.setFillWidth(true);
-		col2.setPercentWidth(10);
-		BorderPane painelPrincipal = new BorderPane();
-		painelPrincipal.setStyle("-fx-padding: 10px");
-		FlowPane painelBotoes = new FlowPane();
-		GridPane painelCampos = new GridPane();
-		painelCampos.setHgap(10);
-		painelCampos.setVgap(10);
-		painelCampos.getColumnConstraints().addAll(col0, col1, col2);
-		painelPrincipal.setTop(painelCampos);
-		painelPrincipal.setCenter(table);
-		painelPrincipal.setBottom(painelBotoes);
-		painelCampos.add(new Label("Nome"), 0, 0);
-		painelCampos.add(txtNome, 1, 0);
-		painelCampos.add(new Label("CNH"), 2, 0);
-		painelCampos.add(txtCNH, 3, 0);
-		painelCampos.add(new Label("CPF"), 0, 1);
-		painelCampos.add(txtCPF, 1, 1);
-		painelCampos.add(new Label("Telefone"), 2, 1);
-		painelCampos.add(txtTelefone, 3, 1);
-		painelCampos.add(new Label("Logradouro"), 0, 2);
-		painelCampos.add(txtLogradouro, 1, 2);
-		painelCampos.add(new Label("Bairro"), 2, 2);
-		painelCampos.add(txtBairro, 3, 2);
-		painelBotoes.getChildren().addAll(btnAdicionar, btnPesq);
-		addTableColumns();
-		btnAdicionar.addEventHandler(ActionEvent.ANY, this);
-		painelBotoes.setAlignment(Pos.CENTER);
-		btnPesq.addEventHandler(ActionEvent.ANY, this);
-		painelBotoes.setHgap(100);
 		return painelPrincipal;
 	}
 }

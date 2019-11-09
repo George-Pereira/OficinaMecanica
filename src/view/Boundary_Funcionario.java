@@ -38,8 +38,9 @@ public class Boundary_Funcionario implements Boundary_Constructor, EventHandler<
 	private Button btnAddserv = new Button("Adicionar Habilidade");
 	private ControlFuncionario ctrFunc = new ControlFuncionario();
 	private Funcionario atual = new Funcionario();
-	@Override
-	public Pane constructBoundary() 
+	
+	
+	public Boundary_Funcionario() 
 	{
 		btnAdd.addEventHandler(ActionEvent.ANY, this);
 		btnAddserv.addEventHandler(ActionEvent.ANY, this);
@@ -77,6 +78,12 @@ public class Boundary_Funcionario implements Boundary_Constructor, EventHandler<
 		FlowPane flwBotoes = new FlowPane();
 		flwBotoes.getChildren().add(btnAdd);
 		flwBotoes.setVgap(10);
+	}
+	
+	@Override
+	public Pane constructBoundary() 
+	{
+		
 		return brdp;
 	}
 	public void constructTables() 
