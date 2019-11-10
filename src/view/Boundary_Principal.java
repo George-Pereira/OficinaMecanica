@@ -14,7 +14,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-public class Boundary_Principal extends Application implements EventHandler<ActionEvent>
+public class Boundary_Principal extends Application implements EventHandler<ActionEvent>, gerenciadorTelas
 {
 	private MenuBar menuprinc = new MenuBar();
 	private Menu itensCad = new Menu("Cadastros/Pesquisas");
@@ -25,24 +25,31 @@ public class Boundary_Principal extends Application implements EventHandler<Acti
 	private MenuItem mniMantFuncionario = new MenuItem("Manter Funcionários");
 	private MenuItem mniMantOS = new MenuItem("Manter OS");
 	private MenuItem mniMantClient = new MenuItem("Manter Cliente");
-	private Map<MenuItem, Boundary_Constructor> interfaces = new HashMap<>();
+	private Map<String, Boundary_Constructor> interfaces = new HashMap<>();
 	private BorderPane princ = new BorderPane();
 	public MenuBar menuConstruction() 
 	{
+		mniMantVeiculos.setUserData("Veiculos");
+		mniMantClient.setUserData("Clientes");
+		mniMantFuncionario.setUserData("Funcionario");
+		mniMantOS.setUserData("OS");
+		mniMantServicos.setUserData("Servicos");
+		mniVisualBalanco.setUserData("Balancos");
 		menuprinc.getMenus().addAll(itensCad, itensGerenc);
 		itensGerenc.getItems().add(mniVisualBalanco);
 		itensCad.getItems().addAll(mniMantVeiculos, mniMantServicos, mniMantFuncionario, mniMantOS, mniMantClient);
-		interfaces.put(mniMantVeiculos, new Boundary_Veiculo());
-		interfaces.put(mniMantServicos, new Boundary_Servico());
-		interfaces.put(mniMantFuncionario, new Boundary_Funcionario());
-		interfaces.put(mniVisualBalanco, new Boundary_Balancos());
-		interfaces.put(mniMantOS, new Boundary_ManterOrdemServico());
-		interfaces.put(mniMantClient, new Boundary_Cliente());
-		Set<MenuItem> opcoes = interfaces.keySet();
-		for(MenuItem mnI : opcoes) 
-		{
-			mnI.addEventHandler(ActionEvent.ANY, this);
-		}
+		interfaces.put("Veiculos", new Boundary_Veiculo(this));
+		interfaces.put("Servicos", new Boundary_Servico());
+		interfaces.put("Funcionario", new Boundary_Funcionario());
+		interfaces.put("Balancos", new Boundary_Balancos());
+		interfaces.put("OS", new Boundary_ManterOrdemServico(this));
+		interfaces.put("Clientes", new Boundary_Cliente(this));
+		mniMantClient.addEventHandler(ActionEvent.ANY, this);
+		mniMantServicos.addEventHandler(ActionEvent.ANY, this);
+		mniMantVeiculos.addEventHandler(ActionEvent.ANY, this);
+		mniMantOS.addEventHandler(ActionEvent.ANY, this);
+		mniMantFuncionario.addEventHandler(ActionEvent.ANY, this);
+		mniVisualBalanco.addEventHandler(ActionEvent.ANY, this);
 		return menuprinc;
 	}
 	@Override
@@ -59,15 +66,24 @@ public class Boundary_Principal extends Application implements EventHandler<Acti
 	@Override
 	public void handle(ActionEvent event) 
 	{
-		Boundary_Constructor fronteira = interfaces.get(event.getTarget());
-		if(interfaces != null) 
+		if (event.getTarget() instanceof MenuItem) 
 		{
-			princ.setCenter(fronteira.constructBoundary());
+			MenuItem mni = (MenuItem)event.getTarget();
+			request(mni.getUserData().toString());
 		}
 	}
 	public static void main(String[] args) 
 	{
 		Application.launch(args);
+	}
+	@Override
+	public void request(String requisition) 
+	{
+		Boundary_Constructor fronteira = interfaces.get(requisition);
+		if(interfaces != null) 
+		{
+			princ.setCenter(fronteira.constructBoundary());
+		}
 	}
 	
 }

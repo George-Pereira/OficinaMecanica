@@ -22,7 +22,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
 
-public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Constructor
+public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Constructor, telaLoader
 {
 	private TextField txtNome = new TextField();
 	private TextField txtCNH = new TextField();
@@ -35,10 +35,12 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 	private Button btnPesq = new Button("Pesquisar");
 	private TableView<Veiculo> table = new TableView<Veiculo>();
 	private BorderPane painelPrincipal = new BorderPane();
+	private gerenciadorTelas gerente;
 	
 	
-	public Boundary_Cliente()
+	public Boundary_Cliente(gerenciadorTelas gerente)
 	{
+		this.gerente = gerente;
 		ColumnConstraints col0 = new ColumnConstraints();
 		col0.setFillWidth(true);
 		col0.setPercentWidth(10);
@@ -152,5 +154,17 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 	public Pane constructBoundary() 
 	{
 		return painelPrincipal;
+	}
+
+	@Override
+	public void setRequest(gerenciadorTelas g) 
+	{
+		this.gerente = g;
+	}
+
+	@Override
+	public gerenciadorTelas getRequest() 
+	{
+		return this.gerente;
 	}
 }

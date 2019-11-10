@@ -19,17 +19,17 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
-public class Boundary_Servico implements Boundary_Constructor, EventHandler<ActionEvent>
+public class Boundary_Servico implements Boundary_Constructor, EventHandler<ActionEvent>, telaLoader
 {
-	TextField txtNservico = new TextField();
-	TextArea txtDescricao = new TextArea();
-	Button btnSalvar = new Button("Salvar");
-	CheckBox chServativo = new CheckBox("Serviço Ativo");
-	Button btnEditar = new Button("Editar");
-	TableView table = new TableView();
-	BorderPane fundo = new BorderPane();
-	ControlServico ctrServ = new ControlServico();
-	Button btnPesquisa = new Button("Pesquisar");
+	private TextField txtNservico = new TextField();
+	private TextArea txtDescricao = new TextArea();
+	private Button btnSalvar = new Button("Salvar");
+	private CheckBox chServativo = new CheckBox("Serviço Ativo");
+	private Button btnEditar = new Button("Editar");
+	private TableView table = new TableView();
+	private BorderPane fundo = new BorderPane();
+	private ControlServico ctrServ = new ControlServico();
+	private Button btnPesquisa = new Button("Pesquisar");
 	
 	public Boundary_Servico() 
 	{
@@ -110,6 +110,18 @@ public class Boundary_Servico implements Boundary_Constructor, EventHandler<Acti
 			atual.setDescServ(txtDescricao.getText());
 			atual.setServDisp(chServativo.isSelected());
 		}
+	}
+
+	@Override
+	public void setRequest(gerenciadorTelas g) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public gerenciadorTelas getRequest() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

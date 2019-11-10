@@ -23,7 +23,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
-public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Constructor
+public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Constructor, telaLoader
 {
 	private TextField txtAno = new TextField();
 	private TextField txtChassis = new TextField();
@@ -44,18 +44,14 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 	private Cliente context = new Cliente();
 	private ComboBox<Cliente> comboCliente = new ComboBox<Cliente>();
 	private BorderPane lay = new BorderPane();
+	private gerenciadorTelas gerente;
 
-	public Boundary_Veiculo() 
+	public Boundary_Veiculo(gerenciadorTelas gerente) 
 	{
+		this.gerente = gerente;
 		comboMarca.getItems().addAll(EnumMarca.values());
 		comboModel.setEditable(true);
 		btnNvModel.addEventHandler(ActionEvent.ANY, this);
-		if(!ControlCliente.getLista().isEmpty()) 
-		{
-			comboCliente.getItems().addAll(ControlCliente.getLista());
-			comboCliente.getSelectionModel().selectFirst();
-			constructTable();
-		}
 		comboCor.getItems().addAll(EnumCor.values());
 		GridPane info = new GridPane();
 		ColumnConstraints col0 = new ColumnConstraints();
@@ -136,6 +132,7 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		{
 			enviarDados();
 			constructTable();
+			table.setItems(comboCliente.getValue().getPosses());
 			clearCampos();
 		}
 		else if(evento.getTarget() == btnDesat) 
@@ -143,6 +140,7 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 			if(txtPlaca.getText() != null) 
 			{
 				ctrVeiculo.desativarVeiculo(txtPlaca.getText(), context);
+				table.setItems(comboCliente.getValue().getPosses());
 			}
 		}
 		else if(evento.getTarget() == btnPesq) 
@@ -161,9 +159,8 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 				clearCampos();
 			    carregarDados(pesq);
 			    atual = pesq;
-			    table.getColumns().removeAll();
-			    table.getColumns().clear();
 			    constructTable();
+			    table.setItems(comboCliente.getValue().getPosses());
 			} 
 			catch (Exception e) 
 			{
@@ -238,7 +235,6 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		TableColumn<Veiculo, String> columnModel = new TableColumn<Veiculo, String>("Modelo");
 		columnModel.setCellValueFactory(new PropertyValueFactory<Veiculo, String>("Model"));
 		table.getColumns().addAll(columnPlaca, columnMarca, columnModel, columnChassis, columnMotor, columnAno, columnCor);
-		table.setItems(comboCliente.getValue().getPosses());
 	}
 	@SuppressWarnings("unchecked")
 	public Pane constructBoundary() 
@@ -250,5 +246,17 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		table.getColumns().removeAll();
 		table.getItems().clear();
 		return lay;
+	}
+
+	@Override
+	public void setRequest(gerenciadorTelas g) 
+	{
+		this.gerente = g;
+	}
+
+	@Override
+	public gerenciadorTelas getRequest() 
+	{
+		return this.gerente;
 	}
 }

@@ -24,7 +24,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
-public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, Boundary_Constructor
+public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, Boundary_Constructor, telaLoader
 {
 	
 	private TextField txtProcurar = new TextField();
@@ -37,9 +37,11 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 	private TableView<Servico> table1 = new TableView<Servico>();
 	private ComboBox<Veiculo> combo = new ComboBox<Veiculo>();
 	private BorderPane painelPrincipal = new BorderPane();
+	private gerenciadorTelas gerente;
 
-	public Boundary_ManterOrdemServico() 
+	public Boundary_ManterOrdemServico(gerenciadorTelas gerente) 
 	{
+		this.gerente = gerente;
 		painelPrincipal.setStyle("-fx-padding: 10px");
 		FlowPane painelBotoes = new FlowPane();
 		GridPane painelCampos = new GridPane();
@@ -157,5 +159,16 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 	{
 		combo.getItems().clear();
 		return painelPrincipal;
+	}
+
+	@Override
+	public void setRequest(gerenciadorTelas g) {
+		this.gerente = g;
+	}
+
+	@Override
+	public gerenciadorTelas getRequest() 
+	{
+		return this.gerente;
 	}
 }
