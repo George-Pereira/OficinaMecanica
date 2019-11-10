@@ -1,6 +1,11 @@
 package view;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+
 import controller.ControlCliente;
+import controller.ControlManterOrdemServico;
 import controller.ControlServico;
 import entity.Cliente;
 import entity.Ordem_Servico;
@@ -13,6 +18,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -26,13 +32,15 @@ import javafx.scene.layout.Pane;
 
 public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, Boundary_Constructor, telaLoader
 {
-	
+	private DatePicker txtDtEntrada = new DatePicker();
+	private DatePicker txtDtSaida = new DatePicker();
 	private TextField txtProcurar = new TextField();
 	private Button btnConfirmar = new Button("Confirmar Ordem de Serviço");
 	private Button btnProcurar = new Button("Buscar");
 	private Button btnCli = new Button("Novo Cliente");
 	private Button btnVeic = new Button("Novo Veículo");
 	private Button btnServ = new Button("Novo Serviço");
+	private Button btnAddS = new Button("Adicionar Saída");
 	private TableView<Servico> table = new TableView<Servico>();
 	private TableView<Servico> table1 = new TableView<Servico>();
 	private ComboBox<Veiculo> combo = new ComboBox<Veiculo>();
@@ -76,6 +84,11 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 		txt.add(btnProcurar, 3, 0);
 		txt.add(new Label("Veículo"), 0, 1);
 		txt.add(combo, 1, 1, 3, 1);
+		txt.add(new Label("Data de Entrada"), 4, 0);
+		txt.add(txtDtEntrada, 5, 0, 2, 1);
+		txt.add(new Label("Data de Saída"), 4, 1);
+		txt.add(txtDtSaida, 5, 1);
+		txt.add(btnAddS, 6, 1);
 		painelCampos.add(new Label("   "), 0, 0, 1, 2);
 		painelCampos.add(new Label("   "), 0, 8);
 		painelCampos.add(tab, 1, 9, 2, 1);
@@ -90,6 +103,7 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 		btnServ.addEventHandler(ActionEvent.ANY, this);
 		btnVeic.addEventHandler(ActionEvent.ANY, this);
 		btnCli.addEventHandler(ActionEvent.ANY, this);
+		btnAddS.addEventHandler(ActionEvent.ANY, this);
 		painelBotoes.setVgap(10);
 		painelBotoes.setHgap(200);
 		painelBotoes.setAlignment(Pos.CENTER);
@@ -100,8 +114,8 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 	    serv.setCellValueFactory(new PropertyValueFactory<Servico, String>("nomeServ"));
 	    serv.setMinWidth(250);
 	    
-		TableColumn<Servico, String> dataCol = new TableColumn<Servico, String>("Fim Previsto");
-		/*dataCol.setCellValueFactory(new PropertyValueFactory<Servico, String>("dataServ"));*/
+		TableColumn<Servico, Date> dataCol = new TableColumn<Servico, Date>("Fim Previsto");
+		dataCol.setCellValueFactory(new PropertyValueFactory<Servico, Date>("DtSaida"));
 		dataCol.setMinWidth(100);
 		
 		TableColumn<Servico, String> serviceCol = new TableColumn<Servico, String>("Serviços Contratados");
@@ -150,7 +164,19 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 		}
 		else if(event.getTarget() == btnConfirmar) 
 		{
+			LocalDate dt = txtDtEntrada.getValue();
+			Date d = Date.from(dt.atStartOfDay(ZoneId.systemDefault()).toInstant());
+			LocalDate dt1 = txtDtSaida.getValue();
+			Date d1 = Date.from(dt1.atStartOfDay(ZoneId.systemDefault()).toInstant());
 			
+			Ordem_Servico os = new Ordem_Servico(Servico.getNomeServ(), d, d1);
+			ControlManterOrdemServico.SalvarInformacoes(os);
+		}
+		else if(event.getTarget() == btnAddS) {
+			LocalDate dt1 = txtDtSaida.getValue();
+			Date d1 = Date.from(dt1.atStartOfDay(ZoneId.systemDefault()).toInstant());
+			
+			Servico.setDtSaida(d1);
 		}
 	}
 

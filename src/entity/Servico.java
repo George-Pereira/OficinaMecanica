@@ -1,11 +1,22 @@
 package entity;
 
+import java.util.Date;
+
 public class Servico 
 {
-	private String nomeServ;
+	private static String nomeServ;
 	private String descServ;
 	private boolean servDisp;
-	public String getNomeServ() 
+	private static Date DtSaida;
+	
+	public Servico(String nomeServ, String descServ, boolean servDisp) 
+	{
+		this.nomeServ = nomeServ;
+		this.descServ = descServ;
+		this.servDisp = servDisp;
+	}
+	
+	public static String getNomeServ() 
 	{
 		return nomeServ;
 	}
@@ -24,12 +35,6 @@ public class Servico
 	{
 		
 	}
-	public Servico(String nomeServ, String descServ, boolean servDisp) 
-	{
-		this.nomeServ = nomeServ;
-		this.descServ = descServ;
-		this.servDisp = servDisp;
-	}
 	public boolean getServDisp() 
 	{
 		return servDisp;
@@ -37,5 +42,13 @@ public class Servico
 	public void setServDisp(boolean servDisp) 
 	{
 		this.servDisp = servDisp;
+	}
+	
+	public static void setDtSaida(Date dtSaida) {
+		DtSaida = dtSaida;
+	}
+	
+	public Date getDtSaida() {
+		return DtSaida;
 	}
 }

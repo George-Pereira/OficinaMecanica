@@ -1,5 +1,10 @@
 package view;
 
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+
 import controller.ControlServico;
 import entity.Servico;
 import javafx.event.ActionEvent;
@@ -19,7 +24,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
-public class Boundary_Servico implements Boundary_Constructor, EventHandler<ActionEvent>, telaLoader
+public class Boundary_Servico implements Boundary_Constructor, EventHandler<ActionEvent>
 {
 	private TextField txtNservico = new TextField();
 	private TextArea txtDescricao = new TextArea();
@@ -83,7 +88,7 @@ public class Boundary_Servico implements Boundary_Constructor, EventHandler<Acti
 	public void handle(ActionEvent event) 
 	{
 		if(event.getTarget() == btnSalvar) 
-		{
+		{	
 			Servico novo = new Servico(txtNservico.getText(), txtDescricao.getText(), chServativo.isSelected());
 			ctrServ.insertServico(novo);
 		}
@@ -110,18 +115,6 @@ public class Boundary_Servico implements Boundary_Constructor, EventHandler<Acti
 			atual.setDescServ(txtDescricao.getText());
 			atual.setServDisp(chServativo.isSelected());
 		}
-	}
-
-	@Override
-	public void setRequest(gerenciadorTelas g) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public gerenciadorTelas getRequest() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
