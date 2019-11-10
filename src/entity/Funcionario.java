@@ -46,26 +46,54 @@ public class Funcionario
 	public String getCpf() {
 		return cpf;
 	}
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
+	public void setCpf(String cpf) 
+	{
+		if(cpf.length() == 11) 
+		{
+			this.cpf = cpf;
+		}
 	}
-	public String getTelefone() {
+	public String getTelefone() 
+	{
 		return telefone;
 	}
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
+	public void setTelefone(String telefone) 
+	{
+		boolean valido = true;
+		if(telefone.length() == 11 || telefone.length() == 8) 
+		{
+			char [] tel = telefone.toCharArray();
+			for(int cta = 0; cta < telefone.length(); cta++) 
+			{
+				if(Character.isAlphabetic(tel[cta]))
+				{
+					valido = false;
+					break;
+				}
+			}
+			if(valido == true) 
+			{
+				this.telefone = telefone;
+			}
+		}
 	}
-	public boolean getAtividade() {
+	public boolean getAtividade() 
+	{
 		return atividade;
 	}
 	public void setAtividade(boolean atividade) {
 		this.atividade = atividade;
 	}
-	public double getSalario() {
+	public double getSalario() 
+	{
 		return salario;
 	}
-	public void setSalario(double salario) {
-		this.salario = salario;
+	public void setSalario(double salario) 
+	{
+		if(salario > 4.54) 
+		{
+			this.salario = salario;
+		}
 	}
 	
 }

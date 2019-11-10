@@ -35,6 +35,7 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 	private Button btnPesq = new Button("Pesquisar");
 	private TableView<Veiculo> table = new TableView<Veiculo>();
 	private BorderPane painelPrincipal = new BorderPane();
+	private Button btnVeiculos = new Button("Adicionar Veiculo");
 	private gerenciadorTelas gerente;
 	
 	
@@ -50,12 +51,21 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 		ColumnConstraints col2 = new ColumnConstraints();
 		col2.setFillWidth(true);
 		col2.setPercentWidth(10);
+		ColumnConstraints col3 = new ColumnConstraints();
+		col3.setFillWidth(true);
+		col3.setPercentWidth(15);
+		ColumnConstraints col4 = new ColumnConstraints();
+		col4.setFillWidth(true);
+		col4.setPercentWidth(10);
+		ColumnConstraints col5 = new ColumnConstraints();
+		col5.setFillWidth(true);
+		col5.setPercentWidth(15);
 		painelPrincipal.setStyle("-fx-padding: 10px");
 		FlowPane painelBotoes = new FlowPane();
 		GridPane painelCampos = new GridPane();
 		painelCampos.setHgap(10);
 		painelCampos.setVgap(10);
-		painelCampos.getColumnConstraints().addAll(col0, col1, col2);
+		painelCampos.getColumnConstraints().addAll(col0, col1, col2, col3, col4, col5);
 		painelPrincipal.setTop(painelCampos);
 		painelPrincipal.setCenter(table);
 		painelPrincipal.setBottom(painelBotoes);
@@ -71,12 +81,15 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 		painelCampos.add(txtLogradouro, 1, 2);
 		painelCampos.add(new Label("Bairro"), 2, 2);
 		painelCampos.add(txtBairro, 3, 2);
-		painelBotoes.getChildren().addAll(btnAdicionar, btnPesq);
+		painelCampos.add(new Label("Número"), 4 , 2);
+		painelCampos.add(txtNumero, 5, 2);
+		painelBotoes.getChildren().addAll(btnAdicionar, btnVeiculos,btnPesq);
 		addTableColumns();
 		btnAdicionar.addEventHandler(ActionEvent.ANY, this);
 		painelBotoes.setAlignment(Pos.CENTER);
 		btnPesq.addEventHandler(ActionEvent.ANY, this);
 		painelBotoes.setHgap(100);
+		btnVeiculos.addEventHandler(ActionEvent.ANY, this);
 	}
 	
 	private void addTableColumns() 
@@ -130,7 +143,7 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 		{ 
 			ControlCliente.adicionar(enviarDados());
 		}
-		if(event.getTarget() == btnPesq) 
+		else if(event.getTarget() == btnPesq) 
 		{
 			if(!(txtNome.getText().equals(""))) 
 			{
@@ -147,6 +160,10 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 				Cliente pesquisado = ControlCliente.pesquisarPorCPF(txtCPF.getText());
 				carregarDados(pesquisado);
 			}
+		}
+		else if(event.getTarget() == btnVeiculos) 
+		{
+			gerente.request("Veiculos");
 		}
 	}
 

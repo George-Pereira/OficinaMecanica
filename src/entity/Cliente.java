@@ -11,29 +11,46 @@ public class Cliente {
 	private ObservableList<Endereco> enderecos = FXCollections.observableArrayList();
 	private ObservableList<Veiculo> posses = FXCollections.observableArrayList();
 
-	public String getNome() {
+	public String getNome() 
+	{
 		return Nome;
 	}
-	public void setNome(String nome) {
+	public void setNome(String nome) 
+	{
 		this.Nome = nome;
 	}
-	public String getCNH() {
+	public String getCNH() 
+	{
 		return CNH;
 	}
-	public void setCNH(String CNH) {
-		this.CNH = CNH;
+	public void setCNH(String CNH) 
+	{
+		if(CNH.length() == 11) 
+		{
+			this.CNH = CNH;
+		}
 	}
-	public String getTelefone() {
+	public String getTelefone() 
+	{
 		return Telefone;
 	}
-	public void setTelefone(String telefone) {
-		this.Telefone = telefone;
+	public void setTelefone(String telefone) 
+	{
+		if(telefone.length() == 11 || telefone.length() == 8) 
+		{
+			this.Telefone = telefone;
+		}
 	}
-	public String getCPF() {
+	public String getCPF() 
+	{
 		return CPF;
 	}
-	public void setCPF(String cPF) {
-		this.CPF = cPF;
+	public void setCPF(String CPF) 
+	{
+		if(CPF.length() ==11) 
+		{
+			this.CPF = CPF;
+		}
 	}
 	public ObservableList<Veiculo> getPosses() {
 		return posses;

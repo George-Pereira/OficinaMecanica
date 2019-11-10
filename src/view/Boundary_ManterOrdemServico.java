@@ -138,15 +138,15 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 		}
 		else if(event.getTarget() == btnCli) 
 		{
-
+			gerente.request("Clientes");
 		}
 		else if(event.getTarget() == btnVeic) 
 		{
-			
+			gerente.request("Veiculos");
 		}
 		else if(event.getTarget() == btnServ) 
 		{
-			
+			gerente.request("Servicos");
 		}
 		else if(event.getTarget() == btnConfirmar) 
 		{

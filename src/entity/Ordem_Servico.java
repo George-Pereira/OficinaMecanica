@@ -18,16 +18,20 @@ public class Ordem_Servico
 	{
 		this.os = os;
 	}
-	public Date getDtSaida() {
+	public Date getDtSaida() 
+	{
 		return dtSaida;
 	}
-	public void setDtSaida(Date dtSaida) {
+	public void setDtSaida(Date dtSaida) 
+	{
 		this.dtSaida = dtSaida;
 	}
-	public Date getDtEntrada() {
+	public Date getDtEntrada() 
+	{
 		return dtEntrada;
 	}
-	public void setDtEntrada(Date dtEntrada) {
-		this.dtEntrada = dtEntrada;
+	public void setDtEntrada() 
+	{
+		this.dtEntrada = new Date();
 	}
 }

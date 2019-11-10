@@ -30,19 +30,29 @@ public class Veiculo
 	}
 	public Veiculo() 
 	{
+		
 	}
 	public int getAnoFabrica() 
 	{
 		return anoFabrica;
 	}
-	public void setAnoFabrica(int anoFabrica) {
-		this.anoFabrica = anoFabrica;
+	public void setAnoFabrica(int anoFabrica) 
+	{
+		if(anoFabrica > 1890) 
+		{
+			this.anoFabrica = anoFabrica;
+		}
 	}
-	public String getChassis() {
+	public String getChassis() 
+	{
 		return chassis;
 	}
-	public void setChassis(String chassis) {
-		this.chassis = chassis;
+	public void setChassis(String chassis) 
+	{
+		//if(chassis.length() == 17) 
+		//{
+			this.chassis = chassis;
+		//}
 	}
 	public double getMotor() {
 		return motor;
@@ -63,8 +73,34 @@ public class Veiculo
 	public String getPlaca() {
 		return placa;
 	}
-	public void setPlaca(String placa) {
-		this.placa = placa;
+	public void setPlaca(String placa) 
+	{
+		boolean alpha = true;
+		boolean num = true;
+		if(placa.length() == 7) 
+		{
+			char [] plc = placa.toCharArray();
+			for(int cta = 0; cta<3;cta++) 
+			{
+				if(!(Character.isAlphabetic(plc[cta]))) 
+				{
+					alpha = false;
+					break;
+				}
+			}
+			for(int cta = 3; cta <7; cta++) 
+			{
+				if(!(Character.isDigit(plc[cta]))) 
+				{
+					num = false;
+					break;
+				}
+			}
+			if(alpha == true && num == true) 
+			{
+				this.placa = placa;
+			}
+		}
 	}
 	public String getModel() {
 		return model;
@@ -82,7 +118,8 @@ public class Veiculo
 	{
 		return marca.toString();
 	}
-	public String getDesc() {
+	public String getDesc() 
+	{
 		return desc;
 	}
 	public void setDesc(String desc) {
