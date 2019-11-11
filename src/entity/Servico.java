@@ -4,19 +4,28 @@ import java.util.Date;
 
 public class Servico 
 {
-	private static String nomeServ;
+	private String nomeServ;
 	private String descServ;
 	private boolean servDisp;
-	private static Date DtSaida;
+	private Date DtSaida;
 	
-	public Servico(String nomeServ, String descServ, boolean servDisp) 
+	public Servico() 
 	{
+		
+	}
+	public Servico(Date d1) {
+		this.DtSaida = d1;
+	}
+
+	public Servico(String nomeServ, String descServ, boolean servDisp, Date D1) 
+	{
+		this(D1);
 		this.nomeServ = nomeServ;
 		this.descServ = descServ;
 		this.servDisp = servDisp;
 	}
-	
-	public static String getNomeServ() 
+
+	public String getNomeServ() 
 	{
 		return nomeServ;
 	}
@@ -31,21 +40,17 @@ public class Servico
 	{
 		this.descServ = descServ;
 	}
-	public Servico() 
-	{
-		
-	}
-	public boolean getServDisp() 
+	public boolean isServDisp() 
 	{
 		return servDisp;
 	}
-	public void setServDisp(boolean servDisp) 
+	public void isServDisp(boolean servDisp) 
 	{
 		this.servDisp = servDisp;
 	}
 	
-	public static void setDtSaida(Date dtSaida) {
-		DtSaida = dtSaida;
+	public void setDtSaida(Date dtSaida) {
+		this.DtSaida = dtSaida;
 	}
 	
 	public Date getDtSaida() {

@@ -89,7 +89,7 @@ public class Boundary_Servico implements Boundary_Constructor, EventHandler<Acti
 	{
 		if(event.getTarget() == btnSalvar) 
 		{	
-			Servico novo = new Servico(txtNservico.getText(), txtDescricao.getText(), chServativo.isSelected());
+			Servico novo = new Servico(txtNservico.getText(), txtDescricao.getText(), chServativo.isSelected(), null);
 			ctrServ.insertServico(novo);
 		}
 		else if(event.getTarget() == btnPesquisa) 
@@ -99,7 +99,7 @@ public class Boundary_Servico implements Boundary_Constructor, EventHandler<Acti
 			{
 				txtNservico.setText(atual.getNomeServ());
 				txtDescricao.setText(atual.getDescServ());
-				if(atual.getServDisp()) 
+				if(atual.isServDisp()) 
 				{
 					chServativo.arm();
 				}
@@ -113,7 +113,7 @@ public class Boundary_Servico implements Boundary_Constructor, EventHandler<Acti
 		{
 			Servico atual = ctrServ.pesquisaServ(txtNservico.getText());
 			atual.setDescServ(txtDescricao.getText());
-			atual.setServDisp(chServativo.isSelected());
+			atual.isServDisp(chServativo.isSelected());
 		}
 	}
 

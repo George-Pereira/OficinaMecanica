@@ -31,14 +31,14 @@ public class Boundary_Funcionario implements Boundary_Constructor, EventHandler<
 	private TextField txtSalario = new TextField();
 	private Button btnPesqfunc = new Button("Pesquisa");
 	private BorderPane brdp = new BorderPane();
-	private TableView tableServicos = new TableView();
+	private TableView<Servico> tableServicos = new TableView();
 	private TableView tableHabilidades = new TableView();
 	private Button btnAdd = new Button("Adicionar");
 	private CheckBox chFunc = new CheckBox("Funcionario Ativo");
 	private Button btnAddserv = new Button("Adicionar Habilidade");
 	private ControlFuncionario ctrFunc = new ControlFuncionario();
 	private Funcionario atual = new Funcionario();
-	
+	private ControlServico sev = new ControlServico();
 	
 	public Boundary_Funcionario() 
 	{
@@ -113,7 +113,7 @@ public class Boundary_Funcionario implements Boundary_Constructor, EventHandler<
 				tableHabilidades.getItems().add(novo);
 			}
 		});
-		tableServicos.setItems(ControlServico.getListaServ());
+		tableServicos.setItems(sev.getListaServ());
 		clnHabserv.setMinWidth(305);
 		tableServicos.addEventHandler(ActionEvent.ANY, this);
 		tableHabilidades.setItems(atual.getHabilidades());

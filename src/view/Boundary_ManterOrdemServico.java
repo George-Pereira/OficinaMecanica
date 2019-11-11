@@ -46,7 +46,8 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 	private ComboBox<Veiculo> combo = new ComboBox<Veiculo>();
 	private BorderPane painelPrincipal = new BorderPane();
 	private gerenciadorTelas gerente;
-
+	private ControlServico sev = new ControlServico();
+	
 	public Boundary_ManterOrdemServico(gerenciadorTelas gerente) 
 	{
 		this.gerente = gerente;
@@ -56,14 +57,6 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 		GridPane buttom = new GridPane();
 		GridPane tab = new GridPane();
 		GridPane txt = new GridPane();
-		table1.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Servico>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Servico> lista, Servico antigo, Servico novo) 
-			{
-				table.getItems().add(novo);
-			}}
-		);
 		ColumnConstraints col0 = new ColumnConstraints();
 		col0.setPercentWidth(20);
 		ColumnConstraints col1 = new ColumnConstraints();
@@ -125,7 +118,7 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 		table.getColumns().add(serviceCol);
 		table.getColumns().add(dataCol);
 		table1.getColumns().add(serv);
-		table1.setItems(ControlServico.getListaServ());
+		table1.setItems(sev.getListaServ());
 	}
 	
 	public void entidadeParaBoundary(Cliente c) { 
@@ -168,15 +161,19 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 			Date d = Date.from(dt.atStartOfDay(ZoneId.systemDefault()).toInstant());
 			LocalDate dt1 = txtDtSaida.getValue();
 			Date d1 = Date.from(dt1.atStartOfDay(ZoneId.systemDefault()).toInstant());
-			
-			Ordem_Servico os = new Ordem_Servico(Servico.getNomeServ(), d, d1);
-			ControlManterOrdemServico.SalvarInformacoes(os);
+
+			Ordem_Servico os = new Ordem_Servico(sev.getListaS() , d, d1);
+			ControlManterOrdemServico mos = new ControlManterOrdemServico();
+			mos.SalvarInformacoes(os);
+			sev.LimpaLista();
 		}
 		else if(event.getTarget() == btnAddS) {
 			LocalDate dt1 = txtDtSaida.getValue();
 			Date d1 = Date.from(dt1.atStartOfDay(ZoneId.systemDefault()).toInstant());
 			
-			Servico.setDtSaida(d1);
+			String s = table1.getSelectionModel().getSelectedItem().getNomeServ();
+			sev.inseredt(s, d1);
+			table.setItems(sev.getListaS());
 		}
 	}
 
