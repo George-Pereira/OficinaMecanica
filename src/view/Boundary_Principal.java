@@ -25,6 +25,7 @@ public class Boundary_Principal extends Application implements EventHandler<Acti
 	private MenuItem mniMantFuncionario = new MenuItem("Manter Funcionários");
 	private MenuItem mniMantOS = new MenuItem("Manter OS");
 	private MenuItem mniMantClient = new MenuItem("Manter Cliente");
+	private MenuItem mniMantHist = new MenuItem("Manter Historico");
 	private Map<String, Boundary_Constructor> interfaces = new HashMap<>();
 	private BorderPane princ = new BorderPane();
 	public MenuBar menuConstruction() 
@@ -35,8 +36,9 @@ public class Boundary_Principal extends Application implements EventHandler<Acti
 		mniMantOS.setUserData("OS");
 		mniMantServicos.setUserData("Servicos");
 		mniVisualBalanco.setUserData("Balancos");
+		mniMantHist.setUserData("Historico");
 		menuprinc.getMenus().addAll(itensCad, itensGerenc);
-		itensGerenc.getItems().add(mniVisualBalanco);
+		itensGerenc.getItems().addAll(mniVisualBalanco, mniMantHist);
 		itensCad.getItems().addAll(mniMantVeiculos, mniMantServicos, mniMantFuncionario, mniMantOS, mniMantClient);
 		interfaces.put("Veiculos", new Boundary_Veiculo(this));
 		interfaces.put("Servicos", new Boundary_Servico());
@@ -44,12 +46,14 @@ public class Boundary_Principal extends Application implements EventHandler<Acti
 		interfaces.put("Balancos", new Boundary_Balancos());
 		interfaces.put("OS", new Boundary_ManterOrdemServico(this));
 		interfaces.put("Clientes", new Boundary_Cliente(this));
+		interfaces.put("Historico", new Boundary_ManterHistorico());
 		mniMantClient.addEventHandler(ActionEvent.ANY, this);
 		mniMantServicos.addEventHandler(ActionEvent.ANY, this);
 		mniMantVeiculos.addEventHandler(ActionEvent.ANY, this);
 		mniMantOS.addEventHandler(ActionEvent.ANY, this);
 		mniMantFuncionario.addEventHandler(ActionEvent.ANY, this);
 		mniVisualBalanco.addEventHandler(ActionEvent.ANY, this);
+		mniMantHist.addEventHandler(ActionEvent.ANY, this);
 		return menuprinc;
 	}
 	@Override
