@@ -2,6 +2,7 @@ package controller;
 
 import java.util.Date;
 
+import entity.Funcionario;
 import entity.Servico;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,7 +10,6 @@ import javafx.collections.ObservableList;
 public class ControlServico 
 {
 	private static ObservableList<Servico> listaServ = FXCollections.observableArrayList();
-	private static ObservableList<Servico> listaS = FXCollections.observableArrayList();
 	
 	public boolean existenciaServico(Servico servico) 
 	{
@@ -27,15 +27,6 @@ public class ControlServico
 		if(!existenciaServico(serv)) 
 		{
 			listaServ.add(serv);
-		}
-	}
-	
-	public void inseredt(String nome, Date d) {
-		for(Servico serv: listaServ) {
-			if(serv.getNomeServ().equals(nome) && serv.getDtSaida() == null) {
-				Servico se = new Servico(serv.getNomeServ(), serv.getDescServ(), serv.isServDisp(), d);
-				listaS.add(se);
-			}
 		}
 	}
 	
@@ -69,17 +60,5 @@ public class ControlServico
 			}
 		}
 		return null;
-	}
-	
-	public ObservableList<Servico> getListaS() {
-		return listaS;
-	}
-	
-	public static void setListaS(ObservableList<Servico> listaS) {
-		ControlServico.listaS = listaS;
-	}
-	
-	public void LimpaLista() {
-		listaS.clear();
 	}
 }

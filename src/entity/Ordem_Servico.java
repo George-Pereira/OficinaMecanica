@@ -8,14 +8,28 @@ public class Ordem_Servico
 {
 	private Date dtEntrada;
 	private Date dtSaida;
-	private ObservableList<Servico> list;
+	private Funcionario nome;
+	private int OS;
+	private String nomeS;
+	private Veiculo nomeV;
 	
-	public Ordem_Servico(ObservableList<Servico> Servicos, Date dateEntrada, Date dateSaida) {
-		this.list = Servicos;
-		this.dtSaida = dateEntrada;
-		this.dtEntrada = dateSaida;
+	public Ordem_Servico(Veiculo nomeV, Date dtEntrada) {
+		this.nomeV = nomeV;
+		this.dtEntrada = dtEntrada;
 	}
 	
+	public Ordem_Servico(int OS, String nomeS, Date dtSaida, Funcionario nome, Date dtEntrada, Veiculo nomeV) {
+		this(nomeV, dtEntrada);
+		this.OS = OS;
+		this.nomeS = nomeS;
+		this.dtSaida = dtSaida;
+		this.nome = nome;
+	}
+	
+	public Ordem_Servico() {
+		
+	}
+
 	public Date getDtEntrada() {
 		return dtEntrada;
 	}
@@ -32,12 +46,35 @@ public class Ordem_Servico
 		this.dtSaida = dtSaida;
 	}
 	
-	public ObservableList<Servico> getList() {
-		return list;
+	public Funcionario getNome() {
+		return nome;
 	}
 	
-	public void setList(ObservableList<Servico> list) {
-		this.list = list;
+	public void setNome(Funcionario nome) {
+		this.nome = nome;
+	}
+	
+	public int getOS() {
+		return OS;
+	}
+	
+	public void setOS(int oS) {
+		OS = oS;
+	}
+	
+	public String getNomeS() {
+		return nomeS;
+	}
+	public void setNomeS(String nomeS) {
+		this.nomeS = nomeS;
+	}
+	
+	public Veiculo getNomeV() {
+		return nomeV;
+	}
+	
+	public void setNomeV(Veiculo nomeV) {
+		this.nomeV = nomeV;
 	}
 	
 	

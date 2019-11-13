@@ -7,19 +7,17 @@ public class Servico
 	private String nomeServ;
 	private String descServ;
 	private boolean servDisp;
+	private int OS;
+	private Funcionario nomeF;
 	private Date DtSaida;
 	
 	public Servico() 
 	{
 		
 	}
-	public Servico(Date d1) {
-		this.DtSaida = d1;
-	}
 
-	public Servico(String nomeServ, String descServ, boolean servDisp, Date D1) 
+	public Servico(String nomeServ, String descServ, boolean servDisp) 
 	{
-		this(D1);
 		this.nomeServ = nomeServ;
 		this.descServ = descServ;
 		this.servDisp = servDisp;
@@ -55,5 +53,20 @@ public class Servico
 	
 	public Date getDtSaida() {
 		return DtSaida;
+	}
+	
+	public int getOS() {
+		return OS;
+	}
+	
+	public void setOS(int oS) {
+		OS = oS;
+	}
+	
+	public Funcionario getNomeF() {
+		return nomeF;
+	}
+	public void setNomeF(Funcionario nomeF) {
+		this.nomeF = nomeF;
 	}
 }

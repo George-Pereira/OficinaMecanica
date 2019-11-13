@@ -89,7 +89,7 @@ public class Boundary_Servico implements Boundary_Constructor, EventHandler<Acti
 	{
 		if(event.getTarget() == btnSalvar) 
 		{	
-			Servico novo = new Servico(txtNservico.getText(), txtDescricao.getText(), chServativo.isSelected(), null);
+			Servico novo = new Servico(txtNservico.getText(), txtDescricao.getText(), chServativo.isSelected());
 			ctrServ.insertServico(novo);
 		}
 		else if(event.getTarget() == btnPesquisa) 

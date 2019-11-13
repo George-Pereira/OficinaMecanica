@@ -2,7 +2,11 @@ package view;
 
 import java.util.Date;
 
+import controller.ControlCliente;
+import controller.ControlManterOrdemServico;
+import entity.Cliente;
 import entity.Funcionario;
+import entity.Ordem_Servico;
 import entity.Servico;
 import entity.Veiculo;
 import javafx.event.ActionEvent;
@@ -18,7 +22,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
@@ -27,7 +30,7 @@ public class Boundary_ManterHistorico implements Boundary_Constructor, EventHand
 	private BorderPane principal = new BorderPane();
 	private Button btnpesquisarC = new Button("Buscar Cliente");
 	private ComboBox<Veiculo> comboV = new ComboBox<Veiculo>();
-	private TableView<Servico> tabS = new TableView<Servico>();
+	private TableView<Ordem_Servico> tabS = new TableView<Ordem_Servico>();
 	private Button btnpesquisarS = new Button("Buscar OS");
 	private TextField txtCliente = new TextField();
 	private TextField txtServico = new TextField();
@@ -42,9 +45,9 @@ public class Boundary_ManterHistorico implements Boundary_Constructor, EventHand
 		GridPane painel2 = new GridPane();
 		GridPane pbutton = new GridPane();
 		ColumnConstraints col0 = new ColumnConstraints();
-		col0.setPercentWidth(30);
+		col0.setPercentWidth(20);
 		ColumnConstraints col1 = new ColumnConstraints();
-		col1.setPercentWidth(20);
+		col1.setPercentWidth(25);
 		pCampos.getColumnConstraints().addAll(col0, col1);
 		tabS.setEditable(true);
 		principal.setCenter(pCampos);
@@ -56,13 +59,13 @@ public class Boundary_ManterHistorico implements Boundary_Constructor, EventHand
 		painel1.add(new Label("Veículo"), 0, 1);
 		painel1.add(comboV, 1, 1, 2, 1);
 		pCampos.add(painel1, 0, 0, 4, 2);
-		pCampos.add(tabS, 1, 3, 4, 5);
+		pCampos.add(tabS, 1, 3, 3, 5);
 		painel2.add(new Label("OS"), 0, 1);
-		painel2.add(txtServico, 1, 1);
+		painel2.add(txtServico, 1, 1, 2, 1);
 		painel2.add(btnpesquisarS, 3, 1);
-		painel2.add(new Label("Observações"), 1, 2);
 		pCampos.add(painel2, 1, 9, 3, 2);
-		pCampos.add(txtObserv, 1, 11, 2, 1);
+		pCampos.add(new Label("Observações"), 2, 11);
+		pCampos.add(txtObserv, 1, 12, 2, 1);
 		pbutton.add(btnSalvar, 0, 0);
 		pbutton.add(btnEditar, 1, 0);
 		adicionarTableColumns();
@@ -74,26 +77,32 @@ public class Boundary_ManterHistorico implements Boundary_Constructor, EventHand
 		painel2.setHgap(10);
 		pbutton.setVgap(10);
 		pbutton.setHgap(660);
+		
+		btnpesquisarC.addEventHandler(ActionEvent.ANY, this);
+		btnpesquisarS.addEventHandler(ActionEvent.ANY, this);
+		btnSalvar.addEventHandler(ActionEvent.ANY, this);
+		btnEditar.addEventHandler(ActionEvent.ANY, this);
+		comboV.addEventHandler(ActionEvent.ANY, this);
 	}
 	
 	
 	private void adicionarTableColumns() {
 		
-		TableColumn<Servico, String> OS = new TableColumn<Servico, String>("OS");
-	    OS.setCellValueFactory(new PropertyValueFactory<Servico, String>("OS"));
+		TableColumn<Ordem_Servico, Integer> OS = new TableColumn<Ordem_Servico, Integer>("OS");
+	    OS.setCellValueFactory(new PropertyValueFactory<Ordem_Servico, Integer>("OS"));
 	    OS.setMinWidth(50);
 	    
-	    TableColumn<Servico, Date> dt = new TableColumn<Servico, Date>("Data");
-	    dt.setCellValueFactory(new PropertyValueFactory<Servico, Date>("DtSaida"));
-	    dt.setMinWidth(50);
+	    TableColumn<Ordem_Servico, Date> dt = new TableColumn<Ordem_Servico, Date>("Data");
+	    dt.setCellValueFactory(new PropertyValueFactory<Ordem_Servico, Date>("dtSaida"));
+	    dt.setMinWidth(100);
 	    
-	    TableColumn<Servico, String> serv = new TableColumn<Servico, String>("Serviço");
-	    serv.setCellValueFactory(new PropertyValueFactory<Servico, String>("nomeServ"));
-	    serv.setMinWidth(50);
+	    TableColumn<Ordem_Servico, String> serv = new TableColumn<Ordem_Servico, String>("Serviço");
+	    serv.setCellValueFactory(new PropertyValueFactory<Ordem_Servico, String>("nomeS"));
+	    serv.setMinWidth(140);
 	    
-	    TableColumn<Servico, String> func = new TableColumn<Servico, String>("Funcionario");
-	    func.setCellValueFactory(new PropertyValueFactory<Servico, String>("nomeServ"));
-	    func.setMinWidth(50);
+	    TableColumn<Ordem_Servico, String> func = new TableColumn<Ordem_Servico, String>("Funcionario");
+	    func.setCellValueFactory(new PropertyValueFactory<Ordem_Servico, String>("nome"));
+	    func.setMinWidth(170);
 	    
 	    tabS.getColumns().addAll(OS, dt, serv, func);
 	}
@@ -101,9 +110,33 @@ public class Boundary_ManterHistorico implements Boundary_Constructor, EventHand
 
 	@Override
 	public void handle(ActionEvent event) {
-		
+		if (event.getTarget() == btnpesquisarC) 
+		{
+			try {
+				comboV.getItems().clear();
+				Cliente c = new Cliente();
+					c = ControlCliente.pesquisarPorNome(txtCliente.getText());
+				comboV.getItems().addAll(c.getPosses());
+				entidadeParaBoundary(c);
+			}catch(Exception e) 
+			{
+				System.out.println("Não há parametros para pesquisa");
+			}
+
+		}else if(event.getTarget() == comboV) {
+			ControlManterOrdemServico mos = new ControlManterOrdemServico();
+			tabS.setItems(mos.getListO());
+		}
 		
 	}
+
+	private void entidadeParaBoundary(Cliente c) {
+		if (c != null) {
+			txtCliente.setText(c.getNome());
+		}
+		
+	}
+
 
 	@Override
 	public Pane constructBoundary() {

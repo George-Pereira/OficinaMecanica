@@ -5,9 +5,11 @@ import java.time.ZoneId;
 import java.util.Date;
 
 import controller.ControlCliente;
+import controller.ControlFuncionario;
 import controller.ControlManterOrdemServico;
 import controller.ControlServico;
 import entity.Cliente;
+import entity.Funcionario;
 import entity.Ordem_Servico;
 import entity.Servico;
 import entity.Veiculo;
@@ -41,12 +43,15 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 	private Button btnVeic = new Button("Novo Veículo");
 	private Button btnServ = new Button("Novo Serviço");
 	private Button btnAddS = new Button("Adicionar Saída");
-	private TableView<Servico> table = new TableView<Servico>();
+	private TableView<Ordem_Servico> table = new TableView<Ordem_Servico>();
 	private TableView<Servico> table1 = new TableView<Servico>();
 	private ComboBox<Veiculo> combo = new ComboBox<Veiculo>();
 	private BorderPane painelPrincipal = new BorderPane();
 	private gerenciadorTelas gerente;
 	private ControlServico sev = new ControlServico();
+	private ComboBox<Funcionario> comboF = new ComboBox<Funcionario>();
+	private ControlManterOrdemServico mos = new ControlManterOrdemServico();
+	private int i = 1;
 	
 	public Boundary_ManterOrdemServico(gerenciadorTelas gerente) 
 	{
@@ -79,6 +84,8 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 		txt.add(combo, 1, 1, 3, 1);
 		txt.add(new Label("Data de Entrada"), 4, 0);
 		txt.add(txtDtEntrada, 5, 0, 2, 1);
+		txt.add(new Label("Funcionario"), 6, 0);
+		txt.add(comboF, 7, 0, 3, 1);
 		txt.add(new Label("Data de Saída"), 4, 1);
 		txt.add(txtDtSaida, 5, 1);
 		txt.add(btnAddS, 6, 1);
@@ -100,6 +107,7 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 		painelBotoes.setVgap(10);
 		painelBotoes.setHgap(200);
 		painelBotoes.setAlignment(Pos.CENTER);
+		
 	}
 	
 	public void adicionarTableColumns() {
@@ -107,12 +115,12 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 	    serv.setCellValueFactory(new PropertyValueFactory<Servico, String>("nomeServ"));
 	    serv.setMinWidth(250);
 	    
-		TableColumn<Servico, Date> dataCol = new TableColumn<Servico, Date>("Fim Previsto");
-		dataCol.setCellValueFactory(new PropertyValueFactory<Servico, Date>("DtSaida"));
+		TableColumn<Ordem_Servico, Date> dataCol = new TableColumn<Ordem_Servico, Date>("Fim Previsto");
+		dataCol.setCellValueFactory(new PropertyValueFactory<Ordem_Servico, Date>("DtSaida"));
 		dataCol.setMinWidth(100);
 		
-		TableColumn<Servico, String> serviceCol = new TableColumn<Servico, String>("Serviços Contratados");
-	    serviceCol.setCellValueFactory(new PropertyValueFactory<Servico, String>("nomeServ"));
+		TableColumn<Ordem_Servico, String> serviceCol = new TableColumn<Ordem_Servico, String>("Serviços Contratados");
+	    serviceCol.setCellValueFactory(new PropertyValueFactory<Ordem_Servico, String>("nomeS"));
 	    serviceCol.setMinWidth(150);
 	    
 		table.getColumns().add(serviceCol);
@@ -159,21 +167,20 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 		{
 			LocalDate dt = txtDtEntrada.getValue();
 			Date d = Date.from(dt.atStartOfDay(ZoneId.systemDefault()).toInstant());
-			LocalDate dt1 = txtDtSaida.getValue();
-			Date d1 = Date.from(dt1.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-			Ordem_Servico os = new Ordem_Servico(sev.getListaS() , d, d1);
-			ControlManterOrdemServico mos = new ControlManterOrdemServico();
-			mos.SalvarInformacoes(os);
-			sev.LimpaLista();
+			mos.ReSalvar(combo.getValue() , d);
+			mos.getListaOS().clear();
+
 		}
 		else if(event.getTarget() == btnAddS) {
 			LocalDate dt1 = txtDtSaida.getValue();
 			Date d1 = Date.from(dt1.atStartOfDay(ZoneId.systemDefault()).toInstant());
 			
 			String s = table1.getSelectionModel().getSelectedItem().getNomeServ();
-			sev.inseredt(s, d1);
-			table.setItems(sev.getListaS());
+			
+			mos.SalvarInformacoes(i, s, d1, comboF.getValue());
+			i++;
+			table.setItems(mos.getListaOS());
 		}
 	}
 
@@ -181,6 +188,8 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 	public Pane constructBoundary() 
 	{
 		combo.getItems().clear();
+		comboF.getItems().clear();
+		comboF.getItems().addAll(ControlFuncionario.getListaFunc());
 		return painelPrincipal;
 	}
 

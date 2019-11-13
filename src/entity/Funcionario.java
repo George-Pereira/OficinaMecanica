@@ -13,6 +13,10 @@ public class Funcionario
 	private double salario;
 	private ObservableList<Servico> habilidades = FXCollections.observableArrayList();
 	
+	@Override
+	public String toString() {
+		return nomeFunc;
+	}
 	public Funcionario() 
 	{
 		

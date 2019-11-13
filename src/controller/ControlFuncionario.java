@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 public class ControlFuncionario 
 {
 	private static ObservableList<Funcionario> listaFunc = FXCollections.observableArrayList();
+	
 	public void insertFuncionario(Funcionario func) 
 	{
 		if(!existenciaFunc(func)) 
@@ -66,11 +67,7 @@ public class ControlFuncionario
 			func.getHabilidades().add(serv);
 		}
 	}
-	public ObservableList<Funcionario> getListaFunc() {
+	public static ObservableList<Funcionario> getListaFunc() {
 		return listaFunc;
-	}
-
-	public void setListaFunc(ObservableList<Funcionario> listaFunc) {
-		ControlFuncionario.listaFunc = listaFunc;
 	}
 }

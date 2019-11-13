@@ -117,7 +117,7 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 			cli.setNome(txtNome.getText());
 			cli.setCNH(txtCNH.getText());
 			cli.setTelefone(txtTelefone.getText());
-			cli.getEnderecos().add(new Endereco(txtLogradouro.getText(), /*Integer.parseInt(txtNumero.getText())*/txtBairro.getText()));
+			cli.getEnderecos().add(new Endereco(txtLogradouro.getText(), Integer.parseInt(txtNumero.getText()), txtBairro.getText()));
 		return cli;
 	}
 	
