@@ -2,28 +2,26 @@ package entity;
 
 import java.util.Date;
 
-import javafx.collections.ObservableList;
-
 public class Ordem_Servico 
 {
 	private Date dtEntrada;
 	private Date dtSaida;
-	private Funcionario nome;
+	private String nome;
 	private int OS;
 	private String nomeS;
-	private Veiculo nomeV;
+	private String nomeV;
 	
-	public Ordem_Servico(Veiculo nomeV, Date dtEntrada) {
-		this.nomeV = nomeV;
+	public Ordem_Servico(String nomeVeiculo, Date dtEntrada) {
+		this.nomeV = nomeVeiculo;
 		this.dtEntrada = dtEntrada;
 	}
 	
-	public Ordem_Servico(int OS, String nomeS, Date dtSaida, Funcionario nome, Date dtEntrada, Veiculo nomeV) {
-		this(nomeV, dtEntrada);
+	public Ordem_Servico(int OS, String nomeS, Date d1, String nomeFunc, Date dtEntrada, String nomeVeiculo) {
+		this(nomeVeiculo, dtEntrada);
 		this.OS = OS;
 		this.nomeS = nomeS;
-		this.dtSaida = dtSaida;
-		this.nome = nome;
+		this.dtSaida = d1;
+		this.nome = nomeFunc;
 	}
 	
 	public Ordem_Servico() {
@@ -46,11 +44,11 @@ public class Ordem_Servico
 		this.dtSaida = dtSaida;
 	}
 	
-	public Funcionario getNome() {
+	public String getNome() {
 		return nome;
 	}
 	
-	public void setNome(Funcionario nome) {
+	public void setNome(String nome) {
 		this.nome = nome;
 	}
 	
@@ -69,13 +67,14 @@ public class Ordem_Servico
 		this.nomeS = nomeS;
 	}
 	
-	public Veiculo getNomeV() {
+	public String getNomeV() {
 		return nomeV;
 	}
 	
-	public void setNomeV(Veiculo nomeV) {
+	public void setNomeV(String nomeV) {
 		this.nomeV = nomeV;
 	}
 	
 	
 }
+

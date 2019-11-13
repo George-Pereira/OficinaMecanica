@@ -43,7 +43,7 @@ public class Boundary_Principal extends Application implements EventHandler<Acti
 		interfaces.put("Veiculos", new Boundary_Veiculo(this));
 		interfaces.put("Servicos", new Boundary_Servico());
 		interfaces.put("Funcionario", new Boundary_Funcionario());
-		interfaces.put("Balancos", new Boundary_Balancos());
+		interfaces.put("Balancos", new Boundary_Balancos(this));
 		interfaces.put("OS", new Boundary_ManterOrdemServico(this));
 		interfaces.put("Clientes", new Boundary_Cliente(this));
 		interfaces.put("Historico", new Boundary_ManterHistorico());

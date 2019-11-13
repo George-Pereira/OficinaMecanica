@@ -21,13 +21,14 @@ public class Funcionario
 	{
 		
 	}
-	public Funcionario(String nomeFunc, String cartTrab, String cpf, String telefone, double salario) 
+	public Funcionario(String nomeFunc, String cartTrab, String cpf, String telefone, double salario, boolean Check) 
 	{
 		this.nomeFunc = nomeFunc;
 		this.cartTrab = cartTrab;
 		this.cpf = cpf;
 		this.telefone = telefone;
 		this.salario = salario;
+		this.atividade = Check;
 	}
 	public ObservableList<Servico> getHabilidades() {
 		return habilidades;
@@ -101,3 +102,4 @@ public class Funcionario
 	}
 	
 }
+

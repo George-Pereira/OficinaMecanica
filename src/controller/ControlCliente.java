@@ -61,3 +61,4 @@ public class ControlCliente {
 		ControlCliente.lista = lista;
 	}
 }
+

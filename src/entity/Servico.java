@@ -1,15 +1,11 @@
 package entity;
 
-import java.util.Date;
-
 public class Servico 
 {
 	private String nomeServ;
 	private String descServ;
 	private boolean servDisp;
-	private int OS;
 	private Funcionario nomeF;
-	private Date DtSaida;
 	
 	public Servico() 
 	{
@@ -47,26 +43,11 @@ public class Servico
 		this.servDisp = servDisp;
 	}
 	
-	public void setDtSaida(Date dtSaida) {
-		this.DtSaida = dtSaida;
-	}
-	
-	public Date getDtSaida() {
-		return DtSaida;
-	}
-	
-	public int getOS() {
-		return OS;
-	}
-	
-	public void setOS(int oS) {
-		OS = oS;
-	}
-	
 	public Funcionario getNomeF() {
 		return nomeF;
 	}
 	public void setNomeF(Funcionario nomeF) {
 		this.nomeF = nomeF;
 	}
+
 }

@@ -6,7 +6,6 @@ import entity.Funcionario;
 import entity.Servico;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -32,8 +31,8 @@ public class Boundary_Funcionario implements Boundary_Constructor, EventHandler<
 	private TextField txtSalario = new TextField();
 	private Button btnPesqfunc = new Button("Pesquisa");
 	private BorderPane brdp = new BorderPane();
-	private TableView<Servico> tableServicos = new TableView();
-	private TableView tableHabilidades = new TableView();
+	private TableView<Servico> tableServicos = new TableView<Servico>();
+	private TableView<Servico> tableHabilidades = new TableView<Servico>();
 	private Button btnAdd = new Button("Adicionar");
 	private CheckBox chFunc = new CheckBox("Funcionario Ativo");
 	private Button btnAddserv = new Button("Adicionar Habilidade");
@@ -141,7 +140,7 @@ public class Boundary_Funcionario implements Boundary_Constructor, EventHandler<
 	{
 		if(event.getTarget() == btnAdd) 
 		{	
-			atual = new Funcionario(txtNome.getText(), txtCartrab.getText(), txtCpf.getText(), txtTel.getText(), Double.parseDouble(txtSalario.getText()));
+			atual = new Funcionario(txtNome.getText(), txtCartrab.getText(), txtCpf.getText(), txtTel.getText(), Double.parseDouble(txtSalario.getText()), chFunc.isSelected());
 			ctrFunc.insertFuncionario(atual);
 			txtNome.clear();
 			txtCartrab.clear();
@@ -164,3 +163,4 @@ public class Boundary_Funcionario implements Boundary_Constructor, EventHandler<
 		}
 	}
 }
+

@@ -113,6 +113,7 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		flw.setHgap(100);
 		flw.setVgap(10);
 		flw.getChildren().addAll(btnAdd, btnPesq, btnEdit, btnDesat);
+		constructTable();
 		btnAdd.addEventHandler(ActionEvent.ANY, this);
 		btnDesat.addEventHandler(ActionEvent.ANY, this);
 		btnPesq.addEventHandler(ActionEvent.ANY, this);
@@ -120,7 +121,6 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		lay.setBottom(flw);
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public void handle(ActionEvent evento) 
 	{
@@ -131,7 +131,6 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		if(evento.getTarget() == btnAdd) 
 		{
 			enviarDados();
-			constructTable();
 			table.setItems(comboCliente.getValue().getPosses());
 			clearCampos();
 		}
@@ -159,7 +158,6 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 				clearCampos();
 			    carregarDados(pesq);
 			    atual = pesq;
-			    constructTable();
 			    table.setItems(comboCliente.getValue().getPosses());
 			} 
 			catch (Exception e) 
@@ -215,11 +213,9 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		txtDesc.setText("");
 		txtMotor.setText("");
 	}
-	@SuppressWarnings("unchecked")
+
 	private void constructTable() 
 	{
-		table.getColumns().removeAll();
-		table.getItems().clear();
 		TableColumn<Veiculo, String> columnPlaca = new TableColumn<Veiculo, String>("Placa");
 		columnPlaca.setCellValueFactory(new PropertyValueFactory<Veiculo, String>("Placa"));
 		TableColumn<Veiculo, EnumMarca> columnMarca = new TableColumn<Veiculo, EnumMarca>("Marca");
@@ -236,14 +232,13 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		columnModel.setCellValueFactory(new PropertyValueFactory<Veiculo, String>("Model"));
 		table.getColumns().addAll(columnPlaca, columnMarca, columnModel, columnChassis, columnMotor, columnAno, columnCor);
 	}
-	@SuppressWarnings("unchecked")
+
 	public Pane constructBoundary() 
 	{
 		comboCliente.getItems().clear();
 		comboCliente.getItems().addAll(ControlCliente.getLista());
 		comboModel.getItems().clear();
 		comboModel.getItems().addAll(ControlVeiculo.getModelos());
-		table.getColumns().removeAll();
 		table.getItems().clear();
 		return lay;
 	}

@@ -32,7 +32,7 @@ public class ControlVeiculo
 	}
 	public void setModelos(ObservableList<String> modelos)
 	{
-		this.modelos = modelos;
+		ControlVeiculo.modelos = modelos;
 	}
 	public void insereVeiculo(Veiculo v, Cliente cli) 
 	{

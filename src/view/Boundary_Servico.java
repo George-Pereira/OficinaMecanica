@@ -1,10 +1,5 @@
 package view;
 
-
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
-
 import controller.ControlServico;
 import entity.Servico;
 import javafx.event.ActionEvent;
@@ -31,7 +26,7 @@ public class Boundary_Servico implements Boundary_Constructor, EventHandler<Acti
 	private Button btnSalvar = new Button("Salvar");
 	private CheckBox chServativo = new CheckBox("Serviço Ativo");
 	private Button btnEditar = new Button("Editar");
-	private TableView table = new TableView();
+	private TableView<Servico> table = new TableView<Servico>();
 	private BorderPane fundo = new BorderPane();
 	private ControlServico ctrServ = new ControlServico();
 	private Button btnPesquisa = new Button("Pesquisar");
@@ -118,3 +113,4 @@ public class Boundary_Servico implements Boundary_Constructor, EventHandler<Acti
 	}
 
 }
+

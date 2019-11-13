@@ -1,7 +1,5 @@
 package entity;
 
-import javafx.collections.ObservableList;
-
 public class Veiculo 
 {
 	private int anoFabrica;
@@ -49,10 +47,10 @@ public class Veiculo
 	}
 	public void setChassis(String chassis) 
 	{
-		//if(chassis.length() == 17) 
-		//{
+		if(chassis.length() == 17) 
+		{
 			this.chassis = chassis;
-		//}
+		}
 	}
 	public double getMotor() {
 		return motor;

@@ -5,13 +5,10 @@ import java.util.Date;
 import controller.ControlCliente;
 import controller.ControlManterOrdemServico;
 import entity.Cliente;
-import entity.Funcionario;
 import entity.Ordem_Servico;
-import entity.Servico;
 import entity.Veiculo;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -37,6 +34,7 @@ public class Boundary_ManterHistorico implements Boundary_Constructor, EventHand
 	private TextArea txtObserv = new TextArea();
 	private Button btnSalvar = new Button("Salvar");
 	private Button btnEditar = new Button("Editar");
+	private ControlManterOrdemServico mos = new ControlManterOrdemServico();
 	
 	public Boundary_ManterHistorico() {
 		principal.setStyle("-fx-padding: 10px");
@@ -124,8 +122,17 @@ public class Boundary_ManterHistorico implements Boundary_Constructor, EventHand
 			}
 
 		}else if(event.getTarget() == comboV) {
-			ControlManterOrdemServico mos = new ControlManterOrdemServico();
-			tabS.setItems(mos.getListO());
+			tabS.setItems(mos.MostraServico(comboV.getValue().getModel()));
+		}
+		else if(event.getTarget() == btnpesquisarS) {
+			mos.getTemp().clear();
+			tabS.setItems(mos.BuscarServico(Integer.parseInt(txtServico.getText())));
+		}
+		else if(event.getTarget() == btnSalvar) {
+			
+		}
+		else if(event.getTarget() == btnEditar) {
+			
 		}
 		
 	}
@@ -144,3 +151,4 @@ public class Boundary_ManterHistorico implements Boundary_Constructor, EventHand
 	}
 	
 }
+

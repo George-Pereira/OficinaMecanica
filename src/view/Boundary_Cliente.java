@@ -142,6 +142,13 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 		if (event.getTarget() == btnAdicionar) 
 		{ 
 			ControlCliente.adicionar(enviarDados());
+			txtNome.clear();
+			txtCNH.clear();
+			txtCPF.clear();
+			txtTelefone.clear();
+			txtLogradouro.clear();
+			txtNumero.clear();
+			txtBairro.clear();
 		}
 		else if(event.getTarget() == btnPesq) 
 		{

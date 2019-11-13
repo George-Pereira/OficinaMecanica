@@ -13,8 +13,6 @@ import entity.Funcionario;
 import entity.Ordem_Servico;
 import entity.Servico;
 import entity.Veiculo;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -91,13 +89,14 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 		txt.add(btnAddS, 6, 1);
 		painelCampos.add(new Label("   "), 0, 0, 1, 2);
 		painelCampos.add(new Label("   "), 0, 8);
-		painelCampos.add(tab, 1, 9, 2, 1);
+		painelCampos.add(tab, 1, 10, 3, 1);
 		painelCampos.add(txt, 0, 4, 5, 3);
 		painelBotoes.getChildren().addAll(btnConfirmar);
 		adicionarTableColumns();
 		buttom.setHgap(10);
 		txt.setVgap(10);
 		txt.setHgap(10);
+		
 		btnProcurar.addEventHandler(ActionEvent.ANY, this);
 		btnConfirmar.addEventHandler(ActionEvent.ANY, this);
 		btnServ.addEventHandler(ActionEvent.ANY, this);
@@ -117,11 +116,11 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 	    
 		TableColumn<Ordem_Servico, Date> dataCol = new TableColumn<Ordem_Servico, Date>("Fim Previsto");
 		dataCol.setCellValueFactory(new PropertyValueFactory<Ordem_Servico, Date>("DtSaida"));
-		dataCol.setMinWidth(100);
+		dataCol.setMinWidth(90);
 		
 		TableColumn<Ordem_Servico, String> serviceCol = new TableColumn<Ordem_Servico, String>("Serviços Contratados");
 	    serviceCol.setCellValueFactory(new PropertyValueFactory<Ordem_Servico, String>("nomeS"));
-	    serviceCol.setMinWidth(150);
+	    serviceCol.setMinWidth(130);
 	    
 		table.getColumns().add(serviceCol);
 		table.getColumns().add(dataCol);
@@ -167,19 +166,22 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 		{
 			LocalDate dt = txtDtEntrada.getValue();
 			Date d = Date.from(dt.atStartOfDay(ZoneId.systemDefault()).toInstant());
-
-			mos.ReSalvar(combo.getValue() , d);
-			mos.getListaOS().clear();
-
+			
+			mos.ReSalvar(combo.getValue().getModel() , d);
+			i++;
+			
+			table.getItems().clear();
+			txtProcurar.clear();
+			combo.getItems().removeAll();
+			combo.getItems().clear();
+			
 		}
 		else if(event.getTarget() == btnAddS) {
 			LocalDate dt1 = txtDtSaida.getValue();
 			Date d1 = Date.from(dt1.atStartOfDay(ZoneId.systemDefault()).toInstant());
 			
 			String s = table1.getSelectionModel().getSelectedItem().getNomeServ();
-			
-			mos.SalvarInformacoes(i, s, d1, comboF.getValue());
-			i++;
+			mos.SalvarInformacoes(i, s, d1, comboF.getValue().getNomeFunc());
 			table.setItems(mos.getListaOS());
 		}
 	}

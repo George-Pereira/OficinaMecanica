@@ -16,4 +16,12 @@ public class Historico
 	{
 		this.manutencao = manutencao;
 	}
+	
+	public double getGastos() {
+		return gastos;
+	}
+	
+	public void setGastos(double gastos) {
+		this.gastos = gastos;
+	}
 }
