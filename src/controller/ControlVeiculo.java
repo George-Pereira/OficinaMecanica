@@ -4,9 +4,9 @@ import entity.Veiculo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class ControlVeiculo 
+public class ControlVeiculo
 {
-	private static ObservableList<String> modelos = FXCollections.observableArrayList();
+	private ObservableList<String> modelos = FXCollections.observableArrayList();
 	private static ObservableList<Veiculo> listaVeiculo = FXCollections.observableArrayList();
 	public boolean consultaExistencia(String m) 
 	{
@@ -26,13 +26,13 @@ public class ControlVeiculo
 			modelos.add(model);
 		}
 	}
-	public static ObservableList<String> getModelos()
+	public ObservableList<String> getModelos()
 	{
 		return modelos;
 	}
 	public void setModelos(ObservableList<String> modelos)
 	{
-		ControlVeiculo.modelos = modelos;
+		this.modelos = modelos;
 	}
 	public void insereVeiculo(Veiculo v, Cliente cli) 
 	{
@@ -80,12 +80,12 @@ public class ControlVeiculo
 		}
 		return null;
 	}
-	public static ObservableList<Veiculo> getListaVeiculo() 
+	public ObservableList<Veiculo> getListaVeiculo() 
 	{
-		return listaVeiculo;
+		return this.listaVeiculo;
 	}
-	public static void setListaVeiculo(ObservableList<Veiculo> listaVeiculo) 
+	public void setListaVeiculo(ObservableList<Veiculo> listaVeiculo) 
 	{
-		ControlVeiculo.listaVeiculo = listaVeiculo;
+		this.listaVeiculo = listaVeiculo;
 	}
 }

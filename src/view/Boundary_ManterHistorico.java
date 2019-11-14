@@ -4,6 +4,7 @@ import java.util.Date;
 
 import controller.ControlCliente;
 import controller.ControlManterOrdemServico;
+import controller.ControlVeiculo;
 import entity.Cliente;
 import entity.Ordem_Servico;
 import entity.Veiculo;
@@ -35,6 +36,7 @@ public class Boundary_ManterHistorico implements Boundary_Constructor, EventHand
 	private Button btnSalvar = new Button("Salvar");
 	private Button btnEditar = new Button("Editar");
 	private ControlManterOrdemServico mos = new ControlManterOrdemServico();
+	private ControlCliente ctrCli = new ControlCliente();
 	
 	public Boundary_ManterHistorico() {
 		principal.setStyle("-fx-padding: 10px");
@@ -113,7 +115,7 @@ public class Boundary_ManterHistorico implements Boundary_Constructor, EventHand
 			try {
 				comboV.getItems().clear();
 				Cliente c = new Cliente();
-					c = ControlCliente.pesquisarPorNome(txtCliente.getText());
+					c = ctrCli.pesquisarPorNome(txtCliente.getText());
 				comboV.getItems().addAll(c.getPosses());
 				entidadeParaBoundary(c);
 			}catch(Exception e) 

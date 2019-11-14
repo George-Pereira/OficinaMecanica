@@ -13,7 +13,8 @@ public class ControlManterOrdemServico {
 	private static ObservableList<Ordem_Servico> listO = FXCollections.observableArrayList();
 	private static ObservableList<Ordem_Servico> temp = FXCollections.observableArrayList();
 	
-	public ObservableList<Ordem_Servico> getListaOS() {
+	public ObservableList<Ordem_Servico> getListaOS() 
+	{
 		return listaOS;
 	}
 
@@ -26,13 +27,13 @@ public class ControlManterOrdemServico {
 		listaOS.add(os);
 	}
 	
-	public void ReSalvar(String nomeVeiculo, Date inicio) {
+	public void ReSalvar(Veiculo veic, Date inicio) {
 		for(Ordem_Servico o : listaOS) 
 		{
 			if(o.getNomeV() == null && o.getDtEntrada() == null) 
 			{
-				Ordem_Servico os = new Ordem_Servico(o.getOS(), o.getNomeS(), o.getDtSaida(), o.getNome(), inicio, nomeVeiculo);
-				listO.add(os);
+				Ordem_Servico os = new Ordem_Servico(o.getOS(), o.getNomeS(), o.getDtSaida(), o.getNome(), inicio, veic);
+				veic.getHist().getManutencao().add(os);
 			}
 		}
 	}

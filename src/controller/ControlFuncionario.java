@@ -67,8 +67,8 @@ public class ControlFuncionario
 			func.getHabilidades().add(serv);
 		}
 	}
-	public static ObservableList<Funcionario> getListaFunc() {
-		return listaFunc;
+	public ObservableList<Funcionario> getListaFunc() {
+		return this.listaFunc;
 	}
 }
 

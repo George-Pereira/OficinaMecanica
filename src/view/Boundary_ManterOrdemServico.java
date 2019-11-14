@@ -49,6 +49,8 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 	private ControlServico sev = new ControlServico();
 	private ComboBox<Funcionario> comboF = new ComboBox<Funcionario>();
 	private ControlManterOrdemServico mos = new ControlManterOrdemServico();
+	private ControlCliente ctrCli = new ControlCliente();
+	private ControlFuncionario ctrFunc = new ControlFuncionario();
 	private int i = 1;
 	
 	public Boundary_ManterOrdemServico(gerenciadorTelas gerente) 
@@ -141,7 +143,7 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 			try {
 				combo.getItems().clear();
 				Cliente c = new Cliente();
-					c = ControlCliente.pesquisarPorNome(txtProcurar.getText());
+					c = ctrCli.pesquisarPorNome(txtProcurar.getText());
 				combo.getItems().addAll(c.getPosses());
 				entidadeParaBoundary(c);
 			}catch(Exception e) 
@@ -166,10 +168,7 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 		{
 			LocalDate dt = txtDtEntrada.getValue();
 			Date d = Date.from(dt.atStartOfDay(ZoneId.systemDefault()).toInstant());
-			
-			mos.ReSalvar(combo.getValue().getModel() , d);
-			i++;
-			
+			mos.ReSalvar(combo.getValue(), d);
 			table.getItems().clear();
 			txtProcurar.clear();
 			combo.getItems().removeAll();
@@ -191,7 +190,7 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 	{
 		combo.getItems().clear();
 		comboF.getItems().clear();
-		comboF.getItems().addAll(ControlFuncionario.getListaFunc());
+		comboF.getItems().addAll(ctrFunc.getListaFunc());
 		return painelPrincipal;
 	}
 

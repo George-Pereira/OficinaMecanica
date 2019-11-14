@@ -4,10 +4,11 @@ import entity.Cliente;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class ControlCliente {
+public class ControlCliente 
+{
 	private static ObservableList<Cliente> lista = FXCollections.observableArrayList();
 
-	public static boolean existenciaCliente(Cliente c) 
+	public boolean existenciaCliente(Cliente c) 
 	{ 
 		for(Cliente cli : lista) 
 		{
@@ -19,14 +20,14 @@ public class ControlCliente {
 		return false;
 	}
 
-	public static void adicionar(Cliente c) 
+	public void adicionar(Cliente c) 
 	{
 		if(!existenciaCliente(c)) 
 		{
 			lista.add(c);
 		}
 	}
-	public static Cliente pesquisarPorCPF(String CPF) { 
+	public Cliente pesquisarPorCPF(String CPF) { 
 		for (Cliente c : lista) { 
 			if (c.getCPF().contains(CPF)) { 
 				return c;
@@ -35,7 +36,7 @@ public class ControlCliente {
 		return null;
 	}
 	
-	public static Cliente pesquisarPorNome(String Nome) { 
+	public Cliente pesquisarPorNome(String Nome) { 
 		for (Cliente c : lista) { 
 			if (c.getNome().contains(Nome)) { 
 				return c;
@@ -44,7 +45,7 @@ public class ControlCliente {
 		return null;
 	}
 	
-	public static Cliente pesquisarPorCNH(String CNH) { 
+	public Cliente pesquisarPorCNH(String CNH) { 
 		for (Cliente c : lista) { 
 			if (c.getCPF().contains(CNH)) { 
 				return c;
@@ -53,12 +54,12 @@ public class ControlCliente {
 		return null;
 	}
 
-	public static ObservableList<Cliente> getLista() {
+	public ObservableList<Cliente> getLista() {
 		return lista;
 	}
 
-	public static void setLista(ObservableList<Cliente> lista) {
-		ControlCliente.lista = lista;
+	public void setLista(ObservableList<Cliente> lista) {
+		this.lista = lista;
 	}
 }
 

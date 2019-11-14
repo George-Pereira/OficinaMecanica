@@ -36,6 +36,7 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 	private TableView<Veiculo> table = new TableView<Veiculo>();
 	private BorderPane painelPrincipal = new BorderPane();
 	private Button btnVeiculos = new Button("Adicionar Veiculo");
+	private ControlCliente ctrCli = new ControlCliente();
 	private gerenciadorTelas gerente;
 	
 	
@@ -114,6 +115,7 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 	public Cliente enviarDados() 
 	{ 
 		Cliente cli = new Cliente();
+			cli.setCPF(txtCPF.getText());
 			cli.setNome(txtNome.getText());
 			cli.setCNH(txtCNH.getText());
 			cli.setTelefone(txtTelefone.getText());
@@ -141,7 +143,7 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 	{
 		if (event.getTarget() == btnAdicionar) 
 		{ 
-			ControlCliente.adicionar(enviarDados());
+			ctrCli.adicionar(enviarDados());
 			txtNome.clear();
 			txtCNH.clear();
 			txtCPF.clear();
@@ -154,17 +156,17 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 		{
 			if(!(txtNome.getText().equals(""))) 
 			{
-				Cliente pesquisado = ControlCliente.pesquisarPorNome(txtNome.getText());
+				Cliente pesquisado = ctrCli.pesquisarPorNome(txtNome.getText());
 				carregarDados(pesquisado);
 			}
 			else if(!(txtCNH.getText().equals(""))) 
 			{
-				Cliente pesquisado = ControlCliente.pesquisarPorCNH(txtCNH.getText());
+				Cliente pesquisado = ctrCli.pesquisarPorCNH(txtCNH.getText());
 				carregarDados(pesquisado);
 			}
 			else if(!(txtCPF.getText().equals(""))) 
 			{
-				Cliente pesquisado = ControlCliente.pesquisarPorCPF(txtCPF.getText());
+				Cliente pesquisado = ctrCli.pesquisarPorCPF(txtCPF.getText());
 				carregarDados(pesquisado);
 			}
 		}

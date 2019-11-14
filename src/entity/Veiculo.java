@@ -10,6 +10,7 @@ public class Veiculo
 	private String model;
 	private EnumMarca marca;
 	private String desc;
+	private Historico hist;
 	@Override
 	public String toString() {
 		return model;
@@ -122,5 +123,13 @@ public class Veiculo
 	}
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+
+	public Historico getHist() {
+		return hist;
+	}
+
+	public void setHist(Historico hist) {
+		this.hist = hist;
 	}
 }

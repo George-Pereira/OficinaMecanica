@@ -28,6 +28,7 @@ public class Boundary_Balancos implements Boundary_Constructor, EventHandler<Act
 	private Button btnpesquisarS = new Button("Buscar OS");
 	private TextField txtCliente = new TextField();
 	private TextField txtCPF = new TextField();
+	private ControlCliente ctrCli = new ControlCliente();
 	private gerenciadorTelas gerente;
 
 	public Boundary_Balancos(gerenciadorTelas gerente) {
@@ -86,7 +87,7 @@ public class Boundary_Balancos implements Boundary_Constructor, EventHandler<Act
     			try {
     				comboV.getItems().clear();
     				Cliente c = new Cliente();
-    					c = ControlCliente.pesquisarPorNome(txtCliente.getText());
+    					c = ctrCli.pesquisarPorNome(txtCliente.getText());
     				comboV.getItems().addAll(c.getPosses());
     				entidadeParaBoundary(c);
     			}

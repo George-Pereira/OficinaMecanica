@@ -33,7 +33,6 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 	private ComboBox <String> comboModel = new ComboBox<String>();
 	private TextField txtMotor = new TextField();
 	private ComboBox <EnumCor>comboCor = new ComboBox<EnumCor>();
-	private ControlVeiculo ctrVeiculo = new ControlVeiculo();
 	private Button btnNvModel = new Button("Novo");
 	private Button btnAdd = new Button("Adicionar");
 	private Button btnDesat = new Button("Desativar");
@@ -44,6 +43,8 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 	private Cliente context = new Cliente();
 	private ComboBox<Cliente> comboCliente = new ComboBox<Cliente>();
 	private BorderPane lay = new BorderPane();
+	private ControlVeiculo ctrVeic = new ControlVeiculo();
+	private ControlCliente ctrCli = new ControlCliente();
 	private gerenciadorTelas gerente;
 
 	public Boundary_Veiculo(gerenciadorTelas gerente) 
@@ -126,7 +127,7 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 	{
 		if(evento.getTarget() == btnNvModel) 
 		{
-			ctrVeiculo.insereModelo((comboModel.getValue()));
+			ctrVeic.insereModelo((comboModel.getValue()));
 		}
 		if(evento.getTarget() == btnAdd) 
 		{
@@ -138,7 +139,7 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		{
 			if(txtPlaca.getText() != null) 
 			{
-				ctrVeiculo.desativarVeiculo(txtPlaca.getText(), context);
+				ctrVeic.desativarVeiculo(txtPlaca.getText(), context);
 				table.setItems(comboCliente.getValue().getPosses());
 			}
 		}
@@ -147,13 +148,17 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 			Veiculo pesq = new Veiculo();
 			try 
 			{
-				if(txtPlaca.getText().equals("")) 
+				if(!(txtPlaca.getText().equals(""))) 
 				{
-					pesq = ctrVeiculo.pesquisaVeiculoAlt(txtChassis.getText());
+					pesq = ctrVeic.pesquisaVeiculo(txtPlaca.getText());
 				}
-				else if(txtChassis.getText().equals(""))
+				else if(!(txtChassis.getText().equals("")))
 				{
-					pesq = ctrVeiculo.pesquisaVeiculo(txtPlaca.getText());
+					pesq = ctrVeic.pesquisaVeiculoAlt(txtChassis.getText());
+				}
+				else if(comboCliente.getValue() != null)
+				{
+					table.setItems(comboCliente.getValue().getPosses());
 				}
 				clearCampos();
 			    carregarDados(pesq);
@@ -189,7 +194,7 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		novo.setDesc(txtDesc.getText());
 		novo.setModel(comboModel.getValue());
 		novo.setMarca(comboMarca.getValue());
-		ctrVeiculo.insereVeiculo(novo, comboCliente.getValue());
+		ctrVeic.insereVeiculo(novo, comboCliente.getValue());
 	}
 	public void carregarDados(Veiculo v) 
 	{
@@ -236,9 +241,9 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 	public Pane constructBoundary() 
 	{
 		comboCliente.getItems().clear();
-		comboCliente.getItems().addAll(ControlCliente.getLista());
+		comboCliente.getItems().addAll(ctrCli.getLista());
 		comboModel.getItems().clear();
-		comboModel.getItems().addAll(ControlVeiculo.getModelos());
+		comboModel.getItems().addAll(ctrVeic.getModelos());
 		table.getItems().clear();
 		return lay;
 	}
