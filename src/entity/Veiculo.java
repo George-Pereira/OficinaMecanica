@@ -2,6 +2,7 @@ package entity;
 
 public class Veiculo 
 {
+	private long id;
 	private int anoFabrica;
 	private String chassis;
 	private double motor;
@@ -131,5 +132,13 @@ public class Veiculo
 
 	public void setHist(Historico hist) {
 		this.hist = hist;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 }

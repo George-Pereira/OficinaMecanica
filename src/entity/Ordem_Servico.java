@@ -7,17 +7,16 @@ public class Ordem_Servico
 	private Date dtEntrada;
 	private Date dtSaida;
 	private String nome;
-	private int OS;
+	private long OS;
 	private String nomeS;
 	private Veiculo veic;
-	
-	public Ordem_Servico(Veiculo Veic, Date dtEntrada) 
+	public Ordem_Servico(Veiculo veic, Date dtEntrada) 
 	{
 		this.veic = veic;
 		this.dtEntrada = dtEntrada;
 	}
 	
-	public Ordem_Servico(int OS, String nomeS, Date d1, String nomeFunc, Date dtEntrada, Veiculo veic) {
+	public Ordem_Servico(long OS, String nomeS, Date d1, String nomeFunc, Date dtEntrada, Veiculo veic) {
 		this(veic, dtEntrada);
 		this.OS = OS;
 		this.nomeS = nomeS;
@@ -53,11 +52,11 @@ public class Ordem_Servico
 		this.nome = nome;
 	}
 	
-	public int getOS() {
+	public long getOS() {
 		return OS;
 	}
 	
-	public void setOS(int oS) {
+	public void setOS(long oS) {
 		OS = oS;
 	}
 	

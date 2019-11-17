@@ -2,6 +2,7 @@ package entity;
 
 public class Servico 
 {
+	private long id;
 	private String nomeServ;
 	private String descServ;
 	private double valueServ;
@@ -58,6 +59,14 @@ public class Servico
 
 	public void setValueServ(double valueServ) {
 		this.valueServ = valueServ;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 }

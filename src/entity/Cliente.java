@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Cliente {
+	private long id;
 	private String Nome;
 	private String CNH;
 	private String Telefone ;
@@ -70,5 +71,11 @@ public class Cliente {
 	public void setEnderecos(ObservableList<Endereco> enderecos) 
 	{
 		this.enderecos = enderecos;
+	}
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
 	}
 }

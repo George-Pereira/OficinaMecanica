@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 public class Historico 
 {
 	private double gastos;
+	private long id;
 	private ObservableList<Ordem_Servico> manutencao = FXCollections.observableArrayList();
 	public ObservableList<Ordem_Servico> getManutencao() 
 	{
@@ -23,5 +24,13 @@ public class Historico
 	
 	public void setGastos(double gastos) {
 		this.gastos = gastos;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 }

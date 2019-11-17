@@ -2,6 +2,7 @@ package entity;
 
 public class Endereco 
 {
+	private long id;
 	private String Logradouro ;
 	private int Numero;
 	private String Bairro;
@@ -33,5 +34,11 @@ public class Endereco
 	}
 	public void setNumero(int numero) {
 		this.Numero = numero;
+	}
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
 	}
 }

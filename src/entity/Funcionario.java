@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 
 public class Funcionario 
 {
+	private long id;
 	private String nomeFunc;
 	private String cartTrab;
 	private String cpf;
@@ -99,6 +100,12 @@ public class Funcionario
 		{
 			this.salario = salario;
 		}
+	}
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
 	}
 	
 }

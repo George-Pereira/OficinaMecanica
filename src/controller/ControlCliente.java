@@ -1,14 +1,19 @@
 package controller;
 
+import java.sql.SQLException;
+
+import dao.DaoCliente;
+import dao.DaoException;
+import dao.InterfaceCliente;
 import entity.Cliente;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class ControlCliente 
 {
-	private static ObservableList<Cliente> lista = FXCollections.observableArrayList();
+	private ObservableList<Cliente> lista = FXCollections.observableArrayList();
 
-	public boolean existenciaCliente(Cliente c) 
+	/*public boolean existenciaCliente(Cliente c) 
 	{ 
 		for(Cliente cli : lista) 
 		{
@@ -18,42 +23,61 @@ public class ControlCliente
 			}
 		}
 		return false;
-	}
+	}*/
 
 	public void adicionar(Cliente c) 
 	{
-		if(!existenciaCliente(c)) 
+		try 
 		{
-			lista.add(c);
+			InterfaceCliente iCliente = new DaoCliente();
+			iCliente.adicionarCliente(c);
+		} 
+		catch (ClassNotFoundException | DaoException | SQLException e) 
+		{	
+			e.printStackTrace();
 		}
 	}
 	public Cliente pesquisarPorCPF(String CPF) { 
-		for (Cliente c : lista) { 
-			if (c.getCPF().contains(CPF)) { 
-				return c;
-			}
+		Cliente cli = new Cliente();
+		try 
+		{
+			InterfaceCliente iCliente = new DaoCliente();
+			cli = iCliente.pesquisarCliente(CPF);
+		} 
+		catch (ClassNotFoundException | DaoException | SQLException e) 
+		{	
+			e.printStackTrace();
 		}
-		return null;
+		return cli;
+	}
+	public Cliente pesquisarPorNome(String nome) { 
+		Cliente cli = new Cliente();
+		try 
+		{
+			InterfaceCliente iCliente = new DaoCliente();
+			cli = iCliente.pesquisarCliente(nome);
+		} 
+		catch (ClassNotFoundException | DaoException | SQLException e) 
+		{	
+			e.printStackTrace();
+		}
+		return cli;
 	}
 	
-	public Cliente pesquisarPorNome(String Nome) { 
-		for (Cliente c : lista) { 
-			if (c.getNome().contains(Nome)) { 
-				return c;
-			}
+	public Cliente pesquisarPorCNH(String cnh) 
+	{ 
+		Cliente cli  = new Cliente();
+		try 
+		{
+			InterfaceCliente iCliente = new DaoCliente();
+			cli = iCliente.pesquisarCliente(cnh);
+		} 
+		catch (ClassNotFoundException | DaoException | SQLException e) 
+		{	
+			e.printStackTrace();
 		}
-		return null;
+		return cli;
 	}
-	
-	public Cliente pesquisarPorCNH(String CNH) { 
-		for (Cliente c : lista) { 
-			if (c.getCPF().contains(CNH)) { 
-				return c;
-			}
-		}
-		return null;
-	}
-
 	public ObservableList<Cliente> getLista() {
 		return lista;
 	}
