@@ -30,6 +30,7 @@ public class Boundary_Servico implements Boundary_Constructor, EventHandler<Acti
 	private BorderPane fundo = new BorderPane();
 	private ControlServico ctrServ = new ControlServico();
 	private Button btnPesquisa = new Button("Pesquisar");
+	private TextField txtValor = new TextField();
 	
 	public Boundary_Servico() 
 	{
@@ -38,7 +39,7 @@ public class Boundary_Servico implements Boundary_Constructor, EventHandler<Acti
 		flow.setAlignment(Pos.CENTER);
 		flow.setHgap(20);
 		flow.setVgap(10);
-		flow.getChildren().addAll(new Label("Nome do Serviço"), txtNservico, btnPesquisa);
+		flow.getChildren().addAll(new Label("Nome do Serviço"), txtNservico, btnPesquisa, new Label("Valor"), txtValor);
 		fundo.setTop(flow);
 		ColumnConstraints cons = new ColumnConstraints();
 		cons.setFillWidth(true);
@@ -84,7 +85,7 @@ public class Boundary_Servico implements Boundary_Constructor, EventHandler<Acti
 	{
 		if(event.getTarget() == btnSalvar) 
 		{	
-			Servico novo = new Servico(txtNservico.getText(), txtDescricao.getText(), chServativo.isSelected());
+			Servico novo = new Servico(txtNservico.getText(), txtDescricao.getText(), chServativo.isSelected(), Double.parseDouble(txtValor.getText()));
 			ctrServ.insertServico(novo);
 		}
 		else if(event.getTarget() == btnPesquisa) 

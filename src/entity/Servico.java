@@ -4,6 +4,7 @@ public class Servico
 {
 	private String nomeServ;
 	private String descServ;
+	private double valueServ;
 	private boolean servDisp;
 	private Funcionario nomeF;
 	
@@ -12,11 +13,12 @@ public class Servico
 		
 	}
 
-	public Servico(String nomeServ, String descServ, boolean servDisp) 
+	public Servico(String nomeServ, String descServ, boolean servDisp, double valueServ) 
 	{
 		this.nomeServ = nomeServ;
 		this.descServ = descServ;
 		this.servDisp = servDisp;
+		this.valueServ = valueServ;
 	}
 
 	public String getNomeServ() 
@@ -48,6 +50,14 @@ public class Servico
 	}
 	public void setNomeF(Funcionario nomeF) {
 		this.nomeF = nomeF;
+	}
+
+	public double getValueServ() {
+		return valueServ;
+	}
+
+	public void setValueServ(double valueServ) {
+		this.valueServ = valueServ;
 	}
 
 }
