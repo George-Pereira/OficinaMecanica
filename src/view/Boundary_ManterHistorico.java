@@ -37,7 +37,7 @@ public class Boundary_ManterHistorico implements Boundary_Constructor, EventHand
 	private Button btnEditar = new Button("Editar");
 	private ControlManterOrdemServico mos = new ControlManterOrdemServico();
 	private ControlCliente ctrCli = new ControlCliente();
-	
+	private ControlVeiculo ctrVeic = new ControlVeiculo();
 	public Boundary_ManterHistorico() {
 		principal.setStyle("-fx-padding: 10px");
 		GridPane pCampos = new GridPane();
@@ -116,7 +116,7 @@ public class Boundary_ManterHistorico implements Boundary_Constructor, EventHand
 				comboV.getItems().clear();
 				Cliente c = new Cliente();
 					c = ctrCli.pesquisarPorNome(txtCliente.getText());
-				comboV.getItems().addAll(c.getPosses());
+				comboV.getItems().addAll(ctrVeic.getVeiculos(c));
 				entidadeParaBoundary(c);
 			}catch(Exception e) 
 			{
@@ -124,7 +124,7 @@ public class Boundary_ManterHistorico implements Boundary_Constructor, EventHand
 			}
 
 		}else if(event.getTarget() == comboV) {
-			tabS.setItems(mos.MostraServico(comboV.getValue().getModel()));
+			tabS.setItems(mos.MostraServico(comboV.getValue().getModel().toString()));
 		}
 		else if(event.getTarget() == btnpesquisarS) {
 			mos.getTemp().clear();

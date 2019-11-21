@@ -53,7 +53,8 @@ public class ControlManterOrdemServico {
 		return null;
 	}
 	public ObservableList<Ordem_Servico> MostraServico(String NomeVeiculo) {
-		for(Ordem_Servico o : listO) {
+		for(Ordem_Servico o : listO) 
+		{
 			if(o.getNomeV().equals(NomeVeiculo)) {
 				return listO;
 			}

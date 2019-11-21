@@ -1,6 +1,7 @@
 package view;
 
 import controller.ControlCliente;
+import controller.ControlVeiculo;
 import entity.Cliente;
 import entity.Endereco;
 import entity.EnumCor;
@@ -37,6 +38,7 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 	private BorderPane painelPrincipal = new BorderPane();
 	private Button btnVeiculos = new Button("Adicionar Veiculo");
 	private ControlCliente ctrCli = new ControlCliente();
+	private ControlVeiculo ctrVeic = new ControlVeiculo();
 	private gerenciadorTelas gerente;
 	
 	
@@ -134,7 +136,7 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 			txtLogradouro.setText(cli.getEnderecos().get(0).getLogradouro());
 			txtNumero.setText(String.valueOf(cli.getEnderecos().get(0).getNumero()));
 			txtBairro.setText(cli .getEnderecos().get(0).getBairro());
-			table.setItems(cli.getPosses());
+			table.setItems(ctrVeic.getVeiculos(cli));
 		}
 	}
 	

@@ -8,6 +8,7 @@ import controller.ControlCliente;
 import controller.ControlFuncionario;
 import controller.ControlManterOrdemServico;
 import controller.ControlServico;
+import controller.ControlVeiculo;
 import entity.Cliente;
 import entity.Funcionario;
 import entity.Ordem_Servico;
@@ -51,6 +52,7 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 	private ControlManterOrdemServico mos = new ControlManterOrdemServico();
 	private ControlCliente ctrCli = new ControlCliente();
 	private ControlFuncionario ctrFunc = new ControlFuncionario();
+	private ControlVeiculo ctrVeic = new ControlVeiculo();
 	private int i = 1;
 	
 	public Boundary_ManterOrdemServico(gerenciadorTelas gerente) 
@@ -144,7 +146,7 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 				combo.getItems().clear();
 				Cliente c = new Cliente();
 					c = ctrCli.pesquisarPorNome(txtProcurar.getText());
-				combo.getItems().addAll(c.getPosses());
+				combo.getItems().addAll(ctrVeic.getVeiculos(c));
 				entidadeParaBoundary(c);
 			}catch(Exception e) 
 			{

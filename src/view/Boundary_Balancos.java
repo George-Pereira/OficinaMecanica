@@ -3,6 +3,7 @@ package view;
 import java.util.Date;
 import controller.ControlCliente;
 import controller.ControlManterOrdemServico;
+import controller.ControlVeiculo;
 import entity.Cliente;
 import entity.Ordem_Servico;
 import entity.Veiculo;
@@ -29,6 +30,7 @@ public class Boundary_Balancos implements Boundary_Constructor, EventHandler<Act
 	private TextField txtCliente = new TextField();
 	private TextField txtCPF = new TextField();
 	private ControlCliente ctrCli = new ControlCliente();
+	private ControlVeiculo ctrVeic = new ControlVeiculo();
 	private gerenciadorTelas gerente;
 
 	public Boundary_Balancos(gerenciadorTelas gerente) {
@@ -88,7 +90,7 @@ public class Boundary_Balancos implements Boundary_Constructor, EventHandler<Act
     				comboV.getItems().clear();
     				Cliente c = new Cliente();
     					c = ctrCli.pesquisarPorNome(txtCliente.getText());
-    				comboV.getItems().addAll(c.getPosses());
+    				comboV.getItems().addAll(ctrVeic.getVeiculos(c));
     				entidadeParaBoundary(c);
     			}
     			catch(Exception e) {
