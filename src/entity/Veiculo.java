@@ -6,18 +6,14 @@ public class Veiculo
 	private int anoFabrica;
 	private String chassis;
 	private double motor;
-	private EnumCor cor;
+	private Cor cor;
 	private String placa;
-	private String model;
-	private EnumMarca marca;
+	private Modelo model;
+	private Marca marca;
 	private String desc;
 	private Historico hist;
-	@Override
-	public String toString() {
-		return model;
-	}
 	
-	public Veiculo(int anoFabrica, String chassis, double motor, EnumCor cor, String placa, String model, EnumMarca marca, String desc) 
+	public Veiculo(int anoFabrica, String chassis, double motor, Cor cor, String placa, Modelo model, Marca marca, String desc) 
 	{
 		this.anoFabrica = anoFabrica;
 		this.chassis = chassis;
@@ -60,14 +56,12 @@ public class Veiculo
 	public void setMotor(double motor) {
 		this.motor = motor;
 	}
-	public String getCor() {
-		return cor.getCor();
-	}
-	public EnumCor getCorEnum() 
+	public Cor getCor() 
 	{
 		return cor;
 	}
-	public void setCor(EnumCor cor) {
+	public void setCor(Cor cor) 
+	{
 		this.cor = cor;
 	}
 	public String getPlaca() {
@@ -102,21 +96,17 @@ public class Veiculo
 			}
 		}
 	}
-	public String getModel() {
+	public Modelo getModel() {
 		return model;
 	}
-	public void setModel(String model) {
+	public void setModel(Modelo model) {
 		this.model = model;
 	}
-	public EnumMarca getMarcaEnum() {
+	public Marca getMarca() {
 		return marca;
 	}
-	public void setMarca(EnumMarca marca) {
+	public void setMarca(Marca marca) {
 		this.marca = marca;
-	}
-	public String getMarca() 
-	{
-		return marca.toString();
 	}
 	public String getDesc() 
 	{
@@ -140,5 +130,9 @@ public class Veiculo
 
 	public void setId(long id) {
 		this.id = id;
+	}
+	public void setMarca(Modelo model) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -8,9 +8,9 @@ import entity.Veiculo;
 public interface DaoVeiculo 
 {
 	void adicionaVeiculo(Veiculo veic, Cliente cli) throws DaoException;
-	void desativaVeiculo(Veiculo veic, Cliente cli);
-	void editaVeiculo(Veiculo veic, Cliente cli);
-	Veiculo pesquisaVeiculoPlaca(String placa);
-	Veiculo pesquisaVeiculoChassis(String chassis);
-	List<Veiculo> pesquisaVeiculocliente(Cliente cli);
+	void desativaVeiculo(Veiculo veic, Cliente cli) throws DaoException;
+	void editaVeiculo(Veiculo veic, Cliente cli) throws DaoException;
+	Veiculo pesquisaVeiculoPlaca(String placa) throws DaoException;
+	Veiculo pesquisaVeiculoChassis(String chassis) throws DaoException;
+	List<Veiculo> pesquisaVeiculocliente(Cliente cli) throws DaoException;
 }

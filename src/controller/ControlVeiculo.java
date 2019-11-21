@@ -1,4 +1,9 @@
 package controller;
+import java.sql.SQLException;
+
+import dao.DaoException;
+import dao.DaoVeiculo;
+import dao.DaoVeiculoconc;
 import entity.Cliente;
 import entity.Veiculo;
 import javafx.collections.FXCollections;
@@ -6,86 +11,47 @@ import javafx.collections.ObservableList;
 
 public class ControlVeiculo
 {
-	private ObservableList<String> modelos = FXCollections.observableArrayList();
-	private static ObservableList<Veiculo> listaVeiculo = FXCollections.observableArrayList();
-	public boolean consultaExistencia(String m) 
-	{
-		for(String md : modelos)
-		{
-			if(md.contains(m)) 
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-	public void insereModelo(String model) 
-	{
-		if(!consultaExistencia(model))
-		{
-			modelos.add(model);
-		}
-	}
-	public ObservableList<String> getModelos()
-	{
-		return modelos;
-	}
-	public void setModelos(ObservableList<String> modelos)
-	{
-		this.modelos = modelos;
-	}
 	public void insereVeiculo(Veiculo v, Cliente cli) 
 	{
-		Veiculo pesq = pesquisaVeiculo(v.getPlaca());
-		if(pesq == null) 
+		try 
 		{
-			pesq = pesquisaVeiculoAlt(v.getChassis());
-		}
-		if(pesq == null) 
+			DaoVeiculo persVeiculo = new DaoVeiculoconc();
+			persVeiculo.adicionaVeiculo(v, cli);
+		} catch (ClassNotFoundException | DaoException | SQLException e) 
 		{
-			listaVeiculo.add(v);
-			cli.getPosses().add(v);
+			e.printStackTrace();
 		}
 	}
 	public void desativarVeiculo(String v, Cliente cli) 
 	{
-		for(Veiculo vei: listaVeiculo) 
-		{
-			if(vei.getPlaca().contains(v)) 
-			{
-				cli.getPosses().remove(vei);
-				break;
-			}
-		}
 	}
 	public Veiculo pesquisaVeiculo(String placa) 
 	{
-		for(Veiculo vei : listaVeiculo) 
+		Veiculo veic = new Veiculo();
+		try {
+			DaoVeiculo pesquisa = new DaoVeiculoconc();
+			veic = pesquisa.pesquisaVeiculoPlaca(placa);
+		} catch (ClassNotFoundException | DaoException | SQLException e) 
 		{
-			if(vei.getPlaca().equals(placa)) 
-			{
-				return vei;
-			}
+			e.printStackTrace();
 		}
-		return null;
+		return veic;
 	}
 	public Veiculo pesquisaVeiculoAlt(String chassis) 
 	{
-		for(Veiculo vei : listaVeiculo) 
+		Veiculo veic = new Veiculo();
+		try {
+			DaoVeiculo pesquisa = new DaoVeiculoconc();
+			veic = pesquisa.pesquisaVeiculoChassis(chassis);
+		} 
+		catch (ClassNotFoundException | DaoException | SQLException e) 
 		{
-			if(vei.getChassis().equals(chassis)) 
-			{
-				return vei;
-			}
+			e.printStackTrace();
 		}
+		return veic;
+	}
+	public ObservableList<Veiculo> getVeiculos(Cliente cli) 
+	{
 		return null;
-	}
-	public ObservableList<Veiculo> getListaVeiculo() 
-	{
-		return this.listaVeiculo;
-	}
-	public void setListaVeiculo(ObservableList<Veiculo> listaVeiculo) 
-	{
-		this.listaVeiculo = listaVeiculo;
 	}
 }

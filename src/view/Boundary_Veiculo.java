@@ -1,10 +1,15 @@
 package view;
 
 import controller.ControlCliente;
+import controller.ControlCor;
+import controller.ControlMarca;
+import controller.ControlModelo;
 import controller.ControlVeiculo;
+import dao.DaoException;
 import entity.Cliente;
-import entity.EnumCor;
-import entity.EnumMarca;
+import entity.Cor;
+import entity.Marca;
+import entity.Modelo;
 import entity.Veiculo;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -29,10 +34,10 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 	private TextField txtChassis = new TextField();
 	private TextField txtPlaca = new TextField();
 	private TextArea txtDesc = new TextArea();
-	private ComboBox <EnumMarca> comboMarca = new ComboBox<EnumMarca>();
-	private ComboBox <String> comboModel = new ComboBox<String>();
+	private ComboBox <Marca> comboMarca = new ComboBox<Marca>();
+	private ComboBox <Modelo> comboModel = new ComboBox<Modelo>();
 	private TextField txtMotor = new TextField();
-	private ComboBox <EnumCor>comboCor = new ComboBox<EnumCor>();
+	private ComboBox <Cor>comboCor = new ComboBox<Cor>();
 	private Button btnNvModel = new Button("Novo");
 	private Button btnAdd = new Button("Adicionar");
 	private Button btnDesat = new Button("Desativar");
@@ -45,15 +50,18 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 	private BorderPane lay = new BorderPane();
 	private ControlVeiculo ctrVeic = new ControlVeiculo();
 	private ControlCliente ctrCli = new ControlCliente();
+	private ControlModelo ctrModel = new ControlModelo();
+	private ControlMarca ctrMarca = new ControlMarca();
+	private ControlCor ctrCor = new ControlCor();
 	private gerenciadorTelas gerente;
 
 	public Boundary_Veiculo(gerenciadorTelas gerente) 
 	{
 		this.gerente = gerente;
-		comboMarca.getItems().addAll(EnumMarca.values());
+		comboMarca.getItems().addAll(ctrMarca.getMarcas());
 		comboModel.setEditable(true);
 		btnNvModel.addEventHandler(ActionEvent.ANY, this);
-		comboCor.getItems().addAll(EnumCor.values());
+		comboCor.getItems().addAll(ctrCor.getCores());
 		GridPane info = new GridPane();
 		ColumnConstraints col0 = new ColumnConstraints();
 		col0.setFillWidth(true);
@@ -127,12 +135,17 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 	{
 		if(evento.getTarget() == btnNvModel) 
 		{
-			ctrVeic.insereModelo((comboModel.getValue()));
+			try {
+				ctrModel.adicionaModelo((comboModel.getValue().toString()), comboMarca.getValue());
+			}
+			catch (DaoException e) 
+			{
+				e.printStackTrace();
+			}
 		}
 		if(evento.getTarget() == btnAdd) 
 		{
 			enviarDados();
-			table.setItems(comboCliente.getValue().getPosses());
 			clearCampos();
 		}
 		else if(evento.getTarget() == btnDesat) 
@@ -140,7 +153,6 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 			if(txtPlaca.getText() != null) 
 			{
 				ctrVeic.desativarVeiculo(txtPlaca.getText(), context);
-				table.setItems(comboCliente.getValue().getPosses());
 			}
 		}
 		else if(evento.getTarget() == btnPesq) 
@@ -156,14 +168,9 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 				{
 					pesq = ctrVeic.pesquisaVeiculoAlt(txtChassis.getText());
 				}
-				else if(comboCliente.getValue() != null)
-				{
-					table.setItems(comboCliente.getValue().getPosses());
-				}
 				clearCampos();
 			    carregarDados(pesq);
 			    atual = pesq;
-			    table.setItems(comboCliente.getValue().getPosses());
 			} 
 			catch (Exception e) 
 			{
@@ -198,11 +205,11 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 	}
 	public void carregarDados(Veiculo v) 
 	{
-		comboCor.setValue(v.getCorEnum());
+		comboCor.setValue(v.getCor());
 		txtChassis.setText(v.getChassis());
 		txtAno.setText(String.valueOf((v.getAnoFabrica())));
 		txtPlaca.setText(v.getPlaca());
-		comboMarca.getSelectionModel().select(v.getMarcaEnum());
+		comboMarca.getSelectionModel().select(v.getMarca());
 		comboModel.getSelectionModel().select((v.getModel()));
 		txtMotor.setText(String.valueOf(v.getMotor()));
 		txtDesc.setText(v.getDesc());
@@ -223,27 +230,28 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 	{
 		TableColumn<Veiculo, String> columnPlaca = new TableColumn<Veiculo, String>("Placa");
 		columnPlaca.setCellValueFactory(new PropertyValueFactory<Veiculo, String>("Placa"));
-		TableColumn<Veiculo, EnumMarca> columnMarca = new TableColumn<Veiculo, EnumMarca>("Marca");
-		columnMarca.setCellValueFactory(new PropertyValueFactory<Veiculo, EnumMarca>("Marca"));
+		TableColumn<Veiculo, Marca> columnMarca = new TableColumn<Veiculo, Marca>("Marca");
+		columnMarca.setCellValueFactory(new PropertyValueFactory<Veiculo, Marca>("nome_Marca"));
 		TableColumn<Veiculo, String> columnChassis = new TableColumn<Veiculo, String>("Chassis");
 		columnChassis.setCellValueFactory(new PropertyValueFactory<Veiculo, String>("Chassis"));
 		TableColumn<Veiculo, double[]> columnMotor = new TableColumn<Veiculo, double[]>("Motor");
 		columnMotor.setCellValueFactory(new PropertyValueFactory<Veiculo, double[]>("Motor"));
-		TableColumn<Veiculo, EnumCor> columnCor = new TableColumn<Veiculo, EnumCor>("Cor");
-		columnCor.setCellValueFactory(new PropertyValueFactory<Veiculo, EnumCor>("Cor"));
+		TableColumn<Veiculo, Cor> columnCor = new TableColumn<Veiculo, Cor>("Cor");
+		columnCor.setCellValueFactory(new PropertyValueFactory<Veiculo, Cor>("nome_Cor"));
 		TableColumn<Veiculo, int[]> columnAno = new TableColumn<Veiculo, int[]>("Ano");
 		columnAno.setCellValueFactory(new PropertyValueFactory<Veiculo, int[]>("AnoFabrica"));
-		TableColumn<Veiculo, String> columnModel = new TableColumn<Veiculo, String>("Modelo");
-		columnModel.setCellValueFactory(new PropertyValueFactory<Veiculo, String>("Model"));
+		TableColumn<Veiculo, Modelo> columnModel = new TableColumn<Veiculo, Modelo>("Modelo");
+		columnModel.setCellValueFactory(new PropertyValueFactory<Veiculo, Modelo>("nome_Modelo"));
 		table.getColumns().addAll(columnPlaca, columnMarca, columnModel, columnChassis, columnMotor, columnAno, columnCor);
+		table.setItems(ctrVeic.getVeiculos(comboCliente.getValue()));
 	}
 
 	public Pane constructBoundary() 
 	{
 		comboCliente.getItems().clear();
-		comboCliente.getItems().addAll(ctrCli.getLista());
+		comboCliente.getItems().addAll(ctrCli.getClientes());
 		comboModel.getItems().clear();
-		comboModel.getItems().addAll(ctrVeic.getModelos());
+		comboModel.getItems().addAll(ctrModel.getModelos(comboMarca.getValue()));
 		table.getItems().clear();
 		return lay;
 	}

@@ -1,17 +1,13 @@
 package entity;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
-public class Cliente {
+public class Cliente 
+{
 	private long id;
 	private String Nome;
 	private String CNH;
 	private String Telefone ;
 	private String CPF ;
-	private ObservableList<Endereco> enderecos = FXCollections.observableArrayList();
-	private ObservableList<Veiculo> posses = FXCollections.observableArrayList();
-
 	public String getNome() 
 	{
 		return Nome;
@@ -53,24 +49,10 @@ public class Cliente {
 			this.CPF = CPF;
 		}
 	}
-	public ObservableList<Veiculo> getPosses() {
-		return posses;
-	}
-	public void setPosses(ObservableList<Veiculo> posses) {
-		this.posses = posses;
-	}
 	@Override
 	public String toString() 
 	{
 		return this.Nome;
-	}
-	public ObservableList<Endereco> getEnderecos() 
-	{
-		return enderecos;
-	}
-	public void setEnderecos(ObservableList<Endereco> enderecos) 
-	{
-		this.enderecos = enderecos;
 	}
 	public long getId() {
 		return id;

@@ -2,16 +2,16 @@ package controller;
 
 import java.sql.SQLException;
 
-import dao.DaoCliente;
+import dao.DaoClienteconc;
 import dao.DaoException;
-import dao.InterfaceCliente;
+import dao.DaoCliente;
 import entity.Cliente;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class ControlCliente 
 {
-	private ObservableList<Cliente> lista = FXCollections.observableArrayList();
+	//private ObservableList<Cliente> lista = FXCollections.observableArrayList();
 
 	/*public boolean existenciaCliente(Cliente c) 
 	{ 
@@ -29,7 +29,7 @@ public class ControlCliente
 	{
 		try 
 		{
-			InterfaceCliente iCliente = new DaoCliente();
+			DaoCliente iCliente = new DaoClienteconc();
 			iCliente.adicionarCliente(c);
 		} 
 		catch (ClassNotFoundException | DaoException | SQLException e) 
@@ -41,7 +41,7 @@ public class ControlCliente
 		Cliente cli = new Cliente();
 		try 
 		{
-			InterfaceCliente iCliente = new DaoCliente();
+			DaoCliente iCliente = new DaoClienteconc();
 			cli = iCliente.pesquisarCliente(CPF);
 		} 
 		catch (ClassNotFoundException | DaoException | SQLException e) 
@@ -54,7 +54,7 @@ public class ControlCliente
 		Cliente cli = new Cliente();
 		try 
 		{
-			InterfaceCliente iCliente = new DaoCliente();
+			DaoCliente iCliente = new DaoClienteconc();
 			cli = iCliente.pesquisarCliente(nome);
 		} 
 		catch (ClassNotFoundException | DaoException | SQLException e) 
@@ -69,7 +69,7 @@ public class ControlCliente
 		Cliente cli  = new Cliente();
 		try 
 		{
-			InterfaceCliente iCliente = new DaoCliente();
+			DaoCliente iCliente = new DaoClienteconc();
 			cli = iCliente.pesquisarCliente(cnh);
 		} 
 		catch (ClassNotFoundException | DaoException | SQLException e) 
@@ -78,12 +78,18 @@ public class ControlCliente
 		}
 		return cli;
 	}
-	public ObservableList<Cliente> getLista() {
-		return lista;
-	}
-
-	public void setLista(ObservableList<Cliente> lista) {
-		this.lista = lista;
+	public ObservableList<Cliente> getClientes()
+	{
+		ObservableList<Cliente> clientes = FXCollections.observableArrayList();
+		try {
+			DaoCliente iCliente = new DaoClienteconc();
+			clientes = (ObservableList<Cliente>) iCliente.getClientes();
+		} 
+		catch (ClassNotFoundException | DaoException | SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		return clientes;
 	}
 }
 
