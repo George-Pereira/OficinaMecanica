@@ -1,6 +1,8 @@
 package controller;
 
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 import dao.DaoException;
 import dao.DaoMarca;
@@ -24,9 +26,14 @@ public class ControlMarca
 	}
 	public ObservableList<Marca> getMarcas()
 	{
+			List<Marca> lista = new LinkedList<Marca>();
 			try {
 				DaoMarca persistencia  = new DaoMarcaconc();
-				fabricantes = (ObservableList<Marca>) persistencia.getMarca();
+				lista =  persistencia.getMarca();
+				for(Marca mar : lista) 
+				{
+					fabricantes.add(mar);
+				}
 			} catch (DaoException | SQLException e) {
 				e.printStackTrace();
 			}

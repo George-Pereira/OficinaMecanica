@@ -1,6 +1,8 @@
 package controller;
 
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 import dao.DaoException;
 import dao.DaoModelo;
@@ -28,9 +30,14 @@ public class ControlModelo
 	}
 	public ObservableList<Modelo> getModelos(Marca marca)
 	{
+		List<Modelo> models = new LinkedList<Modelo>();
 		try {
 			DaoModelo persistencia = new DaoModeloconc();
-			modelos = (ObservableList<Modelo>) persistencia.getModelos(marca);
+			models = persistencia.getModelos(marca);
+			for(Modelo mod : models) 
+			{
+				modelos.add(mod);
+			}
 		} catch (ClassNotFoundException | DaoException | SQLException e) 
 		{
 			e.printStackTrace();

@@ -21,7 +21,7 @@ public class DaoMarcaconc implements DaoMarca
 	public void adicionarMarca(String marca) throws DaoException 
 	{
 		try {
-			String sql = "INSERT INTO marca" + " (nome_Marca)" + " VALUES " + "(?)";
+			String sql = "INSERT INTO Marca" + " (nome_Marca)" + " VALUES " + "(?)";
 			PreparedStatement state = conexao.prepareStatement(sql);
 			state.setString(1, marca);
 			state.execute();

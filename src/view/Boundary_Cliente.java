@@ -1,7 +1,11 @@
 package view;
 
+import java.sql.SQLException;
+
 import controller.ControlCliente;
+import controller.ControlEndereco;
 import controller.ControlVeiculo;
+import dao.DaoException;
 import entity.Cliente;
 import entity.Endereco;
 import entity.EnumCor;
@@ -39,6 +43,7 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 	private Button btnVeiculos = new Button("Adicionar Veiculo");
 	private ControlCliente ctrCli = new ControlCliente();
 	private ControlVeiculo ctrVeic = new ControlVeiculo();
+	private ControlEndereco ctrEnd = new ControlEndereco();
 	private gerenciadorTelas gerente;
 	
 	
@@ -117,11 +122,18 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 	public Cliente enviarDados() 
 	{ 
 		Cliente cli = new Cliente();
-			cli.setCPF(txtCPF.getText());
-			cli.setNome(txtNome.getText());
-			cli.setCNH(txtCNH.getText());
-			cli.setTelefone(txtTelefone.getText());
-			cli.getEnderecos().add(new Endereco(txtLogradouro.getText(), Integer.parseInt(txtNumero.getText()), txtBairro.getText()));
+			try {
+				cli.setCPF(txtCPF.getText());
+				cli.setNome(txtNome.getText());
+				cli.setCNH(txtCNH.getText());
+				cli.setTelefone(txtTelefone.getText());
+				Endereco end = new Endereco(txtLogradouro.getText(), Integer.parseInt(txtNumero.getText()), txtBairro.getText());
+				ctrEnd.adicionarEndereco(end, cli);
+			}
+			catch (NumberFormatException | DaoException | SQLException e) 
+			{
+				e.printStackTrace();
+			}
 		return cli;
 	}
 	
@@ -129,14 +141,20 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 	{
 		if (cli != null)
 		{ 
-			txtNome.setText(cli.getNome());
-			txtCNH.setText(cli.getCNH());
-			txtCPF.setText(cli.getCPF());
-			txtTelefone.setText(cli.getTelefone());
-			txtLogradouro.setText(cli.getEnderecos().get(0).getLogradouro());
-			txtNumero.setText(String.valueOf(cli.getEnderecos().get(0).getNumero()));
-			txtBairro.setText(cli .getEnderecos().get(0).getBairro());
-			table.setItems(ctrVeic.getVeiculos(cli));
+			try {
+				txtNome.setText(cli.getNome());
+				txtCNH.setText(cli.getCNH());
+				txtCPF.setText(cli.getCPF());
+				txtTelefone.setText(cli.getTelefone());
+				txtLogradouro.setText(ctrEnd.getEnderecos(cli).get(0).getLogradouro());
+				txtNumero.setText(String.valueOf(ctrEnd.getEnderecos(cli).get(0).getNumero()));
+				txtBairro.setText(ctrEnd.getEnderecos(cli).get(0).getBairro());
+				table.setItems(ctrVeic.getVeiculos(cli));
+			} 
+			catch (DaoException | SQLException e) 
+			{
+				e.printStackTrace();
+			}
 		}
 	}
 	

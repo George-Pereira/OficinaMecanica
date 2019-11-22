@@ -1,5 +1,7 @@
 package controller;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 import dao.DaoException;
 import dao.DaoVeiculo;
@@ -11,6 +13,8 @@ import javafx.collections.ObservableList;
 
 public class ControlVeiculo
 {
+	private ObservableList<Veiculo> veiculos = FXCollections.observableArrayList();
+	
 	public void insereVeiculo(Veiculo v, Cliente cli) 
 	{
 		try 
@@ -52,6 +56,19 @@ public class ControlVeiculo
 	}
 	public ObservableList<Veiculo> getVeiculos(Cliente cli) 
 	{
-		return null;
+		List<Veiculo> veic = new LinkedList();
+		try {
+			DaoVeiculo veicli = new DaoVeiculoconc();
+			veic = veicli.pesquisaVeiculocliente(cli);
+			for(Veiculo vei : veic) 
+			{
+				veiculos.add(vei);
+			}
+		}
+		catch (ClassNotFoundException | DaoException | SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		return veiculos;
 	}
 }
