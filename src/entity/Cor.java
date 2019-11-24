@@ -4,6 +4,13 @@ public class Cor
 {
 	private long id;
 	private String nome_Cor;
+	
+	@Override
+	public String toString() 
+	{
+		return this.nome_Cor;
+	}
+	
 	public long getId() {
 		return id;
 	}

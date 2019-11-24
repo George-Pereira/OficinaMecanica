@@ -19,16 +19,24 @@ public class DaoEnderecoconc implements DaoEndereco
 		conection = Dao.getConnection();
 	}
 	@Override
-	public void adicionarEndereco(Cliente cli, Endereco end) throws DaoException 
+	public void adicionarEndereco(String cpf, Endereco end) throws DaoException 
 	{
 		try {
 			String sql = "INSERT INTO endereco " + "(id_Cliente, logradouro, num_Resid, bairro) " + "VALUES " + "(?, ?, ?, ?)";
 			PreparedStatement statement = conection.prepareStatement(sql);
-			statement.setLong(1, cli.getId());
+			String selec = "SELECT id_Cliente from Cliente WHERE cpf = ?";
+			PreparedStatement state = conection.prepareStatement(selec);
+			state.setString(1, cpf);
+			ResultSet result = state.executeQuery();
+			long id = result.getLong("id_Cliente");
+			statement.setLong(1, id);
 			statement.setString(2, end.getLogradouro());
 			statement.setInt(3, end.getNumero());
 			statement.setString(4, end.getBairro());
 			statement.execute();
+			statement.close();
+			state.close();
+			result.close();
 		}
 		catch (SQLException e) 
 		{
@@ -40,7 +48,7 @@ public class DaoEnderecoconc implements DaoEndereco
 	{
 		List<Endereco> enderecos = new LinkedList<Endereco>();
 		try {
-			String comando = "SELECT * FROM enderecos WHERE id_Cliente = ?";
+			String comando = "SELECT * FROM endereco WHERE id_Cliente = ?";
 			PreparedStatement state = conection.prepareStatement(comando);
 			state.setLong(1, cli.getId());
 			ResultSet result = state.executeQuery();
@@ -52,6 +60,8 @@ public class DaoEnderecoconc implements DaoEndereco
 				end.setNumero(result.getInt("num_Resid"));
 				enderecos.add(end);
 			}
+			result.close();
+			state.close();
 		} catch (SQLException e) 
 		{
 			e.printStackTrace();

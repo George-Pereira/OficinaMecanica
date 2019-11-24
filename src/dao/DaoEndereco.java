@@ -7,7 +7,7 @@ import entity.Endereco;
 
 public interface DaoEndereco 
 {
-	void adicionarEndereco(Cliente cli, Endereco end) throws DaoException;
+	void adicionarEndereco(String cpf, Endereco end) throws DaoException;
 	List<Endereco> enderecosCliente(Cliente cli) throws DaoException;
 	void removeEndereco(Cliente cli, Endereco end) throws DaoException;
 }

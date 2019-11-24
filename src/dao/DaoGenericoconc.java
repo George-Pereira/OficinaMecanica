@@ -7,15 +7,13 @@ import java.sql.SQLException;
 public class DaoGenericoconc implements DaoGenerica
 {
 	private Connection connect;
-	private static final String USER = "gerente";
-	private static final String PASSWORD = "123456";
 	@Override
 	public Connection getConnection() throws DaoException, SQLException
 	{
 		try 
 		{
 			Class.forName("net.sourceforge.jtds.jdbc.Driver");
-			connect = DriverManager.getConnection("jdbc:jtds:sqlserver://localhost;DatabaseName:Oficina_Mecanica;namedPipes=true", USER, PASSWORD);
+			connect = DriverManager.getConnection("jdbc:jtds:sqlserver://127.0.0.1:1433;DatabaseName=Oficina_Mecanica;namedPipes=true", "Gerente", "123456");
 		} 
 		catch (ClassNotFoundException e) 
 		{

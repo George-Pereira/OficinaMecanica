@@ -27,6 +27,7 @@ public class DaoCorconc implements DaoCor
 				PreparedStatement state = conexao.prepareStatement(command);
 				state.setString(1, nomeCor);
 				state.execute();
+				state.close();
 			} 
 			catch (SQLException e) 
 			{
@@ -39,9 +40,25 @@ public class DaoCorconc implements DaoCor
 	public List<Cor> getCores() throws DaoException 
 	{
 		List<Cor> cores = new LinkedList<Cor>();
-		String sql = "SELECT * FROM cor";
-		
-		return null;
+		try {
+			String sql = "SELECT * FROM cor";
+			PreparedStatement state = conexao.prepareStatement(sql);
+			ResultSet corSet = state.executeQuery();
+			while(corSet.next()) 
+			{
+				Cor color = new Cor();
+				color.setId(corSet.getLong("id_Cor"));
+				color.setCor(corSet.getString("nome_Cor"));
+				cores.add(color);
+			}
+			corSet.close();
+			state.close();
+		}
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		return cores;
 	}
 	@Override
 	public boolean confereCor(String nomeCor) throws DaoException 

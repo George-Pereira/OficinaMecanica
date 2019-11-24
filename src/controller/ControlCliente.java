@@ -1,6 +1,8 @@
 package controller;
 
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 import dao.DaoClienteconc;
 import dao.DaoException;
@@ -11,7 +13,8 @@ import javafx.collections.ObservableList;
 
 public class ControlCliente 
 {
-	//private ObservableList<Cliente> lista = FXCollections.observableArrayList();
+	
+	private ObservableList<Cliente> lista = FXCollections.observableArrayList();
 
 	/*public boolean existenciaCliente(Cliente c) 
 	{ 
@@ -31,6 +34,7 @@ public class ControlCliente
 		{
 			DaoCliente iCliente = new DaoClienteconc();
 			iCliente.adicionarCliente(c);
+			lista.add(c);
 		} 
 		catch (ClassNotFoundException | DaoException | SQLException e) 
 		{	
@@ -80,16 +84,20 @@ public class ControlCliente
 	}
 	public ObservableList<Cliente> getClientes()
 	{
-		ObservableList<Cliente> clientes = FXCollections.observableArrayList();
+		List<Cliente> clientes = new LinkedList<Cliente>();
 		try {
 			DaoCliente iCliente = new DaoClienteconc();
-			clientes = (ObservableList<Cliente>) iCliente.getClientes();
+			clientes = iCliente.getClientes();
+			for(Cliente cli : clientes) 
+			{
+				lista.add(cli);
+			}
 		} 
 		catch (ClassNotFoundException | DaoException | SQLException e) 
 		{
 			e.printStackTrace();
 		}
-		return clientes;
+		return lista;
 	}
 }
 

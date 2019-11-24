@@ -7,9 +7,9 @@ import controller.ControlEndereco;
 import controller.ControlVeiculo;
 import dao.DaoException;
 import entity.Cliente;
+import entity.Cor;
 import entity.Endereco;
-import entity.EnumCor;
-import entity.EnumMarca;
+import entity.Marca;
 import entity.Veiculo;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -36,8 +36,9 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 	private TextField txtLogradouro = new TextField();
 	private TextField txtNumero = new TextField();
 	private TextField txtBairro = new TextField();
-	private Button btnAdicionar = new Button("Adicionar Cliente");
+	private Button btnAdicionar = new Button("Novo Cliente");
 	private Button btnPesq = new Button("Pesquisar");
+	private Button btnEnd = new Button("Novo");
 	private TableView<Veiculo> table = new TableView<Veiculo>();
 	private BorderPane painelPrincipal = new BorderPane();
 	private Button btnVeiculos = new Button("Adicionar Veiculo");
@@ -85,33 +86,36 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 		painelCampos.add(txtCPF, 1, 1);
 		painelCampos.add(new Label("Telefone"), 2, 1);
 		painelCampos.add(txtTelefone, 3, 1);
+		painelCampos.add(btnAdicionar, 5, 1);
 		painelCampos.add(new Label("Logradouro"), 0, 2);
 		painelCampos.add(txtLogradouro, 1, 2);
 		painelCampos.add(new Label("Bairro"), 2, 2);
 		painelCampos.add(txtBairro, 3, 2);
 		painelCampos.add(new Label("Número"), 4 , 2);
 		painelCampos.add(txtNumero, 5, 2);
-		painelBotoes.getChildren().addAll(btnAdicionar, btnVeiculos,btnPesq);
+		painelCampos.add(btnEnd, 6, 2);
+		painelBotoes.getChildren().addAll(btnVeiculos, btnPesq);
 		addTableColumns();
 		btnAdicionar.addEventHandler(ActionEvent.ANY, this);
 		painelBotoes.setAlignment(Pos.CENTER);
 		btnPesq.addEventHandler(ActionEvent.ANY, this);
 		painelBotoes.setHgap(100);
 		btnVeiculos.addEventHandler(ActionEvent.ANY, this);
+		btnEnd.addEventHandler(ActionEvent.ANY, this);
 	}
 	
 	private void addTableColumns() 
 	{
 		TableColumn<Veiculo, String> columnPlaca = new TableColumn<Veiculo, String>("Placa");
 		columnPlaca.setCellValueFactory(new PropertyValueFactory<Veiculo, String>("Placa"));
-		TableColumn<Veiculo, EnumMarca> columnMarca = new TableColumn<Veiculo, EnumMarca>("Marca");
-		columnMarca.setCellValueFactory(new PropertyValueFactory<Veiculo, EnumMarca>("Marca"));
+		TableColumn<Veiculo, Marca> columnMarca = new TableColumn<Veiculo, Marca>("Marca");
+		columnMarca.setCellValueFactory(new PropertyValueFactory<Veiculo, Marca>("Marca"));
 		TableColumn<Veiculo, String> columnChassis = new TableColumn<Veiculo, String>("Chassis");
 		columnChassis.setCellValueFactory(new PropertyValueFactory<Veiculo, String>("Chassis"));
 		TableColumn<Veiculo, double[]> columnMotor = new TableColumn<Veiculo, double[]>("Motor");
 		columnMotor.setCellValueFactory(new PropertyValueFactory<Veiculo, double[]>("Motor"));
-		TableColumn<Veiculo, EnumCor> columnCor = new TableColumn<Veiculo, EnumCor>("Cor");
-		columnCor.setCellValueFactory(new PropertyValueFactory<Veiculo, EnumCor>("Cor"));
+		TableColumn<Veiculo, Cor> columnCor = new TableColumn<Veiculo, Cor>("Cor");
+		columnCor.setCellValueFactory(new PropertyValueFactory<Veiculo, Cor>("Cor"));
 		TableColumn<Veiculo, int[]> columnAno = new TableColumn<Veiculo, int[]>("Ano Fabrica");
 		columnAno.setCellValueFactory(new PropertyValueFactory<Veiculo, int[]>("AnoFabrica"));
 		TableColumn<Veiculo, String> columnModel = new TableColumn<Veiculo, String>("Modelo");
@@ -122,21 +126,29 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 	public Cliente enviarDados() 
 	{ 
 		Cliente cli = new Cliente();
+		
 			try {
 				cli.setCPF(txtCPF.getText());
 				cli.setNome(txtNome.getText());
 				cli.setCNH(txtCNH.getText());
 				cli.setTelefone(txtTelefone.getText());
-				Endereco end = new Endereco(txtLogradouro.getText(), Integer.parseInt(txtNumero.getText()), txtBairro.getText());
-				ctrEnd.adicionarEndereco(end, cli);
 			}
-			catch (NumberFormatException | DaoException | SQLException e) 
+			catch (NumberFormatException e) 
 			{
 				e.printStackTrace();
 			}
 		return cli;
 	}
-	
+	public void clearCampos() 
+	{
+		txtNome.clear();
+		txtCNH.clear();
+		txtCPF.clear();
+		txtTelefone.clear();
+		txtLogradouro.clear();
+		txtNumero.clear();
+		txtBairro.clear();
+	}
 	public void carregarDados(Cliente cli) 
 	{
 		if (cli != null)
@@ -164,13 +176,6 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 		if (event.getTarget() == btnAdicionar) 
 		{ 
 			ctrCli.adicionar(enviarDados());
-			txtNome.clear();
-			txtCNH.clear();
-			txtCPF.clear();
-			txtTelefone.clear();
-			txtLogradouro.clear();
-			txtNumero.clear();
-			txtBairro.clear();
 		}
 		else if(event.getTarget() == btnPesq) 
 		{
@@ -193,6 +198,17 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 		else if(event.getTarget() == btnVeiculos) 
 		{
 			gerente.request("Veiculos");
+		}
+		else if(event.getTarget() == btnEnd) 
+		{
+			Endereco end = new Endereco(txtLogradouro.getText(), Integer.parseInt(txtNumero.getText()), txtBairro.getText());
+			try {
+				ctrEnd.adicionarEndereco(txtCPF.getText(), end);
+				clearCampos();
+			} catch (DaoException | SQLException e) 
+			{
+				e.printStackTrace();
+			}
 		}
 	}
 

@@ -26,6 +26,7 @@ public class DaoModeloconc implements DaoModelo
 			PreparedStatement state = conexao.prepareStatement(query);
 			state.setString(1, modelo);
 			ResultSet result = state.executeQuery();
+			state.close();
 			if(!result.first()) 
 			{
 				return false;
@@ -57,6 +58,8 @@ public class DaoModeloconc implements DaoModelo
 				model.setNome_Modelo(results.getString("nome_Modelo"));
 				modelos.add(model);
 			}
+			state.close();
+			results.close();
 		} catch (SQLException e) 
 		{
 			e.printStackTrace();
@@ -76,6 +79,7 @@ public class DaoModeloconc implements DaoModelo
 				state.setLong(1, marca.getId());
 				state.setString(2, model.getNome_Modelo());
 				state.execute();
+				state.close();
 			} 
 				catch (SQLException e) 
 			{

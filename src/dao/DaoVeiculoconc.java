@@ -28,17 +28,17 @@ public class DaoVeiculoconc implements DaoVeiculo
 	{
 		try 
 		{
-			String command = "INSERT INTO veiculo " + "(id_Marca, id_Cor, id_Modelo, id_Cliente, descri, ano, motor, placa, chassis) " + "VALUES (?,?,?,?,?,?,?,?,?)";
+			String command = "INSERT INTO veiculo " + "(id_Cor, id_Modelo, id_Cliente, descri, ano, motor, placa, chassis) " + "VALUES (?,?,?,?,?,?,?,?)";
 			PreparedStatement state = conexao.prepareStatement(command);
-			state.setLong(1, veic.getMarca().getId());
-			state.setLong(2, veic.getCor().getId());
-			state.setLong(3, veic.getModel().getId());
-			state.setLong(4, cli.getId());
-			state.setString(5, veic.getDesc());
-			state.setInt(6, veic.getAnoFabrica());
-			state.setDouble(7, veic.getMotor());
-			state.setString(8, veic.getPlaca());
-			state.setString(9, veic.getChassis());
+			state.setLong(1, veic.getCor().getId());
+			state.setLong(2, veic.getModel().getId());
+			state.setLong(3, cli.getId());
+			state.setString(4, veic.getDesc());
+			state.setInt(5, veic.getAnoFabrica());
+			state.setDouble(6, veic.getMotor());
+			state.setString(7, veic.getPlaca());
+			state.setString(8, veic.getChassis());
+			state.close();
 		} catch (SQLException e) 
 		{
 			e.printStackTrace();
@@ -87,6 +87,9 @@ public class DaoVeiculoconc implements DaoVeiculo
 			corCar.setCor(cores.getString("nome_Cor"));
 			corCar.setId(cores.getLong("id_Cor"));
 			veic.setCor(corCar);
+			state.close();
+			stateMarc.close();
+			corState.close();
 		}
 		catch (SQLException e) 
 		{
@@ -124,6 +127,9 @@ public class DaoVeiculoconc implements DaoVeiculo
 			corCar.setCor(cores.getString("nome_Cor"));
 			corCar.setId(cores.getLong("id_Cor"));
 			veic.setCor(corCar);
+			state.close();
+			stateMarc.close();
+			corState.close();
 		}
 		catch(SQLException e) 
 		{
@@ -140,31 +146,55 @@ public class DaoVeiculoconc implements DaoVeiculo
 		try {
 			String pesquisa = "SELECT * FROM veiculo vei INNER JOIN Cliente cli ON vei.id_Cliente = cli.id_Cliente WHERE vei.id_Cliente = ?";
 			PreparedStatement state = conexao.prepareStatement(pesquisa);
+			state.setLong(1, cli.getId());
 			ResultSet result = state.executeQuery();
 			while(result.next()) 
 			{
 				Veiculo veic = new Veiculo();
 				veic.setId(result.getLong("id_Veiculo"));
-				String marca = "SELECT * FROM marca Where id_Marca = ?";
+				String marca = "SELECT nome_Marca, marca.id_Marca FROM marca INNER JOIN Modelo ON marca.id_Marca = Modelo.id_Marca WHERE id_Modelo = ?";
 				PreparedStatement stateMarc = conexao.prepareStatement(marca);
-				stateMarc.setLong(1, result.getLong("id_Marca"));
+				stateMarc.setLong(1, result.getLong("id_Modelo"));
 				ResultSet marcaSet = stateMarc.executeQuery();
 				Marca marc = new Marca();
-				marc.setId(marcaSet.getLong("id_Marca"));
-				marc.setNome_Marca(marcaSet.getString("nome_Marca"));
+				if(marcaSet.next()) 
+				{
+					marc.setId(marcaSet.getLong("id_Marca"));
+					marc.setNome_Marca(marcaSet.getString("nome_Marca"));
+				}
 				veic.setMarca(marc);
+				String model = "SELECT nome_Modelo, id_Modelo FROM modelo WHERE id_Modelo = ?";
+				PreparedStatement stateModel = conexao.prepareStatement(model);
+				stateModel.setLong(1, result.getLong("id_Modelo"));
+				ResultSet modelo = stateModel.executeQuery();
+				Modelo pesq = new Modelo();
+				if(modelo.next()) 
+				{
+					pesq.setId(modelo.getLong("id_Modelo"));
+					pesq.setNome_Modelo(modelo.getString("nome_Modelo"));
+				}
+				veic.setModel(pesq);
+				veic.setAnoFabrica(result.getInt("ano"));
 				veic.setChassis(result.getString("chassis"));
 				veic.setPlaca(result.getString("placa"));
 				veic.setMotor(result.getDouble("motor"));
 				String cor = "Select * FROM cor WHERE id_Cor = ?";
 				PreparedStatement corState = conexao.prepareStatement(cor);
+				corState.setLong(1,result.getLong("id_Cor"));
 				ResultSet cores = corState.executeQuery();
 				Cor corCar = new Cor();
-				corCar.setCor(cores.getString("nome_Cor"));
-				corCar.setId(cores.getLong("id_Cor"));
+				if(cores.next()) 
+				{
+					corCar.setCor(cores.getString("nome_Cor"));
+					corCar.setId(cores.getLong("id_Cor"));
+				}
 				veic.setCor(corCar);
+				corState.close();
+				stateMarc.close();
 				listaVeic.add(veic);
 			}
+			result.close();
+			state.close();
 		} 
 		catch (SQLException e) 
 		{

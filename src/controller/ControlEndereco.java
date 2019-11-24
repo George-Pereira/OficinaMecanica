@@ -15,10 +15,10 @@ public class ControlEndereco
 {
 	private ObservableList<Endereco> listaEnd = FXCollections.observableArrayList();
 	
-	public void adicionarEndereco(Endereco end, Cliente cli) throws DaoException, SQLException 
+	public void adicionarEndereco(String cpf, Endereco end) throws DaoException, SQLException 
 	{
 		DaoEndereco persist = new DaoEnderecoconc();
-		persist.adicionarEndereco(cli, end);
+		persist.adicionarEndereco(cpf, end);
 		listaEnd.add(end);
 	}
 	public ObservableList<Endereco> getEnderecos(Cliente cli) throws DaoException, SQLException

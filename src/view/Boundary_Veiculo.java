@@ -11,6 +11,8 @@ import entity.Cor;
 import entity.Marca;
 import entity.Modelo;
 import entity.Veiculo;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -43,6 +45,7 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 	private Button btnDesat = new Button("Desativar");
 	private Button btnEdit = new Button("Editar");
 	private Button btnPesq = new Button("Pesquisar");
+	private Button btnNvMarca = new Button("Novo");
 	private Veiculo atual = new Veiculo();
 	private TableView<Veiculo> table = new TableView<Veiculo>();
 	private Cliente context = new Cliente();
@@ -58,10 +61,21 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 	public Boundary_Veiculo(gerenciadorTelas gerente) 
 	{
 		this.gerente = gerente;
-		comboMarca.getItems().addAll(ctrMarca.getMarcas());
+		comboMarca.setItems(ctrMarca.getMarcas());
+		comboMarca.setEditable(true);
+		comboMarca.getSelectionModel().selectFirst();
 		comboModel.setEditable(true);
+		comboMarca.valueProperty().addListener(new ChangeListener<Marca>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Marca> lista, Marca velho, Marca novo) 
+			{
+				comboModel.getItems().clear();
+				comboModel.setItems(ctrModel.getModelos(novo));
+			}
+		});
 		btnNvModel.addEventHandler(ActionEvent.ANY, this);
-		comboCor.getItems().addAll(ctrCor.getCores());
+		comboCor.setItems(ctrCor.getCores());
 		GridPane info = new GridPane();
 		ColumnConstraints col0 = new ColumnConstraints();
 		col0.setFillWidth(true);
@@ -91,6 +105,7 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		info.setStyle("-fx-padding: 10px");
 		info.add(new Label("Marca"), 0 , 0);
 		info.add(comboMarca, 1, 0);
+		info.add(btnNvMarca, 2, 0);
 		info.add(new Label("Ano"), 3, 0);
 		info.add(txtAno, 4, 0);
 		info.add(new Label("Placa"), 5, 0);
@@ -143,6 +158,10 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 				e.printStackTrace();
 			}
 		}
+		if(evento.getTarget() == btnNvMarca) 
+		{
+				ctrMarca.adicionarMarca(comboModel.getValue().toString());
+		}
 		if(evento.getTarget() == btnAdd) 
 		{
 			enviarDados();
@@ -163,14 +182,21 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 				if(!(txtPlaca.getText().equals(""))) 
 				{
 					pesq = ctrVeic.pesquisaVeiculo(txtPlaca.getText());
+					clearCampos();
+				    carregarDados(pesq);
+				    atual = pesq;
 				}
 				else if(!(txtChassis.getText().equals("")))
 				{
 					pesq = ctrVeic.pesquisaVeiculoAlt(txtChassis.getText());
+					clearCampos();
+				    carregarDados(pesq);
+				    atual = pesq;
 				}
-				clearCampos();
-			    carregarDados(pesq);
-			    atual = pesq;
+				else  if (!(comboCliente.getValue().equals(null))) 
+				{
+					table.setItems(ctrVeic.getVeiculos(comboCliente.getValue()));
+				}
 			} 
 			catch (Exception e) 
 			{
@@ -231,28 +257,25 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		TableColumn<Veiculo, String> columnPlaca = new TableColumn<Veiculo, String>("Placa");
 		columnPlaca.setCellValueFactory(new PropertyValueFactory<Veiculo, String>("Placa"));
 		TableColumn<Veiculo, Marca> columnMarca = new TableColumn<Veiculo, Marca>("Marca");
-		columnMarca.setCellValueFactory(new PropertyValueFactory<Veiculo, Marca>("nome_Marca"));
+		columnMarca.setCellValueFactory(new PropertyValueFactory<Veiculo, Marca>("marca"));
 		TableColumn<Veiculo, String> columnChassis = new TableColumn<Veiculo, String>("Chassis");
 		columnChassis.setCellValueFactory(new PropertyValueFactory<Veiculo, String>("Chassis"));
 		TableColumn<Veiculo, double[]> columnMotor = new TableColumn<Veiculo, double[]>("Motor");
 		columnMotor.setCellValueFactory(new PropertyValueFactory<Veiculo, double[]>("Motor"));
 		TableColumn<Veiculo, Cor> columnCor = new TableColumn<Veiculo, Cor>("Cor");
-		columnCor.setCellValueFactory(new PropertyValueFactory<Veiculo, Cor>("nome_Cor"));
+		columnCor.setCellValueFactory(new PropertyValueFactory<Veiculo, Cor>("cor"));
 		TableColumn<Veiculo, int[]> columnAno = new TableColumn<Veiculo, int[]>("Ano");
 		columnAno.setCellValueFactory(new PropertyValueFactory<Veiculo, int[]>("AnoFabrica"));
 		TableColumn<Veiculo, Modelo> columnModel = new TableColumn<Veiculo, Modelo>("Modelo");
-		columnModel.setCellValueFactory(new PropertyValueFactory<Veiculo, Modelo>("nome_Modelo"));
+		columnModel.setCellValueFactory(new PropertyValueFactory<Veiculo, Modelo>("model"));
 		table.getColumns().addAll(columnPlaca, columnMarca, columnModel, columnChassis, columnMotor, columnAno, columnCor);
-		table.setItems(ctrVeic.getVeiculos(comboCliente.getValue()));
 	}
 
 	public Pane constructBoundary() 
 	{
 		comboCliente.getItems().clear();
-		comboCliente.getItems().addAll(ctrCli.getClientes());
-		comboModel.getItems().clear();
-		comboModel.getItems().addAll(ctrModel.getModelos(comboMarca.getValue()));
-		table.getItems().clear();
+		comboCliente.setItems(ctrCli.getClientes());
+		comboModel.setItems(ctrModel.getModelos(comboMarca.getValue()));
 		return lay;
 	}
 

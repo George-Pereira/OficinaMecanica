@@ -30,11 +30,12 @@ public class DaoClienteconc implements DaoCliente
 	{
 		try 
 		{
-			String sql = "INSERT INTO cliente " + " (cpf, cnh, telefone) " + " VALUES (?,?,?)";
+			String sql = "INSERT INTO cliente " + " (cpf, cnh, telefone,nome_Cliente) " + " VALUES (?,?,?,?)";
 			PreparedStatement statement = conexao.prepareStatement(sql);
 			statement.setString(1, cli.getCPF());
 			statement.setString(2, cli.getCNH());
 			statement.setString(3, cli.getTelefone());
+			statement.setString(4, cli.getNome());
 			statement.executeUpdate();
 		} 
 		catch (SQLException e)
@@ -73,11 +74,14 @@ public class DaoClienteconc implements DaoCliente
 			state.setString(2, varpesq);
 			state.setString(3, varpesq);
 			ResultSet rs = state.executeQuery();
-			cli.setId(rs.getLong("id_cliente"));
-			cli.setCNH(rs.getString("cnh"));
-			cli.setCPF(rs.getString("cpf"));
-			cli.setTelefone(rs.getString("telefone"));
-			cli.setNome(rs.getString("nome_Cliente"));
+			if(rs.next()) 
+			{
+				cli.setId(rs.getLong("id_cliente"));
+				cli.setCNH(rs.getString("cnh"));
+				cli.setCPF(rs.getString("cpf"));
+				cli.setTelefone(rs.getString("telefone"));
+				cli.setNome(rs.getString("nome_Cliente"));
+			}
 		} catch (SQLException e) 
 		{
 			e.printStackTrace();
@@ -101,7 +105,10 @@ public class DaoClienteconc implements DaoCliente
 				cli.setCNH(clients.getString("cnh"));
 				cli.setCPF(clients.getString("cpf"));
 				cli.setTelefone(clients.getString("telefone"));
+				clientes.add(cli);
 			}
+			clients.close();
+			state.close();
 		} 
 		catch (SQLException e) 
 		{

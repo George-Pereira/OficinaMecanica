@@ -5,6 +5,12 @@ public class Marca
 	private long id;
 	private String nome_Marca;
 	
+	@Override
+	public String toString() 
+	{
+		return this.nome_Marca;
+	}
+	
 	public Marca(int id, String nome_marca) 
 	{
 		this.id = id;

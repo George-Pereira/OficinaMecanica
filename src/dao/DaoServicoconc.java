@@ -28,6 +28,7 @@ public class DaoServicoconc implements DaoServico
 			state.setBoolean(3, serv.isServDisp());
 			state.setDouble(4, serv.getValueServ());
 			state.execute();
+			state.close();
 		}
 		catch (SQLException e) 
 		{

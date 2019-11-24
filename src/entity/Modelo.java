@@ -4,6 +4,13 @@ public class Modelo
 {
 	private long id;
 	private String nome_Modelo;
+	
+	@Override
+	public String toString() 
+	{
+		return this.nome_Modelo;
+	}
+	
 	public long getId() {
 		return id;
 	}

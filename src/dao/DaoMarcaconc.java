@@ -25,6 +25,7 @@ public class DaoMarcaconc implements DaoMarca
 			PreparedStatement state = conexao.prepareStatement(sql);
 			state.setString(1, marca);
 			state.execute();
+			state.close();
 		} catch (SQLException e) 
 		{
 			e.printStackTrace();
@@ -36,7 +37,7 @@ public class DaoMarcaconc implements DaoMarca
 	{
 		List<Marca> marcas = new LinkedList<Marca>();
 		try {
-			String sql = "SELECT * FROM marca";
+			String sql = "SELECT * FROM Marca";
 			PreparedStatement state = conexao.prepareStatement(sql);
 			ResultSet results = state.executeQuery();
 			while(results.next()) 
@@ -46,6 +47,7 @@ public class DaoMarcaconc implements DaoMarca
 				marca.setId(results.getLong("id_Marca"));
 				marcas.add(marca);
 			}
+			state.close();
 		} 
 		catch (SQLException e) 
 		{
