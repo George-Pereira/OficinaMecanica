@@ -17,7 +17,6 @@ public class DaoServicoconc implements DaoServico
 		DaoGenerica Dao = new DaoGenericoconc();
 		conexao = Dao.getConnection();
 	}
-	
 	@Override
 	public void adicionarServico(Servico serv) throws DaoException 
 	{
@@ -41,7 +40,17 @@ public class DaoServicoconc implements DaoServico
 	@Override
 	public void editarServico(Servico serv) throws DaoException 
 	{
-		
+		try {
+			String sql = "UPDATE servico SET descricao_Serv = ?, custo = ?, disponivel = ? WHERE nome_Servico = ?";
+			PreparedStatement state = conexao.prepareStatement(sql);
+			state.setString(1, serv.getDescServ());
+			state.setDouble(2, serv.getValueServ());
+			state.setBoolean(3, serv.isServDisp());
+			state.execute();
+			state.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -52,6 +61,7 @@ public class DaoServicoconc implements DaoServico
 			PreparedStatement state = conexao.prepareStatement(sql);
 			state.setString(1, serv.getNomeServ());
 			state.execute();
+			state.close();
 		} catch (SQLException e) 
 		{
 			e.printStackTrace();
@@ -59,13 +69,13 @@ public class DaoServicoconc implements DaoServico
 	}
 
 	@Override
-	public Servico pesquisarServico(Servico serv) throws DaoException 
+	public Servico pesquisarServico(String serv) throws DaoException 
 	{
 		Servico ser = new Servico();
 		try {
 			String sql = "SELECT nome_Servico, id_Servico, descricao_Serv, custo, disponivel FROM servico WHERE nome_Servico = ?";
 			PreparedStatement state = conexao.prepareStatement(sql);
-			state.setString(1, serv.getNomeServ());
+			state.setString(1, serv);
 			ResultSet result = state.executeQuery();
 			if(result.next()) 
 			{
@@ -83,7 +93,7 @@ public class DaoServicoconc implements DaoServico
 	}
 
 	@Override
-	public List<Servico> getServicos(Servico serv) throws DaoException 
+	public List<Servico> getServicos() throws DaoException 
 	{
 		List<Servico> servicos = new LinkedList<Servico>();;
 		try {
@@ -104,5 +114,27 @@ public class DaoServicoconc implements DaoServico
 			e.printStackTrace();
 		}
 		return servicos;
+	}
+	@Override
+	public boolean consultaExistencia(Servico serv) {
+		try 
+		{
+			String sql = "SELECT nome_Servico FROM servico WHERE nome_Servico = ?";
+			PreparedStatement state = conexao.prepareStatement(sql);
+			ResultSet results = state.executeQuery();
+			if(results.next()) 
+			{
+				if(results.getString("nome_Servico").equals(serv.getNomeServ())) 
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		return true;
 	}
 }

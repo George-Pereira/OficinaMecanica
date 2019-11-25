@@ -47,7 +47,7 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 	private ComboBox<Veiculo> combo = new ComboBox<Veiculo>();
 	private BorderPane painelPrincipal = new BorderPane();
 	private gerenciadorTelas gerente;
-	private ControlServico sev = new ControlServico();
+	private ControlServico ctrServ = new ControlServico();
 	private ComboBox<Funcionario> comboF = new ComboBox<Funcionario>();
 	private ControlManterOrdemServico mos = new ControlManterOrdemServico();
 	private ControlCliente ctrCli = new ControlCliente();
@@ -129,7 +129,7 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 		table.getColumns().add(serviceCol);
 		table.getColumns().add(dataCol);
 		table1.getColumns().add(serv);
-		table1.setItems(sev.getListaServ());
+		table1.setItems(ctrServ.getServicos());
 	}
 	
 	public void entidadeParaBoundary(Cliente c) { 
@@ -192,7 +192,7 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 	{
 		combo.getItems().clear();
 		comboF.getItems().clear();
-		comboF.getItems().addAll(ctrFunc.getListaFunc());
+		comboF.setItems(ctrFunc.getFuncionarios());
 		return painelPrincipal;
 	}
 

@@ -3,6 +3,7 @@ package view;
 import controller.ControlFuncionario;
 import controller.ControlServico;
 import entity.Funcionario;
+import entity.Gerente;
 import entity.Servico;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -11,6 +12,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -38,7 +40,8 @@ public class Boundary_Funcionario implements Boundary_Constructor, EventHandler<
 	private Button btnAddserv = new Button("Adicionar Habilidade");
 	private ControlFuncionario ctrFunc = new ControlFuncionario();
 	private Funcionario atual = new Funcionario();
-	private ControlServico sev = new ControlServico();
+	private ComboBox<Gerente> comboGerente = new ComboBox<Gerente>();
+	private ControlServico serv = new ControlServico();
 	
 	public Boundary_Funcionario() 
 	{
@@ -74,6 +77,7 @@ public class Boundary_Funcionario implements Boundary_Constructor, EventHandler<
 		grd.add(new Label("Salário"), 2, 2);
 		grd.add(txtSalario, 3, 2);
 		grd.add(chFunc, 0, 3);
+		grd.add(comboGerente, 1, 3);
 		constructTables();
 		FlowPane flwBotoes = new FlowPane();
 		flwBotoes.getChildren().add(btnAdd);
@@ -117,7 +121,7 @@ public class Boundary_Funcionario implements Boundary_Constructor, EventHandler<
 				tableHabilidades.getItems().add(novo);
 			}
 		});
-		tableServicos.setItems(sev.getListaServ());
+		tableServicos.setItems(serv.getServicos());
 		clnHabserv.setMinWidth(305);
 		tableServicos.addEventHandler(ActionEvent.ANY, this);
 		tableHabilidades.setItems(atual.getHabilidades());
@@ -141,7 +145,7 @@ public class Boundary_Funcionario implements Boundary_Constructor, EventHandler<
 		if(event.getTarget() == btnAdd) 
 		{	
 			atual = new Funcionario(txtNome.getText(), txtCartrab.getText(), txtCpf.getText(), txtTel.getText(), Double.parseDouble(txtSalario.getText()), chFunc.isSelected());
-			ctrFunc.insertFuncionario(atual);
+			ctrFunc.insertFuncionario(atual, comboGerente.getValue());
 			txtNome.clear();
 			txtCartrab.clear();
 			txtCpf.clear();

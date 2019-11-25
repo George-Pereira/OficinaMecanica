@@ -77,7 +77,7 @@ public class Boundary_Servico implements Boundary_Constructor, EventHandler<Acti
 		clnDispServ.setCellValueFactory(new PropertyValueFactory<Servico, boolean []>("servDisp"));
 		clnDispServ.setMinWidth(266);
 		table.getColumns().setAll(clnNomeServ, clnDescServ, clnDispServ);
-		table.setItems(ctrServ.getListaServ());
+		table.setItems(ctrServ.getServicos());
 		painel.add(table, 0, 1);
 	}
 	@Override

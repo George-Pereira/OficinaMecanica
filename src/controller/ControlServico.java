@@ -1,61 +1,91 @@
 package controller;
 
+import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
+
+import dao.DaoException;
+import dao.DaoServico;
+import dao.DaoServicoconc;
 import entity.Servico;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class ControlServico 
 {
-	private static ObservableList<Servico> listaServ = FXCollections.observableArrayList();
+	private ObservableList<Servico> listaServ = FXCollections.observableArrayList();
 	
 	public boolean existenciaServico(Servico servico) 
 	{
-		for(Servico serv: listaServ) 
-		{
-			if(serv.getNomeServ().equals(servico.getNomeServ()))
+		DaoServico serv;
+		try {
+			serv = new DaoServicoconc();
+			if(serv.consultaExistencia(servico)) 
 			{
 				return true;
 			}
+			else 
+			{
+				return false;
+			}
+		} catch (DaoException | SQLException e) 
+		{
+			e.printStackTrace();
 		}
-		return false;
+		return true;
 	}
 	public void insertServico(Servico serv) 
 	{
-		if(!existenciaServico(serv)) 
+		try {
+			DaoServico servico = new DaoServicoconc();
+			if(!servico.consultaExistencia(serv)) 
+			{
+				servico.adicionarServico(serv);
+			}
+		}
+		catch (DaoException | SQLException e) 
 		{
-			listaServ.add(serv);
+			e.printStackTrace();
 		}
 	}
 	
 	public void desatServ(Servico serv) 
 	{
-		for(Servico ser : listaServ) 
+		try {
+			DaoServico servico = new DaoServicoconc();
+			servico.desativarServico(serv);
+		} catch (DaoException | SQLException e) 
 		{
-			if(serv.getNomeServ().equals(ser.getNomeServ())) 
-			{
-				listaServ.remove(ser);
-				break;
-			}
+			e.printStackTrace();
 		}
-	}
-	public ObservableList<Servico> getListaServ() 
-	{
-		return listaServ;
 	}
 
-	public void setListaServ(ObservableList<Servico> listaServ) 
-	{
-		ControlServico.listaServ = listaServ;
-	}
 	public Servico pesquisaServ(String nome) 
 	{
-		for(Servico serv: listaServ) 
+		Servico serv = new Servico();
+		try {
+			DaoServico servicos= new DaoServicoconc();
+			serv = servicos.pesquisarServico(nome);
+		} catch (DaoException | SQLException e) 
 		{
-			if(serv.getNomeServ().contentEquals(nome)) 
-			{
-				return serv;
-			}
+			e.printStackTrace();
 		}
-		return null;
+		return serv;
+	}
+	public ObservableList<Servico> getServicos()
+	{
+		List<Servico> servicos = new LinkedList<Servico>();
+		try {
+			DaoServico servs= new DaoServicoconc();
+			servicos = servs.getServicos();
+			for(Servico ser : servicos) 
+			{
+				listaServ.add(ser);
+			}
+		} catch (SQLException |DaoException e) 
+		{
+			e.printStackTrace();
+		}
+		return listaServ;
 	}
 }
