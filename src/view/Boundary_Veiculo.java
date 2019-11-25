@@ -62,7 +62,6 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 	{
 		this.gerente = gerente;
 		comboMarca.setItems(ctrMarca.getMarcas());
-		comboMarca.setEditable(true);
 		comboMarca.getSelectionModel().selectFirst();
 		comboModel.setEditable(true);
 		comboMarca.valueProperty().addListener(new ChangeListener<Marca>() {

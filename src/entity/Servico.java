@@ -7,7 +7,6 @@ public class Servico
 	private String descServ;
 	private double valueServ;
 	private boolean servDisp;
-	private Funcionario nomeF;
 	
 	public Servico() 
 	{
@@ -44,13 +43,6 @@ public class Servico
 	public void isServDisp(boolean servDisp) 
 	{
 		this.servDisp = servDisp;
-	}
-	
-	public Funcionario getNomeF() {
-		return nomeF;
-	}
-	public void setNomeF(Funcionario nomeF) {
-		this.nomeF = nomeF;
 	}
 
 	public double getValueServ() {
