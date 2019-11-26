@@ -33,6 +33,7 @@ public class DaoFuncionarioconc implements DaoFuncionario
 				state.setDouble(4, func.getSalario());
 				state.setString(5, func.getTelefone());
 				state.setLong(6, ger.getId());
+				state.execute();
 				state.close();
 			}
 			catch (SQLException e) 
@@ -63,7 +64,7 @@ public class DaoFuncionarioconc implements DaoFuncionario
 	@Override
 	public void removerFuncionario(Funcionario func) throws DaoException 
 	{
-		
+		String sql = "UPDATE from";
 	}
 
 	@Override
@@ -71,7 +72,7 @@ public class DaoFuncionarioconc implements DaoFuncionario
 	{
 		List<Funcionario> funcs = new LinkedList<Funcionario>();
 		try {
-			String sql = "SELECT id_func, nome_func, cartTrab, salarioHora, cpf, telefone FROM Funcionario";
+			String sql = "SELECT id_func, nome_func, cartTrab, salarioHora, cpf, telefone FROM Funcionario WHERE atividade = 1";
 			PreparedStatement state = conexao.prepareStatement(sql);
 			ResultSet results = state.executeQuery();
 			while(results.next()) 
@@ -128,7 +129,7 @@ public class DaoFuncionarioconc implements DaoFuncionario
 	public Funcionario pesqFuncionario(String nome) throws DaoException {
 		Funcionario func = new Funcionario();
 		try {
-			String sql = "SELECT * FROM funcionario WHERE nome_funcionario = ?";
+			String sql = "SELECT * FROM funcionario WHERE nome_func = ?";
 			PreparedStatement state = conexao.prepareStatement(sql);
 			state.setString(1, nome);
 			ResultSet result = state.executeQuery();
@@ -168,7 +169,7 @@ public class DaoFuncionarioconc implements DaoFuncionario
 	public boolean existenciaFuncionario(Funcionario func) throws DaoException 
 	{
 		try {
-			String sql = "SELECT nome_Funcionario FROM funcionario WHERE cpf = ? OR cartTrab = ?";
+			String sql = "SELECT nome_Func FROM funcionario WHERE cpf = ? OR cartTrab = ?";
 			PreparedStatement state = conexao.prepareStatement(sql);
 			state.setString(1, func.getCpf());
 			state.setString(2, func.getCartTrab());
@@ -186,5 +187,26 @@ public class DaoFuncionarioconc implements DaoFuncionario
 			e.printStackTrace();
 		}
 		return true;
+	}
+	@Override
+	public List<Servico> getHabilidades(Funcionario func) throws DaoException 
+	{
+		List<Servico> habilidades = new LinkedList<Servico>();
+		try {
+			String sql = "SELECT nome_servico FROM Servico serv INNER JOIN habilidade hab ON serv.id_Servico = hab.id_Serv INNER JOIN Funcionario func ON hab.id_funcion = func.id_Func WHERE id_func = ?";
+			PreparedStatement state = conexao.prepareStatement(sql);
+			state.setLong(1, func.getId());
+			ResultSet result = state.executeQuery();
+			while(result.next()) 
+			{
+				Servico serv = new Servico();
+				serv.setNomeServ(result.getString("nome_Servico"));
+				habilidades.add(serv);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return habilidades;
 	}
 }

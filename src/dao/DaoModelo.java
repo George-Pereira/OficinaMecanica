@@ -8,4 +8,5 @@ public interface DaoModelo
 	boolean consultaExistencia(String modelo) throws DaoException;
 	List<Modelo> getModelos(Marca marca) throws DaoException;
 	void adicionaModelo(Modelo model, Marca marca) throws DaoException;
+	Modelo pesqModelo(Long model) throws DaoException;
 }

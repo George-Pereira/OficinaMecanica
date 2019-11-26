@@ -131,8 +131,4 @@ public class Veiculo
 	public void setId(long id) {
 		this.id = id;
 	}
-	public void setMarca(Modelo model) {
-		// TODO Auto-generated method stub
-		
-	}
 }

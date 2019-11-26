@@ -24,10 +24,11 @@ public class DaoEnderecoconc implements DaoEndereco
 		try {
 			String sql = "INSERT INTO endereco " + "(id_Cliente, logradouro, num_Resid, bairro) " + "VALUES " + "(?, ?, ?, ?)";
 			PreparedStatement statement = conection.prepareStatement(sql);
-			String selec = "SELECT id_Cliente from Cliente WHERE cpf = ?";
+			String selec = "SELECT id_Cliente FROM Cliente WHERE cpf = ?";
 			PreparedStatement state = conection.prepareStatement(selec);
 			state.setString(1, cpf);
 			ResultSet result = state.executeQuery();
+			result.next();
 			long id = result.getLong("id_Cliente");
 			statement.setLong(1, id);
 			statement.setString(2, end.getLogradouro());

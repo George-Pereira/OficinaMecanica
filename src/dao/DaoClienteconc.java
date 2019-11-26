@@ -15,10 +15,12 @@ public class DaoClienteconc implements DaoCliente
 	
 	public DaoClienteconc() throws DaoException, ClassNotFoundException, SQLException
 	{
-		try {
+		try 
+		{
 			DaoGenerica i = new DaoGenericoconc();
 			conexao = i.getConnection();
-		} catch (SQLException e) 
+		}
+		catch (SQLException e) 
 		{
 			e.printStackTrace();
 			throw new DaoException(e);
@@ -56,6 +58,7 @@ public class DaoClienteconc implements DaoCliente
 			state.setString(3, cli.getCPF());
 			state.setString(4, cli.getCNH());
 			state.executeUpdate();
+			state.close();
 		} catch (SQLException e) 
 		{
 			e.printStackTrace();
@@ -82,6 +85,7 @@ public class DaoClienteconc implements DaoCliente
 				cli.setTelefone(rs.getString("telefone"));
 				cli.setNome(rs.getString("nome_Cliente"));
 			}
+			state.close();
 		} catch (SQLException e) 
 		{
 			e.printStackTrace();

@@ -1,6 +1,7 @@
 package view;
 
 import controller.ControlFuncionario;
+import controller.ControlGerente;
 import controller.ControlServico;
 import entity.Funcionario;
 import entity.Gerente;
@@ -40,6 +41,7 @@ public class Boundary_Funcionario implements Boundary_Constructor, EventHandler<
 	private Button btnAddserv = new Button("Adicionar Habilidade");
 	private ControlFuncionario ctrFunc = new ControlFuncionario();
 	private Funcionario atual = new Funcionario();
+	private ControlGerente ctrGer = new ControlGerente();
 	private ComboBox<Gerente> comboGerente = new ComboBox<Gerente>();
 	private ControlServico serv = new ControlServico();
 	
@@ -84,14 +86,15 @@ public class Boundary_Funcionario implements Boundary_Constructor, EventHandler<
 		flwBotoes.setVgap(10);
 		flwBotoes.setAlignment(Pos.CENTER);
 		brdp.setBottom(flwBotoes);
-		
 		btnAdd.addEventHandler(ActionEvent.ANY, this);
+		btnPesqfunc.addEventHandler(ActionEvent.ANY, this);
 	}
-	
+	 
 	@Override
 	public Pane constructBoundary() 
 	{
-		
+		comboGerente.getItems().clear();
+		comboGerente.setItems(ctrGer.getGerentes());
 		return brdp;
 	}
 	public void constructTables() 
@@ -156,6 +159,8 @@ public class Boundary_Funcionario implements Boundary_Constructor, EventHandler<
 		else if (event.getTarget() == btnPesqfunc) 
 		{
 			atual = (ctrFunc.pesqFuncionario(txtNome.getText()));
+			tableHabilidades.getItems().clear();
+			tableHabilidades.setItems(ctrFunc.getHabilidades(atual));
 			carregaDados(atual);
 		}
 		else if(event.getTarget() == tableServicos) 

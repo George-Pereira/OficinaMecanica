@@ -89,5 +89,4 @@ public class Boundary_Principal extends Application implements EventHandler<Acti
 			princ.setCenter(fronteira.constructBoundary());
 		}
 	}
-	
 }

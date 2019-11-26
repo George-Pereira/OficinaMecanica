@@ -58,7 +58,8 @@ public class Boundary_Balancos implements Boundary_Constructor, EventHandler<Act
 
 	}
 
-        private void adicionarTableColumns() {
+        private void adicionarTableColumns() 
+        {
 		TableColumn<Ordem_Servico, Integer> OS = new TableColumn<Ordem_Servico, Integer>("OS");
 	    OS.setCellValueFactory(new PropertyValueFactory<Ordem_Servico, Integer>("OS"));
 	    OS.setMinWidth(50);
@@ -79,9 +80,8 @@ public class Boundary_Balancos implements Boundary_Constructor, EventHandler<Act
 	    tabOS.getColumns().add(dt);
 	    tabOS.getColumns().add(serv);
 	    tabOS.getColumns().add(func);
-
-	}
-
+	    
+        }
     @Override
 
     	public void handle(ActionEvent event) {
@@ -99,7 +99,6 @@ public class Boundary_Balancos implements Boundary_Constructor, EventHandler<Act
     		}
     		else if(event.getTarget() == comboV) {
     			ControlManterOrdemServico mos = new ControlManterOrdemServico();
-    			tabOS.setItems(mos.getListO());
     		}
     	}
 

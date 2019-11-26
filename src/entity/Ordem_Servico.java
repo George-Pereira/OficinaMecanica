@@ -1,6 +1,8 @@
 package entity;
 
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Ordem_Servico 
 {
@@ -8,7 +10,7 @@ public class Ordem_Servico
 	private Date dtSaida;
 	private String nome;
 	private long OS;
-	private Servico nomeS;
+	private List<Servico> servs = new LinkedList<Servico>();
 	private Veiculo veic;
 	public Ordem_Servico(Veiculo veic, Date dtEntrada) 
 	{
@@ -16,10 +18,10 @@ public class Ordem_Servico
 		this.dtEntrada = dtEntrada;
 	}
 	
-	public Ordem_Servico(long OS, Servico nomeS, Date dtSaida, String nomeFunc, Date dtEntrada, Veiculo veic) {
+	public Ordem_Servico(long OS, List<Servico> servs, Date dtSaida, String nomeFunc, Date dtEntrada, Veiculo veic) {
 		this(veic, dtEntrada);
 		this.OS = OS;
-		this.nomeS = nomeS;
+		this.servs = servs;
 		this.dtSaida = dtSaida;
 		this.nome = nomeFunc;
 	}
@@ -60,13 +62,23 @@ public class Ordem_Servico
 		OS = oS;
 	}
 	
-	public Servico getNomeS() {
-		return nomeS;
-	}
-	public void setNomeS(Servico serv) {
-		this.nomeS = serv;
-	}
 	
+	public List<Servico> getServs() {
+		return servs;
+	}
+
+	public void setServs(List<Servico> servs) {
+		this.servs = servs;
+	}
+
+	public Veiculo getVeic() {
+		return veic;
+	}
+
+	public void setVeic(Veiculo veic) {
+		this.veic = veic;
+	}
+
 	public Veiculo getNomeV() 
 	{
 		return veic;

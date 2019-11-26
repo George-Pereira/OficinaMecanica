@@ -8,6 +8,8 @@ import controller.ControlVeiculo;
 import entity.Cliente;
 import entity.Ordem_Servico;
 import entity.Veiculo;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -82,7 +84,12 @@ public class Boundary_ManterHistorico implements Boundary_Constructor, EventHand
 		btnpesquisarS.addEventHandler(ActionEvent.ANY, this);
 		btnSalvar.addEventHandler(ActionEvent.ANY, this);
 		btnEditar.addEventHandler(ActionEvent.ANY, this);
-		comboV.addEventHandler(ActionEvent.ANY, this);
+		comboV.getSelectionModel().selectedItemProperty().addListener( new ChangeListener<Veiculo>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Veiculo> list, Veiculo antigo, Veiculo novo) {
+			}
+		});
 	}
 	
 	
@@ -124,11 +131,8 @@ public class Boundary_ManterHistorico implements Boundary_Constructor, EventHand
 			}
 
 		}else if(event.getTarget() == comboV) {
-			tabS.setItems(mos.MostraServico(comboV.getValue().getModel().toString()));
 		}
 		else if(event.getTarget() == btnpesquisarS) {
-			mos.getTemp().clear();
-			tabS.setItems(mos.BuscarServico(Integer.parseInt(txtServico.getText())));
 		}
 		else if(event.getTarget() == btnSalvar) {
 			

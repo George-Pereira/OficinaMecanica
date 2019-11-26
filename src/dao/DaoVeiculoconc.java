@@ -49,13 +49,36 @@ public class DaoVeiculoconc implements DaoVeiculo
 	@Override
 	public void desativaVeiculo(Veiculo veic, Cliente cli) 
 	{
-		
+		try {
+			String sql = "DELETE FROM veiculo WHERE id_Veiculo = ? ";
+			PreparedStatement state = conexao.prepareStatement(sql);
+			state.setLong(1, veic.getId());
+			state.execute();
+			state.close();
+		}
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void editaVeiculo(Veiculo veic, Cliente cli) 
 	{
-		
+		try {
+			String sql = "UPDATE veiculo SET placa = ?, id_Cor = ?, descri = ?, motor = ? WHERE id_veiculo = ?";
+			PreparedStatement state = conexao.prepareStatement(sql);
+			state.setString(1, veic.getPlaca());
+			state.setLong(2, veic.getCor().getId());
+			state.setString(3, veic.getDesc());
+			state.setDouble(4, veic.getMotor());
+			state.setLong(4, veic.getId());
+			state.close();
+		}
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -68,11 +91,13 @@ public class DaoVeiculoconc implements DaoVeiculo
 			PreparedStatement state = conexao.prepareStatement(command);
 			state.setString(1, placa);
 			ResultSet resultado = state.executeQuery();
+			resultado.next();
 			veic.setId(resultado.getLong("id_Veiculo"));
 			String marca = "SELECT * FROM marca Where id_Marca = ?";
 			PreparedStatement stateMarc = conexao.prepareStatement(marca);
 			stateMarc.setLong(1, resultado.getLong("id_Marca"));
 			ResultSet marcaSet = stateMarc.executeQuery();
+			marcaSet.next();
 			Marca marc = new Marca();
 			marc.setId(marcaSet.getLong("id_Marca"));
 			marc.setNome_Marca(marcaSet.getString("nome_Marca"));
@@ -83,6 +108,7 @@ public class DaoVeiculoconc implements DaoVeiculo
 			String cor = "Select * FROM cor WHERE id_Cor = ?";
 			PreparedStatement corState = conexao.prepareStatement(cor);
 			ResultSet cores = corState.executeQuery();
+			cores.next();
 			Cor corCar = new Cor();
 			corCar.setCor(cores.getString("nome_Cor"));
 			corCar.setId(cores.getLong("id_Cor"));

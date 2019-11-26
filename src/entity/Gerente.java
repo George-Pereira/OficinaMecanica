@@ -6,6 +6,9 @@ public class Gerente
 	private String nome_Gerente;
 	private String cartTrab;
 	private double salario;
+	private boolean ativo;
+	private String cpf;
+	private String telefone;
 	public Gerente() 
 	{
 		
@@ -48,6 +51,21 @@ public class Gerente
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-	private String telefone;
-	
+	public boolean isAtivo() {
+		return ativo;
+	}
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
+	public String getCpf() {
+		return cpf;
+	}
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+	@Override
+	public String toString() 
+	{
+		return this.nome_Gerente;
+	}
 }

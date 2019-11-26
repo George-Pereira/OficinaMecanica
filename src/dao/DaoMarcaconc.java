@@ -12,6 +12,7 @@ import entity.Marca;
 public class DaoMarcaconc implements DaoMarca
 {
 	private Connection conexao;
+	
 	public DaoMarcaconc() throws DaoException, SQLException 
 	{
 		DaoGenerica i = new DaoGenericoconc();
@@ -31,9 +32,9 @@ public class DaoMarcaconc implements DaoMarca
 			e.printStackTrace();
 		}
 	}
-
+	
 	@Override
-	public List<Marca> getMarca() throws DaoException 
+	public List<Marca> getMarca() throws DaoException
 	{
 		List<Marca> marcas = new LinkedList<Marca>();
 		try {

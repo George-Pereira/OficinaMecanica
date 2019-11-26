@@ -44,4 +44,17 @@ public class ControlModelo
 		}
 		return modelos;
 	}
+	public Modelo pesquisaModelo(Long model) 
+	{
+		Modelo mod = new Modelo();
+		try {
+			DaoModelo persistencia = new DaoModeloconc();
+			mod = persistencia.pesqModelo(model);
+		} 
+		catch (ClassNotFoundException | DaoException | SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		return mod;
+	}
 }

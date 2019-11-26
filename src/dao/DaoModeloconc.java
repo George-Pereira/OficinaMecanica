@@ -87,4 +87,20 @@ public class DaoModeloconc implements DaoModelo
 			}
 		}
 	}
+	public Modelo pesqModelo(Long model) 
+	{
+		Modelo modelo = new Modelo();
+		try {
+			String sql = "SELECT id_Marca, nome_Modelo FROM modelo WHERE id_Modelo = ?";
+			PreparedStatement state = conexao.prepareStatement(sql);
+			state.setLong(1, model);
+			ResultSet result = state.executeQuery();
+			result.next();
+			modelo.setId(result.getLong("id_Modelo"));
+			modelo.setNome_Modelo(result.getString("nome_Modelo"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return modelo;
+	}
 }

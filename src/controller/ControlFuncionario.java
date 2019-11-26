@@ -8,6 +8,7 @@ import java.util.List;
 import dao.DaoException;
 import dao.DaoFuncionario;
 import dao.DaoFuncionarioconc;
+import dao.DaoServico;
 import entity.Funcionario;
 import entity.Gerente;
 import entity.Servico;
@@ -72,6 +73,25 @@ public class ControlFuncionario
 			e.printStackTrace();
 		}
 		return listaFunc;
+	}
+	public ObservableList<Servico> getHabilidades(Funcionario func) 
+	{
+		List<Servico> lista = new LinkedList<Servico>();
+		ObservableList<Servico> listaHabs = FXCollections.observableArrayList();
+		try {
+			listaHabs = FXCollections.observableArrayList();
+			DaoFuncionario dao = new DaoFuncionarioconc();
+			lista = dao.getHabilidades(func);
+			for(Servico serv : lista) 
+			{
+				listaHabs.add(serv);
+			}
+		}
+		catch (DaoException | SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		return listaHabs;
 	}
 }
 

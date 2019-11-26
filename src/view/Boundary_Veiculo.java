@@ -45,6 +45,7 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 	private Button btnDesat = new Button("Desativar");
 	private Button btnEdit = new Button("Editar");
 	private Button btnPesq = new Button("Pesquisar");
+	private Button btnPesqCar = new Button("Pesquisar Carro");
 	private Button btnNvMarca = new Button("Novo");
 	private Veiculo atual = new Veiculo();
 	private TableView<Veiculo> table = new TableView<Veiculo>();
@@ -135,12 +136,13 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		flw.setAlignment(Pos.CENTER);;
 		flw.setHgap(100);
 		flw.setVgap(10);
-		flw.getChildren().addAll(btnAdd, btnPesq, btnEdit, btnDesat);
+		flw.getChildren().addAll(btnAdd, btnPesq, btnEdit, btnDesat, btnPesqCar);
 		constructTable();
 		btnAdd.addEventHandler(ActionEvent.ANY, this);
 		btnDesat.addEventHandler(ActionEvent.ANY, this);
 		btnPesq.addEventHandler(ActionEvent.ANY, this);
 		btnEdit.addEventHandler(ActionEvent.ANY, this);
+		btnPesqCar.addEventHandler(ActionEvent.ANY, this);
 		lay.setBottom(flw);
 	}
 	
@@ -178,28 +180,33 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 			Veiculo pesq = new Veiculo();
 			try 
 			{
-				if(!(txtPlaca.getText().equals(""))) 
+				if (!(comboCliente.getValue().equals(null))) 
 				{
-					pesq = ctrVeic.pesquisaVeiculo(txtPlaca.getText());
-					clearCampos();
-				    carregarDados(pesq);
-				    atual = pesq;
-				}
-				else if(!(txtChassis.getText().equals("")))
-				{
-					pesq = ctrVeic.pesquisaVeiculoAlt(txtChassis.getText());
-					clearCampos();
-				    carregarDados(pesq);
-				    atual = pesq;
-				}
-				else  if (!(comboCliente.getValue().equals(null))) 
-				{
+					table.getItems().clear();
 					table.setItems(ctrVeic.getVeiculos(comboCliente.getValue()));
 				}
 			} 
 			catch (Exception e) 
 			{
 				System.out.println("Não há parametros para pesquisa");
+			}
+		}
+		else if(evento.getTarget() == btnPesqCar) 
+		{
+			Veiculo pesq = new Veiculo();
+			if(!(txtPlaca.getText().equals(""))) 
+			{
+				pesq = ctrVeic.pesquisaVeiculo(txtPlaca.getText());
+				clearCampos();
+			    carregarDados(pesq);
+			    atual = pesq;
+			}
+			else if(!(txtChassis.getText().equals("")))
+			{
+				pesq = ctrVeic.pesquisaVeiculoAlt(txtChassis.getText());
+				clearCampos();
+			    carregarDados(pesq);
+			    atual = pesq;
 			}
 		}
 		else if(evento.getTarget() == btnEdit) 
@@ -235,9 +242,9 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		txtAno.setText(String.valueOf((v.getAnoFabrica())));
 		txtPlaca.setText(v.getPlaca());
 		comboMarca.getSelectionModel().select(v.getMarca());
-		comboModel.getSelectionModel().select((v.getModel()));
 		txtMotor.setText(String.valueOf(v.getMotor()));
 		txtDesc.setText(v.getDesc());
+		comboModel.getSelectionModel().select((v.getModel()));
 	}
 	public void clearCampos() 
 	{
@@ -250,7 +257,6 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		txtDesc.setText("");
 		txtMotor.setText("");
 	}
-
 	private void constructTable() 
 	{
 		TableColumn<Veiculo, String> columnPlaca = new TableColumn<Veiculo, String>("Placa");

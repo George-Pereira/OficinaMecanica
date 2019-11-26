@@ -11,22 +11,10 @@ import entity.Cliente;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class ControlCliente 
+public class ControlCliente
 {
 	
 	private ObservableList<Cliente> lista = FXCollections.observableArrayList();
-
-	/*public boolean existenciaCliente(Cliente c) 
-	{ 
-		for(Cliente cli : lista) 
-		{
-			if((cli.getCNH().equals(c.getCNH())|| cli.getCPF().equals(c.getCPF()))) 
-			{
-				return true;
-			}
-		}
-		return false;
-	}*/
 
 	public void adicionar(Cliente c) 
 	{
@@ -54,7 +42,8 @@ public class ControlCliente
 		}
 		return cli;
 	}
-	public Cliente pesquisarPorNome(String nome) { 
+	public Cliente pesquisarPorNome(String nome) 
+	{ 
 		Cliente cli = new Cliente();
 		try 
 		{

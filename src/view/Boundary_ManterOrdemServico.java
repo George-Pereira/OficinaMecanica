@@ -3,6 +3,8 @@ package view;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 import controller.ControlCliente;
 import controller.ControlFuncionario;
@@ -53,6 +55,7 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 	private ControlCliente ctrCli = new ControlCliente();
 	private ControlFuncionario ctrFunc = new ControlFuncionario();
 	private ControlVeiculo ctrVeic = new ControlVeiculo();
+	private List<Servico> ordemServico = new LinkedList<Servico>();
 	private int i = 1;
 	
 	public Boundary_ManterOrdemServico(gerenciadorTelas gerente) 
@@ -170,7 +173,12 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 		{
 			LocalDate dt = txtDtEntrada.getValue();
 			Date d = Date.from(dt.atStartOfDay(ZoneId.systemDefault()).toInstant());
-			mos.ReSalvar(combo.getValue(), d);
+			Ordem_Servico novaOS = new Ordem_Servico();
+			novaOS.setDtEntrada(d);
+			LocalDate dt2 = txtDtSaida.getValue();
+			Date dtSa = Date.from(dt2.atStartOfDay(ZoneId.systemDefault()).toInstant());
+			novaOS.setDtSaida(dtSa);
+			mos.adicionaOS(novaOS, combo.getSelectionModel().getSelectedItem(), comboF.getSelectionModel().getSelectedItem());
 			table.getItems().clear();
 			txtProcurar.clear();
 			combo.getItems().removeAll();
@@ -180,13 +188,9 @@ public class Boundary_ManterOrdemServico implements EventHandler<ActionEvent>, B
 		else if(event.getTarget() == btnAddS) {
 			LocalDate dt1 = txtDtSaida.getValue();
 			Date d1 = Date.from(dt1.atStartOfDay(ZoneId.systemDefault()).toInstant());
-			
-			String s = table1.getSelectionModel().getSelectedItem().getNomeServ();
-			mos.SalvarInformacoes(i, s, d1, comboF.getValue().getNomeFunc());
-			table.setItems(mos.getListaOS());
+			ordemServico.add(table1.getSelectionModel().getSelectedItem());
 		}
 	}
-
 	@Override
 	public Pane constructBoundary() 
 	{
