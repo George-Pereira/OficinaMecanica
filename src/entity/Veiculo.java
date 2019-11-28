@@ -8,21 +8,21 @@ public class Veiculo
 	private double motor;
 	private Cor cor;
 	private String placa;
-	private Modelo model;
-	private Marca marca;
+	private Long model;
+	private Long marca;
 	private String desc;
 	private Historico hist;
 	
-	public Veiculo(int anoFabrica, String chassis, double motor, Cor cor, String placa, Modelo model, Marca marca, String desc) 
+	public Veiculo(int anoFabrica, String chassis, double motor, Cor cor, String placa, long model, long marca, String desc) 
 	{
 		this.anoFabrica = anoFabrica;
 		this.chassis = chassis;
 		this.motor = motor;
 		this.cor = cor;
 		this.placa = placa;
-		this.setDesc(desc);
+		this.desc = desc;
 		this.model = model;
-		this.setMarca(marca);
+		this.marca = marca;
 	}
 	public Veiculo() 
 	{
@@ -96,16 +96,16 @@ public class Veiculo
 			}
 		}
 	}
-	public Modelo getModel() {
+	public long getModel() {
 		return model;
 	}
-	public void setModel(Modelo model) {
+	public void setModel(long model) {
 		this.model = model;
 	}
-	public Marca getMarca() {
+	public long getMarca() {
 		return marca;
 	}
-	public void setMarca(Marca marca) {
+	public void setMarca(long marca) {
 		this.marca = marca;
 	}
 	public String getDesc() 

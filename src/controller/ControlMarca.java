@@ -39,4 +39,10 @@ public class ControlMarca
 			}
 		return fabricantes;
 	}
+	public Marca procMarca(long id) 
+	{
+		Marca marc = new Marca();
+		DaoMarca dao = new DaoMarcaconc();
+		marc = dao.procMarca(id);
+	}
 }

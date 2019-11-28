@@ -121,6 +121,7 @@ public class DaoServicoconc implements DaoServico
 		{
 			String sql = "SELECT nome_Servico FROM servico WHERE nome_Servico = ?";
 			PreparedStatement state = conexao.prepareStatement(sql);
+			state.setString(1, serv.getNomeServ());
 			ResultSet results = state.executeQuery();
 			if(results.next()) 
 			{

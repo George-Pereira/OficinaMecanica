@@ -8,4 +8,5 @@ public interface DaoMarca
 {
 	void adicionarMarca(String marca) throws DaoException;
 	List<Marca> getMarca() throws DaoException;
+	Marca procMarca(long id);
 }

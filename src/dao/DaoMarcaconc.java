@@ -56,4 +56,15 @@ public class DaoMarcaconc implements DaoMarca
 		}
 		return marcas;
 	}
+	@Override
+	public Marca procMarca(long id) 
+	{
+		Marca marc = new Marca();
+		String sql = "SELECT id_Marca, nome_Marca FROM marca WHERE id_Marca = ?";
+		PreparedStatement state = conexao.prepareStatement(sql);
+		state.setLong(1, id);
+		ResultSet result = state.executeQuery();
+		result.next();
+		return marc;
+	}
 }

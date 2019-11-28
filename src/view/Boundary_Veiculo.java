@@ -46,7 +46,6 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 	private Button btnEdit = new Button("Editar");
 	private Button btnPesq = new Button("Pesquisar");
 	private Button btnPesqCar = new Button("Pesquisar Carro");
-	private Button btnNvMarca = new Button("Novo");
 	private Veiculo atual = new Veiculo();
 	private TableView<Veiculo> table = new TableView<Veiculo>();
 	private Cliente context = new Cliente();
@@ -105,7 +104,6 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		info.setStyle("-fx-padding: 10px");
 		info.add(new Label("Marca"), 0 , 0);
 		info.add(comboMarca, 1, 0);
-		info.add(btnNvMarca, 2, 0);
 		info.add(new Label("Ano"), 3, 0);
 		info.add(txtAno, 4, 0);
 		info.add(new Label("Placa"), 5, 0);
@@ -158,10 +156,6 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 			{
 				e.printStackTrace();
 			}
-		}
-		if(evento.getTarget() == btnNvMarca) 
-		{
-				ctrMarca.adicionarMarca(comboModel.getValue().toString());
 		}
 		if(evento.getTarget() == btnAdd) 
 		{
@@ -217,8 +211,8 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 			atual.setAnoFabrica(Integer.parseInt(txtAno.getText()));
 			atual.setMotor(Double.parseDouble(txtMotor.getText()));
 			atual.setDesc(txtDesc.getText());
-			atual.setModel((comboModel.getValue()));
-			atual.setMarca(comboMarca.getValue());
+			atual.setModel((comboModel.getValue().getId()));
+			atual.setMarca(comboMarca.getValue().getId());
 			clearCampos();
 		}
 	}
@@ -231,9 +225,9 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		novo.setAnoFabrica(Integer.parseInt(txtAno.getText()));
 		novo.setMotor(Double.parseDouble(txtMotor.getText()));
 		novo.setDesc(txtDesc.getText());
-		novo.setModel(comboModel.getValue());
-		novo.setMarca(comboMarca.getValue());
-		ctrVeic.insereVeiculo(novo, comboCliente.getValue());
+		novo.setModel(comboModel.getSelectionModel().getSelectedItem().getId());
+		novo.setMarca(comboMarca.getSelectionModel().getSelectedItem().getId());
+		ctrVeic.insereVeiculo(novo, comboCliente.getSelectionModel().getSelectedItem());
 	}
 	public void carregarDados(Veiculo v) 
 	{
@@ -241,10 +235,10 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		txtChassis.setText(v.getChassis());
 		txtAno.setText(String.valueOf((v.getAnoFabrica())));
 		txtPlaca.setText(v.getPlaca());
-		comboMarca.getSelectionModel().select(v.getMarca());
+		comboMarca.getSelectionModel().select(ctrMarca.);
 		txtMotor.setText(String.valueOf(v.getMotor()));
 		txtDesc.setText(v.getDesc());
-		comboModel.getSelectionModel().select((v.getModel()));
+		comboModel.getSelectionModel().select(ctrModel.pesquisaModelo(v.getModel()));
 	}
 	public void clearCampos() 
 	{
