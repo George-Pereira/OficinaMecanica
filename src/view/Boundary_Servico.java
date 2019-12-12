@@ -70,7 +70,7 @@ public class Boundary_Servico implements Boundary_Constructor, EventHandler<Acti
 		TableColumn<Servico, String> clnNomeServ = new TableColumn<Servico, String>("Nome");
 		clnNomeServ.setCellValueFactory(new PropertyValueFactory<Servico, String>("nomeServ"));
 		clnNomeServ.setMinWidth(266);
-		TableColumn<Servico, String> clnDescServ = new TableColumn<Servico, String>("Descricao");
+		TableColumn<Servico, String> clnDescServ = new TableColumn<Servico, String>("Descrição");
 		clnDescServ.setCellValueFactory(new PropertyValueFactory<Servico, String>("descServ"));
 		clnDescServ.setMinWidth(266);
 		TableColumn<Servico, boolean[]> clnDispServ = new TableColumn<Servico, boolean[]>("Status");

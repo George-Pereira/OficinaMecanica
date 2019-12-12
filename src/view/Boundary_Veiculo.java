@@ -63,9 +63,7 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		this.gerente = gerente;
 		comboMarca.setItems(ctrMarca.getMarcas());
 		comboMarca.getSelectionModel().selectFirst();
-		comboModel.setEditable(true);
 		comboMarca.valueProperty().addListener(new ChangeListener<Marca>() {
-
 			@Override
 			public void changed(ObservableValue<? extends Marca> lista, Marca velho, Marca novo) 
 			{
@@ -149,13 +147,7 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 	{
 		if(evento.getTarget() == btnNvModel) 
 		{
-			try {
-				ctrModel.adicionaModelo((comboModel.getValue().toString()), comboMarca.getValue().getId());
-			}
-			catch (DaoException e) 
-			{
-				e.printStackTrace();
-			}
+			gerente.request("Modelos");
 		}
 		if(evento.getTarget() == btnAdd) 
 		{
@@ -275,6 +267,7 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 	{
 		comboCliente.getItems().clear();
 		comboCliente.setItems(ctrCli.getClientes());
+		comboModel.getItems().clear();
 		comboModel.setItems(ctrModel.getModelos(comboMarca.getValue().getId()));
 		return lay;
 	}

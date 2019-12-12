@@ -26,15 +26,7 @@ public class DaoModeloconc implements DaoModelo
 			PreparedStatement state = conexao.prepareStatement(query);
 			state.setString(1, modelo);
 			ResultSet result = state.executeQuery();
-			state.close();
-			if(!result.first()) 
-			{
-				return false;
-			}
-			else
-			{
-				return true;
-			}
+			return result.next();
 		} catch (SQLException e) 
 		{
 			e.printStackTrace();

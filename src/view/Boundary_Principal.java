@@ -11,6 +11,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -26,6 +33,7 @@ public class Boundary_Principal extends Application implements EventHandler<Acti
 	private MenuItem mniMantOS = new MenuItem("Manter OS");
 	private MenuItem mniMantClient = new MenuItem("Manter Cliente");
 	private MenuItem mniMantHist = new MenuItem("Manter Historico");
+	private MenuItem mniMantModel = new MenuItem("Manter Modelo");
 	private Map<String, Boundary_Constructor> interfaces = new HashMap<>();
 	private BorderPane princ = new BorderPane();
 	public MenuBar menuConstruction() 
@@ -37,9 +45,10 @@ public class Boundary_Principal extends Application implements EventHandler<Acti
 		mniMantServicos.setUserData("Servicos");
 		mniVisualBalanco.setUserData("Balancos");
 		mniMantHist.setUserData("Historico");
+		mniMantModel.setUserData("Modelos");
 		menuprinc.getMenus().addAll(itensCad, itensGerenc);
 		itensGerenc.getItems().addAll(mniVisualBalanco, mniMantHist);
-		itensCad.getItems().addAll(mniMantVeiculos, mniMantServicos, mniMantFuncionario, mniMantOS, mniMantClient);
+		itensCad.getItems().addAll(mniMantVeiculos, mniMantServicos, mniMantFuncionario, mniMantOS, mniMantClient, mniMantModel);
 		interfaces.put("Veiculos", new Boundary_Veiculo(this));
 		interfaces.put("Servicos", new Boundary_Servico());
 		interfaces.put("Funcionario", new Boundary_Funcionario());
@@ -47,6 +56,7 @@ public class Boundary_Principal extends Application implements EventHandler<Acti
 		interfaces.put("OS", new Boundary_ManterOrdemServico(this));
 		interfaces.put("Clientes", new Boundary_Cliente(this));
 		interfaces.put("Historico", new Boundary_ManterHistorico());
+		interfaces.put("Modelos", new Boundary_Modelo(this));
 		mniMantClient.addEventHandler(ActionEvent.ANY, this);
 		mniMantServicos.addEventHandler(ActionEvent.ANY, this);
 		mniMantVeiculos.addEventHandler(ActionEvent.ANY, this);
@@ -54,6 +64,7 @@ public class Boundary_Principal extends Application implements EventHandler<Acti
 		mniMantFuncionario.addEventHandler(ActionEvent.ANY, this);
 		mniVisualBalanco.addEventHandler(ActionEvent.ANY, this);
 		mniMantHist.addEventHandler(ActionEvent.ANY, this);
+		mniMantModel.addEventHandler(ActionEvent.ANY, this);
 		return menuprinc;
 	}
 	@Override
@@ -66,6 +77,10 @@ public class Boundary_Principal extends Application implements EventHandler<Acti
 		stage.setScene(cena);
 		stage.setTitle("Gerenciador de Oficinas");
 		stage.show();
+		BackgroundImage myBI= new BackgroundImage(new Image("https://i.redd.it/pova3bmbezvz.jpg",cena.getWidth(),cena.getHeight(),false,true),
+		BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+		BackgroundSize.DEFAULT);
+		princ.setBackground(new Background(myBI));
 	}
 	@Override
 	public void handle(ActionEvent event) 

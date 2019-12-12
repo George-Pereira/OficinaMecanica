@@ -20,14 +20,7 @@ public class ControlServico
 		DaoServico serv;
 		try {
 			serv = new DaoServicoconc();
-			if(serv.consultaExistencia(servico)) 
-			{
-				return true;
-			}
-			else 
-			{
-				return false;
-			}
+			return serv.consultaExistencia(servico);
 		} catch (DaoException | SQLException e) 
 		{
 			e.printStackTrace();
