@@ -20,7 +20,7 @@ public class DaoFuncionarioconc implements DaoFuncionario
 		conexao = dao.getConnection();
 	}
 	@Override
-	public void adicionarFuncionario(Funcionario func, Gerente ger) throws DaoException 
+	public void adicionarFuncionario(Funcionario func, long ger) throws DaoException 
 	{
 		if(!existenciaFuncionario(func)) 
 		{
@@ -32,7 +32,8 @@ public class DaoFuncionarioconc implements DaoFuncionario
 				state.setString(3, func.getCpf());
 				state.setDouble(4, func.getSalario());
 				state.setString(5, func.getTelefone());
-				state.setLong(6, ger.getId());
+				state.setString(6,func.getObs());
+				state.setLong(6, ger);
 				state.execute();
 				state.close();
 			}
@@ -62,9 +63,18 @@ public class DaoFuncionarioconc implements DaoFuncionario
 	}
 
 	@Override
-	public void removerFuncionario(Funcionario func) throws DaoException 
+	public void removerFuncionario(long func) throws DaoException 
 	{
-		String sql = "UPDATE from";
+		try {
+			String sql = "UPDATE Funcionario SET atividade = 0 WHERE id_func = ?";
+			PreparedStatement state = conexao.prepareStatement(sql);
+			state.setLong(1, func);
+			state.execute();
+		}
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -97,13 +107,13 @@ public class DaoFuncionarioconc implements DaoFuncionario
 	}
 
 	@Override
-	public List<Funcionario> getHabilitados(Servico serv) throws DaoException 
+	public List<Funcionario> getHabilitados(long serv) throws DaoException 
 	{
 		List<Funcionario> funcs = new LinkedList<Funcionario>();
 		try {
 			String sql = "SELECT id_func, nome_func, cartTrab, salarioHora, cpf, telefone FROM Funcionario INNER JOIN habilidade ON Funcionario.id_func = habilidade.id_funcion WHERE habilidade.id_Serv = ?";
 			PreparedStatement state = conexao.prepareStatement(sql);
-			state.setLong(1, serv.getId());
+			state.setLong(1, serv);
 			ResultSet results = state.executeQuery();
 			while(results.next()) 
 			{
@@ -150,14 +160,14 @@ public class DaoFuncionarioconc implements DaoFuncionario
 		return func;
 	}
 	@Override
-	public void adicionarHabilidades(Funcionario func, Servico serv) throws DaoException 
+	public void adicionarHabilidades(long func, long serv) throws DaoException 
 	{
 		try 
 		{
 			String sql = "INSERT INTO habilidade " + "(id_funcion, id_serv) " + "Values " + "(?,?)";
 			PreparedStatement state = conexao.prepareStatement(sql);
-			state.setLong(1, func.getId());
-			state.setLong(2, serv.getId());
+			state.setLong(1, func);
+			state.setLong(2, serv);
 			state.execute();
 		}
 		catch (SQLException e) 
@@ -189,13 +199,13 @@ public class DaoFuncionarioconc implements DaoFuncionario
 		return true;
 	}
 	@Override
-	public List<Servico> getHabilidades(Funcionario func) throws DaoException 
+	public List<Servico> getHabilidades(long func) throws DaoException 
 	{
 		List<Servico> habilidades = new LinkedList<Servico>();
 		try {
 			String sql = "SELECT nome_servico FROM Servico serv INNER JOIN habilidade hab ON serv.id_Servico = hab.id_Serv INNER JOIN Funcionario func ON hab.id_funcion = func.id_Func WHERE id_func = ?";
 			PreparedStatement state = conexao.prepareStatement(sql);
-			state.setLong(1, func.getId());
+			state.setLong(1, func);
 			ResultSet result = state.executeQuery();
 			while(result.next()) 
 			{

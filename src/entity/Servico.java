@@ -1,5 +1,4 @@
 package entity;
-
 public class Servico 
 {
 	private long id;
@@ -7,12 +6,10 @@ public class Servico
 	private String descServ;
 	private double valueServ;
 	private boolean servDisp;
-	
 	public Servico() 
 	{
 		
 	}
-
 	public Servico(String nomeServ, String descServ, boolean servDisp, double valueServ) 
 	{
 		this.nomeServ = nomeServ;
@@ -20,7 +17,6 @@ public class Servico
 		this.servDisp = servDisp;
 		this.valueServ = valueServ;
 	}
-
 	public String getNomeServ() 
 	{
 		return nomeServ;
@@ -44,21 +40,16 @@ public class Servico
 	{
 		this.servDisp = servDisp;
 	}
-
 	public double getValueServ() {
 		return valueServ;
 	}
-
 	public void setValueServ(double valueServ) {
 		this.valueServ = valueServ;
 	}
-
 	public long getId() {
 		return id;
 	}
-
 	public void setId(long id) {
 		this.id = id;
 	}
-
 }

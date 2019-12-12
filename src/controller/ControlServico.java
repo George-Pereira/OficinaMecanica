@@ -42,6 +42,7 @@ public class ControlServico
 			{
 				servico.adicionarServico(serv);
 			}
+			listaServ.add(serv);
 		}
 		catch (DaoException | SQLException e) 
 		{
@@ -82,7 +83,8 @@ public class ControlServico
 			{
 				listaServ.add(ser);
 			}
-		} catch (SQLException |DaoException e) 
+		}
+		catch (SQLException |DaoException e) 
 		{
 			e.printStackTrace();
 		}

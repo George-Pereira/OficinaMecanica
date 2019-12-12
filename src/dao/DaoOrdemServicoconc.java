@@ -58,7 +58,7 @@ private Connection conexao;
 				if(VeiculoSet.next()) {
 					v.setId(VeiculoSet.getLong("id_Veiculo"));
 				}
-				os2.setNomeV(v);
+				os2.setNomeV(v.getId());
 				
 				os1.add(os2);
 			}

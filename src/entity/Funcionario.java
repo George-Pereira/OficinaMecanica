@@ -12,6 +12,13 @@ public class Funcionario
 	private String telefone;
 	private boolean atividade;
 	private double salario;
+	private String Obs;
+	public String getObs() {
+		return Obs;
+	}
+	public void setObs(String obs) {
+		Obs = obs;
+	}
 	private ObservableList<Servico> habilidades = FXCollections.observableArrayList();
 	
 	@Override

@@ -22,7 +22,7 @@ public class DaoServicoconc implements DaoServico
 	{
 		try 
 		{
-			String command = "INSERT INTO servico " + "(nome_Serv, descricao_Serv, disponivel, custo) " + "VALUES " + "(?, ?. ?, ?)";
+			String command = "INSERT INTO servico " + "(nome_Servico, descricao_Serv, disponivel, custo) " + "VALUES " + "(?, ?, ?, ?)";
 			PreparedStatement state = conexao.prepareStatement(command);
 			state.setString(1, serv.getNomeServ());
 			state.setString(2, serv.getDescServ());
@@ -81,6 +81,7 @@ public class DaoServicoconc implements DaoServico
 			{
 				ser.setId(result.getLong("id_Servico"));
 				ser.setNomeServ(result.getString("nome_Servico"));
+				ser.setDescServ(result.getString("descricao_Serv"));
 				ser.setValueServ(result.getDouble("custo"));
 				ser.isServDisp(result.getBoolean("disponivel"));
 			}
@@ -97,7 +98,7 @@ public class DaoServicoconc implements DaoServico
 	{
 		List<Servico> servicos = new LinkedList<Servico>();;
 		try {
-			String sql = "SELECT nome_Servico, id_Servico, descricao_Serv, custo, disponivel FROM servico WHERE disponivel = 1";
+			String sql = "SELECT nome_Servico, id_Servico, descricao_Serv, custo, disponivel FROM servico";
 			PreparedStatement state = conexao.prepareStatement(sql);
 			ResultSet result = state.executeQuery();
 			while(result.next()) 

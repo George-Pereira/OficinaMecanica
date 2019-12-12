@@ -39,10 +39,17 @@ public class ControlMarca
 			}
 		return fabricantes;
 	}
-	public Marca procMarca(long id) 
+	public Marca procMarca(String nome) 
 	{
 		Marca marc = new Marca();
-		DaoMarca dao = new DaoMarcaconc();
-		marc = dao.procMarca(id);
+		try {
+			DaoMarca dao = new DaoMarcaconc();
+			marc = dao.procMarca(nome);
+		}
+		catch (DaoException | SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return marc;
 	}
 }

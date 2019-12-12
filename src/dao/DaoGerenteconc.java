@@ -58,12 +58,12 @@ public class DaoGerenteconc implements DaoGerente
 		}
 	}
 	@Override
-	public void desativaGerente(Gerente ger) throws DaoException 
+	public void desativaGerente(long ger) throws DaoException 
 	{
 		try {
 			String sql = "UPDATE Gerente SET ativo = 0 WHERE id_Gerente = ?";
 			PreparedStatement state = conexao.prepareStatement(sql);
-			state.setLong(1, ger.getId());
+			state.setLong(1, ger);
 			state.execute();
 			state.close();
 		}

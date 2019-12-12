@@ -95,14 +95,8 @@ public class Boundary_Servico implements Boundary_Constructor, EventHandler<Acti
 			{
 				txtNservico.setText(atual.getNomeServ());
 				txtDescricao.setText(atual.getDescServ());
-				if(atual.isServDisp()) 
-				{
-					chServativo.arm();
-				}
-				else 
-				{
-					chServativo.disarm();
-				}
+				txtValor.setText(String.valueOf((atual.getValueServ())));
+				chServativo.setSelected(atual.isServDisp());
 			}
 		}
 		else if(event.getTarget() == btnEditar) 

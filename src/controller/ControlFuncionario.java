@@ -18,7 +18,7 @@ import javafx.collections.ObservableList;
 public class ControlFuncionario 
 {
 	private ObservableList<Funcionario> listaFunc = FXCollections.observableArrayList();
-	public void insertFuncionario(Funcionario func, Gerente ger) 
+	public void insertFuncionario(Funcionario func, long ger) 
 	{
 		try {
 			DaoFuncionario dao= new DaoFuncionarioconc();
@@ -46,7 +46,7 @@ public class ControlFuncionario
 	{
 
 	}
-	public void insereHabilidade(Funcionario func, Servico serv) 
+	public void insereHabilidade(long func, long serv) 
 	{
 		try {
 			DaoFuncionario dao = new DaoFuncionarioconc();
@@ -74,7 +74,7 @@ public class ControlFuncionario
 		}
 		return listaFunc;
 	}
-	public ObservableList<Servico> getHabilidades(Funcionario func) 
+	public ObservableList<Servico> getHabilidades(long func) 
 	{
 		List<Servico> lista = new LinkedList<Servico>();
 		ObservableList<Servico> listaHabs = FXCollections.observableArrayList();

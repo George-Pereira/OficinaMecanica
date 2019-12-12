@@ -38,7 +38,6 @@ public class Boundary_Funcionario implements Boundary_Constructor, EventHandler<
 	private TableView<Servico> tableHabilidades = new TableView<Servico>();
 	private Button btnAdd = new Button("Adicionar");
 	private CheckBox chFunc = new CheckBox("Funcionario Ativo");
-	private Button btnAddserv = new Button("Adicionar Habilidade");
 	private ControlFuncionario ctrFunc = new ControlFuncionario();
 	private Funcionario atual = new Funcionario();
 	private ControlGerente ctrGer = new ControlGerente();
@@ -48,7 +47,6 @@ public class Boundary_Funcionario implements Boundary_Constructor, EventHandler<
 	public Boundary_Funcionario() 
 	{
 		btnAdd.addEventHandler(ActionEvent.ANY, this);
-		btnAddserv.addEventHandler(ActionEvent.ANY, this);
 		GridPane grd = new GridPane();
 		grd.setHgap(10);
 		grd.setVgap(10);
@@ -78,8 +76,10 @@ public class Boundary_Funcionario implements Boundary_Constructor, EventHandler<
 		grd.add(txtTel, 1, 2);
 		grd.add(new Label("Salário"), 2, 2);
 		grd.add(txtSalario, 3, 2);
+		grd.add(new Label("Obreservação"),3,3);
 		grd.add(chFunc, 0, 3);
-		grd.add(comboGerente, 1, 3);
+		grd.add(new Label("Gerente"), 2, 3);
+		grd.add(comboGerente, 3, 3);
 		constructTables();
 		FlowPane flwBotoes = new FlowPane();
 		flwBotoes.getChildren().add(btnAdd);
@@ -130,7 +130,6 @@ public class Boundary_Funcionario implements Boundary_Constructor, EventHandler<
 		tableHabilidades.setItems(atual.getHabilidades());
 		grd.add(tableHabilidades, 2, 0);
 		grd.add(tableServicos, 0, 0);
-		grd.add(btnAddserv, 1, 0);
 		grd.setHgap(10);
 		brdp.setCenter(grd);
 	}
@@ -148,26 +147,25 @@ public class Boundary_Funcionario implements Boundary_Constructor, EventHandler<
 		if(event.getTarget() == btnAdd) 
 		{	
 			atual = new Funcionario(txtNome.getText(), txtCartrab.getText(), txtCpf.getText(), txtTel.getText(), Double.parseDouble(txtSalario.getText()), chFunc.isSelected());
-			ctrFunc.insertFuncionario(atual, comboGerente.getValue());
+			ctrFunc.insertFuncionario(atual, comboGerente.getValue().getId());
 			txtNome.clear();
 			txtCartrab.clear();
 			txtCpf.clear();
 			txtTel.clear();
 			txtSalario.clear();
-			
 		}
 		else if (event.getTarget() == btnPesqfunc) 
 		{
 			atual = (ctrFunc.pesqFuncionario(txtNome.getText()));
 			tableHabilidades.getItems().clear();
-			tableHabilidades.setItems(ctrFunc.getHabilidades(atual));
+			tableHabilidades.setItems(ctrFunc.getHabilidades(atual.getId()));
 			carregaDados(atual);
 		}
 		else if(event.getTarget() == tableServicos) 
 		{
 			Servico serv = (Servico) tableServicos.getSelectionModel().getSelectedItem();
 			System.out.println(serv.getNomeServ());
-			ctrFunc.insereHabilidade(atual, (Servico) tableServicos.getSelectionModel().getSelectedItem());
+			ctrFunc.insereHabilidade(atual.getId(), tableServicos.getSelectionModel().getSelectedItem().getId());
 			tableHabilidades.setUserData(tableServicos.getSelectionModel().getSelectedItem());
 		}
 	}

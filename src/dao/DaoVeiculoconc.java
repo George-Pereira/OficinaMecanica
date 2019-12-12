@@ -31,7 +31,7 @@ public class DaoVeiculoconc implements DaoVeiculo
 			String command = "INSERT INTO veiculo " + "(id_Cor, id_Modelo, id_Cliente, descri, ano, motor, placa, chassis) " + "VALUES (?,?,?,?,?,?,?,?)";
 			PreparedStatement state = conexao.prepareStatement(command);
 			state.setLong(1, veic.getCor().getId());
-			state.setLong(2, veic.getModel().getId());
+			state.setString(2, veic.getModel());
 			state.setLong(3, cli.getId());
 			state.setString(4, veic.getDesc());
 			state.setInt(5, veic.getAnoFabrica());
@@ -63,16 +63,16 @@ public class DaoVeiculoconc implements DaoVeiculo
 	}
 
 	@Override
-	public void editaVeiculo(Veiculo veic, Cliente cli) 
+	public void editaVeiculo(Veiculo veic) 
 	{
 		try {
-			String sql = "UPDATE veiculo SET placa = ?, id_Cor = ?, descri = ?, motor = ? WHERE id_veiculo = ?";
+			String sql = "UPDATE veiculo SET placa = ?, id_Cor = ?, descri = ?, motor = ? WHERE chassis = ?";
 			PreparedStatement state = conexao.prepareStatement(sql);
 			state.setString(1, veic.getPlaca());
 			state.setLong(2, veic.getCor().getId());
 			state.setString(3, veic.getDesc());
 			state.setDouble(4, veic.getMotor());
-			state.setLong(4, veic.getId());
+			state.setString(4, veic.getChassis());
 			state.close();
 		}
 		catch (SQLException e) 
@@ -87,26 +87,32 @@ public class DaoVeiculoconc implements DaoVeiculo
 		Veiculo veic = new Veiculo();
 		try 
 		{
-			String command = "SELECT * FROM Veiculo WHERE placa = ?";
+			String command = "SELECT id_Veiculo, id_Modelo, id_Cor, id_Cliente, descri, ano, motor, placa, chassis FROM Veiculo WHERE placa = ?";
 			PreparedStatement state = conexao.prepareStatement(command);
 			state.setString(1, placa);
 			ResultSet resultado = state.executeQuery();
 			resultado.next();
 			veic.setId(resultado.getLong("id_Veiculo"));
-			String marca = "SELECT * FROM marca Where id_Marca = ?";
+			String marca = "SELECT nome_Marca, mar.id_Marca, md.nome_Modelo FROM marca mar INNER JOIN Modelo md ON mar.id_Marca = md.id_Marca INNER JOIN Veiculo vei ON vei.id_Modelo = md.id_Modelo WHERE md.id_Modelo = ?";
 			PreparedStatement stateMarc = conexao.prepareStatement(marca);
-			stateMarc.setLong(1, resultado.getLong("id_Marca"));
+			stateMarc.setLong(1, resultado.getLong("id_Modelo"));
 			ResultSet marcaSet = stateMarc.executeQuery();
 			marcaSet.next();
-			Marca marc = new Marca();
-			marc.setId(marcaSet.getLong("id_Marca"));
-			marc.setNome_Marca(marcaSet.getString("nome_Marca"));
-			veic.setMarca(marc);
+			veic.setMarca(marcaSet.getString("nome_Marca"));
 			veic.setChassis(resultado.getString("chassis"));
 			veic.setPlaca(resultado.getString("placa"));
 			veic.setMotor(resultado.getDouble("motor"));
+			veic.setAnoFabrica(resultado.getInt("ano"));
+			veic.setDesc(resultado.getString("descri"));
+			String modSql = "SELECT nome_Modelo FROM Modelo INNER JOIN Veiculo ON Veiculo.id_modelo = Modelo.id_Modelo WHERE Veiculo.placa = ?";
+			PreparedStatement stateModel = conexao.prepareStatement(modSql);
+			stateModel.setString(1, placa);
+			ResultSet model = stateModel.executeQuery();
+			model.next();
+			veic.setModel(model.getString("nome_Modelo"));
 			String cor = "Select * FROM cor WHERE id_Cor = ?";
 			PreparedStatement corState = conexao.prepareStatement(cor);
+			corState.setLong(1, resultado.getLong("id_Cor"));
 			ResultSet cores = corState.executeQuery();
 			cores.next();
 			Cor corCar = new Cor();
@@ -135,14 +141,11 @@ public class DaoVeiculoconc implements DaoVeiculo
 			state.setString(1, chassis);
 			ResultSet resultado = state.executeQuery();
 			veic.setId(resultado.getLong("id_Veiculo"));
-			String marca = "SELECT * FROM marca Where id_Marca = ?";
+			String marca = "SELECT id_Marca FROM marca Where id_Marca = ?";
 			PreparedStatement stateMarc = conexao.prepareStatement(marca);
 			stateMarc.setLong(1, resultado.getLong("id_Marca"));
 			ResultSet marcaSet = stateMarc.executeQuery();
-			Marca marc = new Marca();
-			marc.setId(marcaSet.getLong("id_Marca"));
-			marc.setNome_Marca(marcaSet.getString("nome_Marca"));
-			veic.setMarca(marc);
+			veic.setMarca(marcaSet.getString("nome_Marca"));
 			veic.setChassis(resultado.getString("chassis"));
 			veic.setPlaca(resultado.getString("placa"));
 			veic.setMotor(resultado.getDouble("motor"));
@@ -182,24 +185,14 @@ public class DaoVeiculoconc implements DaoVeiculo
 				PreparedStatement stateMarc = conexao.prepareStatement(marca);
 				stateMarc.setLong(1, result.getLong("id_Modelo"));
 				ResultSet marcaSet = stateMarc.executeQuery();
-				Marca marc = new Marca();
-				if(marcaSet.next()) 
-				{
-					marc.setId(marcaSet.getLong("id_Marca"));
-					marc.setNome_Marca(marcaSet.getString("nome_Marca"));
-				}
-				veic.setMarca(marc);
+				marcaSet.next();
+				veic.setMarca(marcaSet.getString("nome_Marca"));
 				String model = "SELECT nome_Modelo, id_Modelo FROM modelo WHERE id_Modelo = ?";
 				PreparedStatement stateModel = conexao.prepareStatement(model);
 				stateModel.setLong(1, result.getLong("id_Modelo"));
 				ResultSet modelo = stateModel.executeQuery();
-				Modelo pesq = new Modelo();
-				if(modelo.next()) 
-				{
-					pesq.setId(modelo.getLong("id_Modelo"));
-					pesq.setNome_Modelo(modelo.getString("nome_Modelo"));
-				}
-				veic.setModel(pesq);
+				modelo.next(); 
+				veic.setModel(modelo.getString("nome_Modelo"));
 				veic.setAnoFabrica(result.getInt("ano"));
 				veic.setChassis(result.getString("chassis"));
 				veic.setPlaca(result.getString("placa"));

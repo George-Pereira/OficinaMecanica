@@ -15,7 +15,7 @@ import javafx.collections.ObservableList;
 public class ControlModelo 
 {
 	private ObservableList<Modelo> modelos = FXCollections.observableArrayList();
-	public void adicionaModelo(String modelo, Marca marca) throws DaoException 
+	public void adicionaModelo(String modelo, long marca) throws DaoException 
 	{
 		try {
 			DaoModelo persistencia = new DaoModeloconc();
@@ -28,7 +28,7 @@ public class ControlModelo
 			throw new DaoException(e);
 		}
 	}
-	public ObservableList<Modelo> getModelos(Marca marca)
+	public ObservableList<Modelo> getModelos(long marca)
 	{
 		List<Modelo> models = new LinkedList<Modelo>();
 		try {
@@ -44,7 +44,7 @@ public class ControlModelo
 		}
 		return modelos;
 	}
-	public Modelo pesquisaModelo(Long model) 
+	public Modelo pesquisaModelo(String model) 
 	{
 		Modelo mod = new Modelo();
 		try {

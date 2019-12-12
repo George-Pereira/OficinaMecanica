@@ -3,6 +3,8 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
+
 import dao.DaoException;
 import dao.DaoVeiculo;
 import dao.DaoVeiculoconc;
@@ -63,6 +65,7 @@ public class ControlVeiculo
 			for(Veiculo vei : veic) 
 			{
 				veiculos.add(vei);
+				System.out.println(vei.getAnoFabrica());
 			}
 		}
 		catch (ClassNotFoundException | DaoException | SQLException e) 
@@ -70,5 +73,18 @@ public class ControlVeiculo
 			e.printStackTrace();
 		}
 		return veiculos;
+	}
+	public void editarVeiculo(Veiculo veic) 
+	{
+		try {
+			DaoVeiculo dao = new DaoVeiculoconc();
+			dao.editaVeiculo(veic);
+		} catch (DaoException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

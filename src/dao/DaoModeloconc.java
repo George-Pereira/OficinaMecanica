@@ -43,13 +43,13 @@ public class DaoModeloconc implements DaoModelo
 	}
 
 	@Override
-	public List<Modelo> getModelos(Marca marca) throws DaoException 
+	public List<Modelo> getModelos(long marca) throws DaoException 
 	{
 		List<Modelo> modelos = new LinkedList<Modelo>();
 		try {
 			String sql = "SELECT * FROM modelo WHERE id_Marca= ?";
 			PreparedStatement state = conexao.prepareStatement(sql);
-			state.setLong(1, marca.getId());
+			state.setLong(1, marca);
 			ResultSet results = state.executeQuery();
 			while(results.next()) 
 			{
@@ -69,14 +69,14 @@ public class DaoModeloconc implements DaoModelo
 	}
 
 	@Override
-	public void adicionaModelo(Modelo model, Marca marca) throws DaoException 
+	public void adicionaModelo(Modelo model, long marca) throws DaoException 
 	{
 		if(!consultaExistencia(model.getNome_Modelo())) 
 		{
 			try {
 				String commando = "INSERT INTO modelo " + "(id_Marca, nome_Modelo) " + " VALUES (?,?)";
 				PreparedStatement state = conexao.prepareStatement(commando);
-				state.setLong(1, marca.getId());
+				state.setLong(1, marca);
 				state.setString(2, model.getNome_Modelo());
 				state.execute();
 				state.close();
@@ -87,13 +87,13 @@ public class DaoModeloconc implements DaoModelo
 			}
 		}
 	}
-	public Modelo pesqModelo(Long model) 
+	public Modelo pesqModelo(String model) 
 	{
 		Modelo modelo = new Modelo();
 		try {
-			String sql = "SELECT id_Marca, nome_Modelo FROM modelo WHERE id_Modelo = ?";
+			String sql = "SELECT nome_Modelo, id_Modelo FROM modelo WHERE nome_Modelo = ?";
 			PreparedStatement state = conexao.prepareStatement(sql);
-			state.setLong(1, model);
+			state.setString(1, model);
 			ResultSet result = state.executeQuery();
 			result.next();
 			modelo.setId(result.getLong("id_Modelo"));

@@ -11,14 +11,14 @@ public class Ordem_Servico
 	private String nome;
 	private long OS;
 	private List<Servico> servs = new LinkedList<Servico>();
-	private Veiculo veic;
-	public Ordem_Servico(Veiculo veic, Date dtEntrada) 
+	private long veic;
+	public Ordem_Servico(long veic, Date dtEntrada) 
 	{
 		this.veic = veic;
 		this.dtEntrada = dtEntrada;
 	}
 	
-	public Ordem_Servico(long OS, List<Servico> servs, Date dtSaida, String nomeFunc, Date dtEntrada, Veiculo veic) {
+	public Ordem_Servico(long OS, List<Servico> servs, Date dtSaida, String nomeFunc, Date dtEntrada, long veic) {
 		this(veic, dtEntrada);
 		this.OS = OS;
 		this.servs = servs;
@@ -71,20 +71,20 @@ public class Ordem_Servico
 		this.servs = servs;
 	}
 
-	public Veiculo getVeic() {
+	public long getVeic() {
 		return veic;
 	}
 
-	public void setVeic(Veiculo veic) {
+	public void setVeic(long veic) {
 		this.veic = veic;
 	}
 
-	public Veiculo getNomeV() 
+	public long getNomeV() 
 	{
 		return veic;
 	}
 	
-	public void setNomeV(Veiculo veic) 
+	public void setNomeV(long veic) 
 	{
 		this.veic = veic;
 	}

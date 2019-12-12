@@ -154,6 +154,7 @@ public class Boundary_Cliente implements EventHandler<ActionEvent>, Boundary_Con
 		if (cli != null)
 		{ 
 			try {
+				table.getItems().clear();
 				txtNome.setText(cli.getNome());
 				txtCNH.setText(cli.getCNH());
 				txtCPF.setText(cli.getCPF());

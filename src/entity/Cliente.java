@@ -33,7 +33,7 @@ public class Cliente
 	}
 	public void setTelefone(String telefone) 
 	{
-		if(telefone.length() == 11 || telefone.length() == 8) 
+		if(telefone.length() == 11 || telefone.length() == 10) 
 		{
 			this.Telefone = telefone;
 		}
@@ -57,7 +57,8 @@ public class Cliente
 	public long getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(long id) 
+	{
 		this.id = id;
 	}
 }

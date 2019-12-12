@@ -70,7 +70,7 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 			public void changed(ObservableValue<? extends Marca> lista, Marca velho, Marca novo) 
 			{
 				comboModel.getItems().clear();
-				comboModel.setItems(ctrModel.getModelos(novo));
+				comboModel.setItems(ctrModel.getModelos(novo.getId()));
 			}
 		});
 		btnNvModel.addEventHandler(ActionEvent.ANY, this);
@@ -150,7 +150,7 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		if(evento.getTarget() == btnNvModel) 
 		{
 			try {
-				ctrModel.adicionaModelo((comboModel.getValue().toString()), comboMarca.getValue());
+				ctrModel.adicionaModelo((comboModel.getValue().toString()), comboMarca.getValue().getId());
 			}
 			catch (DaoException e) 
 			{
@@ -211,8 +211,9 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 			atual.setAnoFabrica(Integer.parseInt(txtAno.getText()));
 			atual.setMotor(Double.parseDouble(txtMotor.getText()));
 			atual.setDesc(txtDesc.getText());
-			atual.setModel((comboModel.getValue().getId()));
-			atual.setMarca(comboMarca.getValue().getId());
+			atual.setModel((comboModel.getValue().getNome_Modelo()));
+			atual.setMarca(comboMarca.getValue().getNome_Marca());
+			ctrVeic.editarVeiculo(atual);
 			clearCampos();
 		}
 	}
@@ -225,8 +226,8 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		novo.setAnoFabrica(Integer.parseInt(txtAno.getText()));
 		novo.setMotor(Double.parseDouble(txtMotor.getText()));
 		novo.setDesc(txtDesc.getText());
-		novo.setModel(comboModel.getSelectionModel().getSelectedItem().getId());
-		novo.setMarca(comboMarca.getSelectionModel().getSelectedItem().getId());
+		novo.setModel(comboModel.getSelectionModel().getSelectedItem().getNome_Modelo());
+		novo.setMarca(comboMarca.getSelectionModel().getSelectedItem().getNome_Marca());
 		ctrVeic.insereVeiculo(novo, comboCliente.getSelectionModel().getSelectedItem());
 	}
 	public void carregarDados(Veiculo v) 
@@ -235,7 +236,7 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 		txtChassis.setText(v.getChassis());
 		txtAno.setText(String.valueOf((v.getAnoFabrica())));
 		txtPlaca.setText(v.getPlaca());
-		comboMarca.getSelectionModel().select(ctrMarca.);
+		comboMarca.getSelectionModel().select(ctrMarca.procMarca(v.getMarca()));
 		txtMotor.setText(String.valueOf(v.getMotor()));
 		txtDesc.setText(v.getDesc());
 		comboModel.getSelectionModel().select(ctrModel.pesquisaModelo(v.getModel()));
@@ -274,7 +275,7 @@ public class Boundary_Veiculo implements EventHandler<ActionEvent>, Boundary_Con
 	{
 		comboCliente.getItems().clear();
 		comboCliente.setItems(ctrCli.getClientes());
-		comboModel.setItems(ctrModel.getModelos(comboMarca.getValue()));
+		comboModel.setItems(ctrModel.getModelos(comboMarca.getValue().getId()));
 		return lay;
 	}
 
